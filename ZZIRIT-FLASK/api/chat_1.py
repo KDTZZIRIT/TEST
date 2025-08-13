@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 import re
-from gemini_handler import get_gemini_response
+from services.external.gemini import get_gemini_response
 
 chat1_bp = Blueprint("chat1", __name__)
 

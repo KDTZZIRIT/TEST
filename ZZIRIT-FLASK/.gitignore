@@ -1,7 +1,95 @@
-# Specific CNN model file
-CNN_model/best_model_by_confidence.pt
-.venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables (중요!)
 .env
+.env.local
+.env.production
+.env.staging
 !.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# AI Models (대용량 파일)
+CNN_model/*.pt
+CNN_model/*.pth
+models/cnn/weights/*.pt
+models/cnn/weights/*.pth
+models/cnn/checkpoints/
+LLM_model/*.bin
+LLM_model/*.safetensors
+
+# Data Files (민감할 수 있는 데이터)
+data/raw/*.xlsx
+data/raw/*.csv
+data/processed/*.csv
+data/training/*.csv
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Docker
+.dockerignore
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# API Keys and Secrets (추가 보안)
+**/config/secrets.py
+**/config/api_keys.py
+**/credentials.json
+**/service-account-key.json

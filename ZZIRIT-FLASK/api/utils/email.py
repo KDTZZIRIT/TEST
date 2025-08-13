@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 import os
 import boto3
 from dotenv import load_dotenv
-from gemini_handler import get_gemini_response
+from services.external.gemini import get_gemini_response
 
 # .env 파일 로드 (있는 경우)
 load_dotenv()
@@ -13,7 +13,7 @@ email_bp = Blueprint("email", __name__)
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.getenv("AWS_REGION", "ap-northeast-2")
-VERIFIED_EMAIL = os.getenv("AWS_SES_VERIFIED_EMAIL", "bigdata054@gmail.com")
+VERIFIED_EMAIL = os.getenv("AWS_SES_VERIFIED_EMAIL", "your-verified-email@example.com")
 
 # 환경변수 상태 출력 (디버깅용)
 print(f"AWS_ACCESS_KEY_ID: {'설정됨' if AWS_ACCESS_KEY_ID else '설정되지 않음'}")

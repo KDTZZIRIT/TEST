@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
-from gemini_handler import get_gemini_response, get_api_status
+from services.external.gemini import get_gemini_response, get_api_status
 import json
 from datetime import datetime
 import asyncio
 import concurrent.futures
-from data_crawler import crawler
+from services.external.crawler import crawler
 import traceback
 import os
 

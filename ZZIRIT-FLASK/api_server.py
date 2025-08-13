@@ -4,7 +4,17 @@ from flask import Flask, request, jsonify
 import joblib
 import numpy as np
 import pandas as pd
+from flask import Blueprint
 
+ai_bp = Blueprint('ai', __name__, url_prefix='/api/ai')
+
+@ai_bp.route('/predict', methods=['POST'])
+def predict():
+    # 기존 predict 함수 내용
+    pass
+
+# app.py에서 등록
+app.register_blueprint(ai_bp)
 # === 전역(싱글톤) ===
 app = Flask(__name__)
 _BUNDLE = None

@@ -1,14 +1,14 @@
 from flask import Blueprint, request, jsonify
 import pandas as pd
 import numpy as np
-from services.db_handler import get_db_connection
+from services.database.models import get_db_connection
 import re
 import os
 import pickle
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
-from gemini_handler import get_gemini_response
+from services.external.gemini import get_gemini_response
 from datetime import datetime
 
 chat4_bp = Blueprint("chat4", __name__)

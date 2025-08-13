@@ -1,7 +1,7 @@
 import pymysql
 import mysql.connector
 from typing import Any, List, Dict, Optional
-from db_config import DB_CONFIG
+from .connection import DB_CONFIG
 
 def get_db_connection():
     """PyMySQL 연결"""
