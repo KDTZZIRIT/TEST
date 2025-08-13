@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model pcb_parts {
+  part_id                Int       @id @default(autoincrement())
+  part_number            String?   @db.VarChar(500)
+  category               String?   @db.VarChar(500)
+  size                   String?   @db.VarChar(500)
+  received_date          DateTime? @db.Date
+  is_humidity_sensitive  Boolean?
+  needs_humidity_control Boolean?
+  manufacturer           String?   @db.VarChar(500)
+  quantity               Int?
+  min_stock              Int?
+}
+
+model defect_result {
+  id            Int            @id @default(autoincrement())
+  inspection_id Int?
+  label         String?        @db.VarChar(50)
+  class_index   Int?
+  score         Float?         @db.Float
+  x1            Int?
+  y1            Int?
+  x2            Int?
+  y2            Int?
+  width         Int?
+  height        Int?
+  vision_result vision_result? @relation(fields: [inspection_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "defect_result_ibfk_1")
+
+  @@index([inspection_id], map: "inspection_id")
+}
+
+model vision_result {
+  id             Int             @id @default(autoincrement())
+  pcb_id         String?         @db.VarChar(50)
+  status         String?         @db.VarChar(50)
+  defect_count   Int?
+  max_confidence Float?          @db.Float
+  image_url      String?         @db.VarChar(2000)
+  defect_result  defect_result[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model factory_env {
+  id               Int       @id @default(autoincrement())
+  timestamp        DateTime? @db.Timestamp(0)
+  temperature_c    Float?    @db.Float
+  humidity_percent Float?    @db.Float
+  pm25_ug_m3       Float?    @db.Float
+  pm10_ug_m3       Float?    @db.Float
+  co2_ppm          Float?    @db.Float
+
+}

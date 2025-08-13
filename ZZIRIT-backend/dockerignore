@@ -1,0 +1,17 @@
+# Node.js
+node_modules
+npm-debug.log
+.env
+.DS_Store
+*.log
+
+# Git
+.git
+.gitignore
+
+# IDE 관련
+.vscode
+.idea
+
+# OS 관련
+Thumbs.db

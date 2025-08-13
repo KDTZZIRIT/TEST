@@ -1,0 +1,10 @@
+node_modules/
+.env*
+!.env.example
+serviceAccountKey.json
+*.pem
+*.p12
+*.key
+*credentials*.json
+
+dist/

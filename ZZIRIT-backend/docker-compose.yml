@@ -1,0 +1,17 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  express-app:
+    build: .
+    image: jhs04140/zzirit-express:v1.0.0
+    container_name: express-container
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - /app/node_modules   # 로컬 node_modules 무시
+    environment:
+      - NODE_ENV=production
+    restart: always

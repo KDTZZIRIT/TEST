@@ -1,0 +1,11 @@
+flask
+flask-cors
+gunicorn
+numpy
+scikit-learn
+sentence-transformers
+google-generativeai
+mysql-connector-python
+pymysql 
+openpyxl 
+pandas
