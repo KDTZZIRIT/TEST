@@ -3,10 +3,7 @@
 import asyncio
 import requests
 import json
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from services.external.crawler import crawler
+from data_crawler import crawler
 
 async def debug_inventory_data():
     """인벤토리 데이터 크롤링 디버깅"""

@@ -23,7 +23,7 @@ from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 
-MODEL_DIR = "model_all"
+MODEL_DIR = "ML_model"
 os.makedirs(MODEL_DIR, exist_ok=True)
 
 # ───────────────────────────── 공통 유틸 ─────────────────────────────
@@ -258,7 +258,7 @@ def train_and_save_models(df_all:pd.DataFrame, out_dir=MODEL_DIR, args=None)->st
     if getattr(args,"save_meta",False):
         with open(os.path.join(out_dir,"model_meta.json"),"w",encoding="utf-8") as f:
             json.dump(meta,f,ensure_ascii=False,indent=2)
-        _print("[model] 메타 저장: model_all/model_meta.json")
+        _print("[model] 메타 저장: ML_model/model_meta.json")
 
     return path
 

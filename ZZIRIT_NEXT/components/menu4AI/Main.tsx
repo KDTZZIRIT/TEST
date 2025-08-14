@@ -16,7 +16,7 @@ import {
   TriangleAlert,
 } from "lucide-react"
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5100"
+const API = "http://localhost:5100"
 
 type PredictItem = {
   part_id: number

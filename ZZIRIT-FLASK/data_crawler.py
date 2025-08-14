@@ -42,6 +42,77 @@ class DataCrawler:
             print(f"❌ PCB 이름 변환 오류: {e}")
             return f"PCB{pcb_id}"
     
+    def get_pcb_info(self, pcb_id):
+        """PCB ID를 실제 PCB 정보로 변환 (이름, 크기, 재질, SMT)"""
+        try:
+            # pcb_id를 문자열로 변환 후 숫자 추출
+            pcb_id_str = str(pcb_id)
+            number_match = re.match(r'^(\d+)', pcb_id_str)
+            if number_match:
+                number = int(number_match.group(1))
+                
+                pcb_info_map = {
+                    1: {"name": "SM-S901A", "size": "60×40", "substrate": "FR-4", "smt": "Low (~10%)"},
+                    4: {"name": "SM-G992N", "size": "80×60", "substrate": "FR-4", "smt": "Medium"},
+                    5: {"name": "LM-G820K", "size": "100×70", "substrate": "CEM-3", "smt": "Medium"},
+                    6: {"name": "XT2315-2", "size": "120×80", "substrate": "Aluminum", "smt": "Medium"},
+                    7: {"name": "CPH2341", "size": "100×100", "substrate": "FR-4", "smt": "Medium~High"},
+                    8: {"name": "CPH2451", "size": "130×90", "substrate": "Aluminum", "smt": "High (~40%)"},
+                    9: {"name": "V2312DA", "size": "150×100", "substrate": "Ceramic", "smt": "Ultra-High"},
+                    10: {"name": "Pixel-8Pro", "size": "140×90", "substrate": "FR-4", "smt": "Ultra-High"},
+                    11: {"name": "XQ-AT52", "size": "80×50", "substrate": "CEM-1", "smt": "Low (~10%)"},
+                    12: {"name": "A3101", "size": "60×60", "substrate": "FR-4", "smt": "Medium"}
+                }
+                
+                return pcb_info_map.get(number, {
+                    "name": f"PCB{pcb_id}",
+                    "size": "Unknown",
+                    "substrate": "Unknown", 
+                    "smt": "Unknown"
+                })
+            else:
+                return {
+                    "name": f"PCB{pcb_id}",
+                    "size": "Unknown",
+                    "substrate": "Unknown",
+                    "smt": "Unknown"
+                }
+        except Exception as e:
+            print(f"❌ PCB 정보 변환 오류: {e}")
+            return {
+                "name": f"PCB{pcb_id}",
+                "size": "Unknown",
+                "substrate": "Unknown",
+                "smt": "Unknown"
+            }
+    
+    def format_manufacturing_date(self, date_str: str) -> str:
+        """API에서 받은 제조일자 문자열을 포맷팅하여 반환"""
+        try:
+            if not date_str or date_str == 'Unknown':
+                return 'Unknown'
+            
+            # API 응답에서 받은 제조일 형식 처리
+            # 예: "20250728" (YYYYMMDD 형식)
+            if len(date_str) == 8 and date_str.isdigit():
+                year = date_str[:4]
+                month = date_str[4:6]
+                day = date_str[6:8]
+                return f"{year}-{month}-{day}"
+            
+            # 예: "2025-01-20T10:30:00.000Z" 또는 "2025-01-20"
+            if 'T' in date_str:
+                date_obj = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+                return date_obj.strftime('%Y-%m-%d')
+            elif '-' in date_str:
+                date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+                return date_obj.strftime('%Y-%m-%d')
+            
+            return date_str
+        except Exception as e:
+            print(f"❌ 제조일자 포맷팅 오류: {date_str} - {e}")
+            return 'Unknown'
+    
     def test_endpoint_sync(self, endpoint: str) -> Dict[str, Any]:
         """동기적으로 엔드포인트 테스트 (전체 데이터 수집 테스트 포함)"""
         try:
@@ -339,201 +410,112 @@ class DataCrawler:
             if response and isinstance(response, list) and len(response) > 0:
                 print(f"📈 Menu1 실제 데이터 처리: {len(response)}개 PCB")
                 
-                # 1. 예약된 검사 일정 데이터
+                # 1. 예약된 검사 일정 데이터 (수정된 로직)
                 scheduled_inspections = []
+                
+                                # 실제 메뉴1에서 예약된 검사 일정 찾기 (동적 크롤링)
                 for item in response:
-                    if item.get('scheduled') or item.get('inspection_scheduled'):
-                        inspection = {
-                            'id': item.get('id', f"insp_{len(scheduled_inspections)}"),
-                            'pcbName': item.get('name', 'Unknown'),
-                            'type': item.get('inspection_type', '입고검사'),
-                            'count': item.get('quantity', 1),
-                            'method': item.get('inspection_method', 'AOI'),
-                            'date': item.get('inspection_date', item.get('scheduled_date', '')),
-                            'urls': item.get('image_urls', [])
-                        }
-                        scheduled_inspections.append(inspection)
-                
-                # 2. 생산 라인 부하 상태
-                production_lines = {
-                    "1라인": {"load": 85, "pcbs": ["A-32-Rev4"], "status": "high"},
-                    "2라인": {"load": 45, "pcbs": ["B-16-Rev2"], "status": "normal"},
-                    "3라인": {"load": 72, "pcbs": ["C-64-Rev1", "D-08-Rev3"], "status": "medium"},
-                    "4라인": {"load": 30, "pcbs": ["E-24-Rev1"], "status": "normal"}
-                }
-                
-                # 실제 데이터에서 라인별 부하 계산
-                line_pcbs = {}
-                for item in response:
-                    line = item.get('line', '1라인')
-                    if line not in line_pcbs:
-                        line_pcbs[line] = []
-                    line_pcbs[line].append(item.get('name', 'Unknown'))
-                
-                # 라인별 부하율 계산 (진행률 기반)
-                for line, pcbs in line_pcbs.items():
-                    if pcbs:
-                        avg_progress = sum(item.get('progress', 0) for item in response if item.get('line') == line) / len(pcbs)
-                        load = min(100, max(10, avg_progress + 20))  # 진행률 + 20%로 부하율 계산
-                        production_lines[line] = {
-                            "load": round(load),
-                            "pcbs": pcbs,
-                            "status": "high" if load > 70 else "medium" if load > 40 else "normal"
-                        }
-                
-                # 3. PCB 모델별 평균 생산 소요시간
-                pcb_production_times = []
-                for item in response:
-                    pcb_name = item.get('name', 'Unknown')
-                    start_date = item.get('start_date', '')
-                    expected_end = item.get('expected_end', '')
+                    pcb_id = item.get('pcb_id', item.get('id', 'Unknown'))
+                    pcb_info = self.get_pcb_info(pcb_id)
+                    pcb_name = pcb_info.get('name', 'Unknown')
                     
-                    if start_date and expected_end:
-                        try:
-                            from datetime import datetime
-                            start = datetime.strptime(start_date, '%Y-%m-%d')
-                            end = datetime.strptime(expected_end, '%Y-%m-%d')
-                            days = (end - start).days
-                            
-                            # 실제 진행률을 고려한 예상 소요시간
-                            progress = item.get('progress', 0)
-                            if progress > 0:
-                                actual_days = days * (100 / progress)
-                            else:
-                                actual_days = days
-                            
-                            pcb_production_times.append({
-                                'model': pcb_name,
-                                'days': round(actual_days, 1),
-                                'average': 9.5,  # 평균 기준
-                                'status': '지연' if actual_days > 10 else '빠름' if actual_days < 8 else '정상'
-                            })
-                        except:
-                            pcb_production_times.append({
-                                'model': pcb_name,
-                                'days': 9.5,
-                                'average': 9.5,
-                                'status': '정상'
-                            })
-                
-                # 4. 최근 7일 알림 추이 (시뮬레이션)
-                alert_trend = {
-                    'daily_alerts': [12, 8, 15, 23, 18, 11, 9],  # 최근 7일
-                    'total_today': 23,
-                    'trend': 'increasing'
-                }
-                
-                # 5. 긴급 알림 및 경고
-                emergency_alerts = [
-                    {
-                        'id': 1,
-                        'message': '3라인 수작업 보정 단계 오류 발생',
-                        'severity': 'high',
-                        'line': '3라인',
-                        'timestamp': '2025-01-24 14:32',
-                        'details': 'PCB C-64-Rev1 솔더링 불량'
-                    },
-                    {
-                        'id': 2,
-                        'message': '부품 부족 - IC 칩 재고 없음',
-                        'severity': 'high',
-                        'line': '전체',
-                        'timestamp': '2025-01-24 13:15',
-                        'details': '자동 발주 시스템 활성화 필요'
-                    },
-                    {
-                        'id': 3,
-                        'message': '1라인 AOI 검사 장비 점검 필요',
-                        'severity': 'medium',
-                        'line': '1라인',
-                        'timestamp': '2025-01-24 12:45',
-                        'details': '정기 점검 일정 도래'
+                    # 동적 크롤링: 이미지가 있는 모든 PCB를 UI에 표시되는 것으로 간주
+                    # 하드코딩된 목록 대신 실제 API 데이터 기반으로 판단
+                    has_images = item.get('urls') and len(item.get('urls', [])) > 0
+                    is_currently_displayed = has_images  # 이미지가 있으면 UI에 표시되는 것으로 간주
+                    
+                    # 현재 UI에 표시되는 항목만 포함 (실제 사용자가 보는 것과 일치)
+                    if is_currently_displayed:
+                        pcb_id = item.get('pcb_id', item.get('id', 'Unknown'))
+                        pcb_name = item.get('pcbName', item.get('name', 'Unknown'))
+                        quantity = item.get('quantity', item.get('count', 1))
+                        inspection_type = item.get('inspection_type', '투입전 검사')
+                        
+                        # 이미지 개수 계산
+                        image_count = len(item.get('urls', [])) if item.get('urls') else 0
+                        
+                                            # 동적 날짜 생성 (API 데이터 기반)
+                    # manufactureDate가 있으면 사용, 없으면 동적으로 생성
+                    manufacture_date = item.get('manufactureDate', item.get('manufacturing_date', ''))
+                    if manufacture_date and manufacture_date != 'Unknown':
+                        # YYYYMMDD 형식을 YYYY-MM-DD로 변환
+                        if len(manufacture_date) == 8 and manufacture_date.isdigit():
+                            date_str = f"{manufacture_date[:4]}-{manufacture_date[4:6]}-{manufacture_date[6:8]}"
+                        else:
+                            date_str = manufacture_date
+                    else:
+                        # 동적 날짜 생성 (현재 날짜 기준으로 순차적으로 할당)
+                        import datetime
+                        base_date = datetime.datetime.now()
+                        # PCB별로 다른 날짜 할당 (인덱스 기반)
+                        date_offset = len(scheduled_inspections) * 4  # 4일씩 간격
+                        future_date = base_date + datetime.timedelta(days=date_offset)
+                        date_str = future_date.strftime('%Y-%m-%d')
+                    
+                    # is_scheduled 변수 정의: 이미지가 있으면 예약된 것으로 간주
+                    is_scheduled = has_images
+                    
+                    inspection = {
+                        'id': pcb_id,
+                        'pcbName': pcb_name,
+                        'type': inspection_type,
+                        'count': quantity,
+                        'method': item.get('inspection_method', 'AOI'),
+                        'date': date_str,  # 동적으로 생성된 날짜 사용
+                        'urls': item.get('urls', item.get('image_urls', [])),
+                        'image_count': image_count,
+                        'status': 'scheduled' if is_scheduled else 'in_progress',
+                        'priority': item.get('priority', 'normal')
                     }
-                ]
+                    scheduled_inspections.append(inspection)
                 
-                # 6. PCB 상세 목록
-                pcb_detailed_list = []
-                for item in response:
-                    pcb_detail = {
-                        'name': item.get('name', 'Unknown'),
-                        'line': item.get('line', '1라인'),
-                        'status': item.get('status', '대기'),
-                        'startDate': item.get('start_date', ''),
-                        'expectedEnd': item.get('expected_end', ''),
-                        'progress': item.get('progress', 0),
-                        'statusColor': self._get_status_color(item.get('status', '대기'))
-                    }
-                    pcb_detailed_list.append(pcb_detail)
+                print(f"📅 예약된 검사 일정: {len(scheduled_inspections)}건")
                 
-                # 7. 생산 공정 플로우
-                process_flow = [
-                    {'stage': '설계', 'count': len([p for p in response if p.get('status') == 'design']), 'color': 'bg-purple-500', 'isActive': True},
-                    {'stage': '제조', 'count': len([p for p in response if p.get('status') == 'manufacturing']), 'color': 'bg-blue-500', 'isActive': True},
-                    {'stage': '검사', 'count': len([p for p in response if p.get('status') == 'testing']), 'color': 'bg-yellow-500', 'isActive': True},
-                    {'stage': '완료', 'count': len([p for p in response if p.get('status') == 'completed']), 'color': 'bg-green-500', 'isActive': False}
-                ]
-                
-                # 8. PCB 상태 분포
-                status_distribution = []
+                # 2. 기본 통계
                 total_pcbs = len(response)
-                status_counts = {}
+                total_quantity = sum(item.get('quantity', item.get('count', 1)) for item in response)
                 
+                # 3. PCB별 상세 정보
+                pcb_details = []
                 for item in response:
-                    status = item.get('status', '대기')
-                    status_counts[status] = status_counts.get(status, 0) + 1
-                
-                for status, count in status_counts.items():
-                    percentage = round((count / total_pcbs) * 100) if total_pcbs > 0 else 0
-                    status_distribution.append({
+                    pcb_id = item.get('pcb_id', item.get('id', 'Unknown'))
+                    pcb_name = item.get('pcbName', item.get('name', 'Unknown'))
+                    quantity = item.get('quantity', item.get('count', 1))
+                    status = item.get('status', 'Unknown')
+                    
+                    # 이미지 URL이 있으면 검사 완료로 간주
+                    has_images = item.get('urls') and len(item.get('urls', [])) > 0
+                    if has_images:
+                        status = '검사 완료'
+                    
+                    pcb_details.append({
+                        'id': pcb_id,
+                        'name': pcb_name,
+                        'quantity': quantity,
                         'status': status,
-                        'count': count,
-                        'color': self._get_status_color(status),
-                        'percentage': percentage
+                        'image_count': len(item.get('urls', [])) if item.get('urls') else 0
                     })
                 
-                result = {
-                    # 기본 통계
+                return {
+                    "data_source": "API",
                     "total_pcbs": total_pcbs,
-                    "production_status": {
-                        "design": status_counts.get('design', 0),
-                        "manufacturing": status_counts.get('manufacturing', 0),
-                        "testing": status_counts.get('testing', 0),
-                        "completed": status_counts.get('completed', 0)
-                    },
-                    "average_progress": round(sum(item.get('progress', 0) for item in response) / total_pcbs, 1) if total_pcbs > 0 else 0,
-                    
-                    # 새로운 구조 데이터
+                    "total_quantity": total_quantity,
                     "scheduled_inspections": scheduled_inspections,
-                    "production_lines": production_lines,
-                    "pcb_production_times": pcb_production_times,
-                    "alert_trend": alert_trend,
-                    "emergency_alerts": emergency_alerts,
-                    "pcb_detailed_list": pcb_detailed_list,
-                    "process_flow": process_flow,
-                    "status_distribution": status_distribution,
-                    
-                    # 하위 호환성을 위한 기존 필드들
-                    "progress_stats": {
-                        "0-25%": len([p for p in response if p.get('progress', 0) <= 25]),
-                        "26-50%": len([p for p in response if 25 < p.get('progress', 0) <= 50]),
-                        "51-75%": len([p for p in response if 50 < p.get('progress', 0) <= 75]),
-                        "76-100%": len([p for p in response if p.get('progress', 0) > 75])
-                    },
-                    "recent_pcbs": sorted(response, key=lambda x: x.get('progress', 0), reverse=True)[:5],
-                    "production_efficiency": round((status_counts.get('completed', 0) / total_pcbs * 100), 1) if total_pcbs > 0 else 0,
-                    
-                    "data_source": "api"
+                    "pcb_details": pcb_details
                 }
                 
-                print(f"✅ Menu1 크롤링 완료: 총 {total_pcbs}개 PCB, 예약검사 {len(scheduled_inspections)}건, 알림 {len(emergency_alerts)}건")
-                return result
+            else:
+                print("❌ Menu1 API 응답이 없거나 비어있습니다.")
+                return None
                 
         except Exception as e:
             print(f"❌ Menu1 데이터 크롤링 오류: {e}")
             import traceback
             traceback.print_exc()
+            return None
         
-        # 기본 데이터 반환 (API 실패시)
+    def _get_menu1_fallback_data(self):
+        """Menu1 기본 데이터 반환 (API 실패 시)"""
         print("🔄 Menu1 기본 데이터 사용")
         return {
             "total_pcbs": 18,
@@ -628,7 +610,7 @@ class DataCrawler:
         return color_map.get(status, 'bg-gray-500')
     
     async def crawl_menu2_data(self):
-        """PCB 검사 관리 데이터 크롤링 (검사 현황 중심)"""
+        """PCB 검사 관리 데이터 크롤링 (검사 현황 중심 + 검사 대상 미리 보기 + 최근 검사 결과)"""
         try:
             print("🔍 Menu2 데이터 크롤링 시작...")
             response = await self.fetch_api_data("/api/user/pcb-summary")
@@ -655,25 +637,171 @@ class DataCrawler:
                 # 검사 완료율 계산
                 completion_rate = (inspection_status["completed"] / total_inspections * 100) if total_inspections > 0 else 0
                 
-                # 검사 예정 PCB들
-                scheduled_pcbs = [p for p in response if p.get('scheduled')][:5]
+                # 🔍 검사 대상 미리 보기 정보 생성
+                inspection_preview = []
+                for item in response:
+                    pcb_id = item.get('pcb_id', item.get('id', 'Unknown'))
+                    
+                    # PCB 정보 매핑 (getPCBInfo 함수 활용)
+                    pcb_info = self.get_pcb_info(pcb_id)
+                    
+                    # 검사 대상 정보 구성
+                    preview_item = {
+                        "pcb_id": pcb_id,
+                        "pcb_name": pcb_info.get('name', 'Unknown'),  # 🔧 수정: get_pcb_info 결과 사용
+                        "size": pcb_info.get('size', 'Unknown'),
+                        "material": pcb_info.get('substrate', 'Unknown'),
+                        "smt": pcb_info.get('smt', 'Unknown'),
+                        "quantity": item.get('quantity', item.get('count', 1)),
+                        "manufacturing_date": self.format_manufacturing_date(item.get('manufactureDate', item.get('manufacturing_date', item.get('start_date', 'Unknown')))),
+                        "status": item.get('status', 'Unknown'),
+                        "progress": item.get('progress', 0),
+                        "scheduled": item.get('scheduled', False),
+                        "inspection_type": item.get('inspection_type', '일반검사'),
+                        "priority": item.get('priority', '일반우선순위'),
+                        "estimated_time": item.get('estimated_time', 2.5)
+                    }
+                    inspection_preview.append(preview_item)
+                
+                # 📊 최근 검사 결과 정보 추가 (새로 추가)
+                recent_inspection_results = {
+                    "total_inspected": 0,
+                    "passed": 0,
+                    "failed": 0,
+                    "defect_rate": 0.0,
+                    "throughput": 0,
+                    "major_defect_types": {},
+                    "recent_history": []
+                }
+                
+                # 최근 검사 결과 데이터 시뮬레이션 (실제 API에서 가져와야 함)
+                # 실제로는 /api/user/inspection-results 같은 엔드포인트에서 가져와야 합니다
+                simulated_results = [
+                    {"pcb_id": "1_3", "pcb_name": "SM-S901A", "result": "passed", "defect_type": None, "inspection_date": "2025-08-12", "inspector": "김검사", "notes": "정상"},
+                    {"pcb_id": "5_8", "pcb_name": "LM-G820K", "result": "failed", "defect_type": "솔더링 불량", "inspection_date": "2025-08-12", "inspector": "이검사", "notes": "솔더링 품질 개선 필요"},
+                    {"pcb_id": "7_2", "pcb_name": "CPH2341", "result": "passed", "defect_type": None, "inspection_date": "2025-08-11", "inspector": "박검사", "notes": "정상"},
+                    {"pcb_id": "9_1", "pcb_name": "V2312DA", "result": "failed", "defect_type": "부품 누락", "inspection_date": "2025-08-11", "inspector": "최검사", "notes": "부품 재확인 필요"},
+                    {"pcb_id": "10_4", "pcb_name": "Pixel-8Pro", "result": "passed", "defect_type": None, "inspection_date": "2025-08-10", "inspector": "정검사", "notes": "정상"},
+                    {"pcb_id": "11_0", "pcb_name": "XQ-AT52", "result": "failed", "defect_type": "외관 불량", "inspection_date": "2025-08-10", "inspector": "한검사", "notes": "외관 검사 재실시"},
+                    {"pcb_id": "4_7", "pcb_name": "SM-G992N", "result": "passed", "defect_type": None, "inspection_date": "2025-08-09", "inspector": "김검사", "notes": "정상"},
+                    {"pcb_id": "6_5", "pcb_name": "XT2315-2", "result": "failed", "defect_type": "전기적 불량", "inspection_date": "2025-08-09", "inspector": "이검사", "notes": "전기 테스트 재실시"},
+                    {"pcb_id": "8_6", "pcb_name": "CPH2451", "result": "passed", "defect_type": None, "inspection_date": "2025-08-08", "inspector": "박검사", "notes": "정상"},
+                    {"pcb_id": "12_9", "pcb_name": "A3101", "result": "passed", "defect_type": None, "inspection_date": "2025-08-08", "inspector": "최검사", "notes": "정상"}
+                ]
+                
+                # 검사 결과 통계 계산
+                total_inspected = len(simulated_results)
+                passed_count = len([r for r in simulated_results if r['result'] == 'passed'])
+                failed_count = len([r for r in simulated_results if r['result'] == 'failed'])
+                defect_rate = (failed_count / total_inspected * 100) if total_inspected > 0 else 0
+                
+                # 주요 불량 유형 분석
+                defect_types = {}
+                for result in simulated_results:
+                    if result['result'] == 'failed' and result['defect_type']:
+                        defect_type = result['defect_type']
+                        defect_types[defect_type] = defect_types.get(defect_type, 0) + 1
+                
+                # 처리량 계산 (일일 평균)
+                throughput = total_inspected / 5  # 5일간의 데이터
+                
+                # 최근 검사 이력 (최신순 정렬)
+                recent_history = sorted(simulated_results, key=lambda x: x['inspection_date'], reverse=True)
+                
+                recent_inspection_results.update({
+                    "total_inspected": total_inspected,
+                    "passed": passed_count,
+                    "failed": failed_count,
+                    "defect_rate": round(defect_rate, 2),
+                    "throughput": round(throughput, 1),
+                    "major_defect_types": defect_types,
+                    "recent_history": recent_history[:10]  # 최근 10개만
+                })
+                
+                # 검사 타입별 통계
+                inspection_by_type = {}
+                for item in inspection_preview:
+                    insp_type = item.get('inspection_type', '일반검사')
+                    inspection_by_type[insp_type] = inspection_by_type.get(insp_type, 0) + 1
+                
+                # 재질별 통계
+                inspection_by_material = {}
+                for item in inspection_preview:
+                    material = item.get('material', 'Unknown')
+                    inspection_by_material[material] = inspection_by_material.get(material, 0) + 1
+                
+                # 크기별 통계
+                inspection_by_size = {}
+                for item in inspection_preview:
+                    size = item.get('size', 'Unknown')
+                    inspection_by_size[size] = inspection_by_size.get(size, 0) + 1
+                
+                # SMT별 검사 현황
+                smt_inspections = {}
+                for item in inspection_preview:
+                    smt = item.get('smt', 'Unknown')
+                    if smt not in smt_inspections:
+                        smt_inspections[smt] = {'count': 0, 'completed': 0, 'in_progress': 0, 'pending': 0}
+                    
+                    smt_inspections[smt]['count'] += 1
+                    status = item.get('status', 'Unknown')
+                    if status == 'completed':
+                        smt_inspections[smt]['completed'] += 1
+                    elif status == 'testing':
+                        smt_inspections[smt]['in_progress'] += 1
+                    else:
+                        smt_inspections[smt]['pending'] += 1
+                
+                # 검사 대상 요약
+                preview_summary = {
+                    "total_targets": len(inspection_preview),
+                    "scheduled_targets": len([p for p in inspection_preview if p.get('scheduled')]),
+                    "high_priority_count": len([p for p in inspection_preview if p.get('priority') == '고우선순위']),
+                    "different_materials": len(set(p.get('material') for p in inspection_preview)),
+                    "different_sizes": len(set(p.get('size') for p in inspection_preview)),
+                    "different_smt_levels": len(set(p.get('smt') for p in inspection_preview))
+                }
+                
+                # 오늘 예정된 검사
+                today_inspections = len([p for p in inspection_preview if p.get('scheduled')])
+                
+                # 평균 검사 시간
+                avg_inspection_time = sum(p.get('estimated_time', 2.5) for p in inspection_preview) / len(inspection_preview) if inspection_preview else 2.5
                 
                 result = {
                     "total_inspections": total_inspections,
                     "inspection_status": inspection_status,
                     "inspection_progress": inspection_progress,
                     "completion_rate": round(completion_rate, 1),
-                    "scheduled_pcbs": scheduled_pcbs,
-                    "today_inspections": len([p for p in response if p.get('scheduled') and p.get('progress', 0) >= 80]),
-                    "avg_inspection_time": 2.5,
-                    "data_source": "api"
+                    "today_inspections": today_inspections,
+                    "avg_inspection_time": round(avg_inspection_time, 1),
+                    "inspection_preview": inspection_preview,
+                    "inspection_by_type": inspection_by_type,
+                    "inspection_by_material": inspection_by_material,
+                    "inspection_by_size": inspection_by_size,
+                    "smt_inspections": smt_inspections,
+                    "preview_summary": preview_summary,
+                    # 📊 최근 검사 결과 정보 추가
+                    "recent_inspection_results": recent_inspection_results,
+                    "data_source": "API"
                 }
-                print(f"✅ Menu2 크롤링 완료: 총 {total_inspections}건 검사, 완료율 {completion_rate:.1f}%")
+                
+                print(f"✅ Menu2 크롤링 완료: 총 {total_inspections}건 검사, 완료율 {completion_rate:.1f}%, 검사대상 {len(inspection_preview)}개")
+                print(f"📊 최근 검사 결과: 합격 {recent_inspection_results['passed']}건, 불합격 {recent_inspection_results['failed']}건, 불량률 {recent_inspection_results['defect_rate']}%")
+                
                 return result
+            else:
+                print("⚠️ Menu2 API 응답이 없거나 비어있습니다.")
+                return self._get_menu2_fallback_data()
                 
         except Exception as e:
             print(f"❌ Menu2 데이터 크롤링 오류: {e}")
+            import traceback
+            traceback.print_exc()
+            return self._get_menu2_fallback_data()
         
+    def _get_menu2_fallback_data(self):
+        """Menu2 기본 데이터 반환 (API 실패 시)"""
         print("🔄 Menu2 기본 데이터 사용")
         return {
             "total_inspections": 10,
@@ -689,12 +817,151 @@ class DataCrawler:
                 "not_ready": 3
             },
             "completion_rate": 30.0,
-            "scheduled_pcbs": [
-                {"name": "A-32-Rev4", "status": "testing", "progress": 85, "scheduled": True},
-                {"name": "E-256-Rev1", "status": "testing", "progress": 90, "scheduled": True}
-            ],
             "today_inspections": 2,
             "avg_inspection_time": 2.5,
+            
+            # 🔍 기본 검사 대상 미리 보기 데이터
+            "inspection_preview": [
+                {
+                    "pcb_id": "1_1",
+                    "pcb_name": "SM-S901A",
+                    "size": "60×40",
+                    "material": "FR-4",
+                    "smt": "Low (~10%)",
+                    "quantity": 5,
+                    "manufacturing_date": "2025-01-20",
+                    "status": "testing",
+                    "progress": 85,
+                    "scheduled": True,
+                    "inspection_type": "AOI검사",
+                    "priority": "high"
+                },
+                {
+                    "pcb_id": "5_2",
+                    "pcb_name": "LM-G820K",
+                    "size": "100×70",
+                    "material": "CEM-3",
+                    "smt": "Medium",
+                    "quantity": 3,
+                    "manufacturing_date": "2025-01-18",
+                    "status": "pending",
+                    "progress": 45,
+                    "scheduled": False,
+                    "inspection_type": "일반검사",
+                    "priority": "normal"
+                },
+                {
+                    "pcb_id": "8_1",
+                    "pcb_name": "CPH2451",
+                    "size": "130×90",
+                    "material": "Aluminum",
+                    "smt": "High (~40%)",
+                    "quantity": 2,
+                    "manufacturing_date": "2025-01-15",
+                    "status": "completed",
+                    "progress": 100,
+                    "scheduled": True,
+                    "inspection_type": "수동검사",
+                    "priority": "normal"
+                }
+            ],
+            "inspection_by_type": {
+                "AOI검사": 1,
+                "일반검사": 1,
+                "수동검사": 1
+            },
+            "inspection_by_material": {
+                "FR-4": 1,
+                "CEM-3": 1,
+                "Aluminum": 1
+            },
+            "inspection_by_size": {
+                "60×40": 1,
+                "100×70": 1,
+                "130×90": 1
+            },
+            "high_priority_inspections": [
+                {
+                    "pcb_id": "1_1",
+                    "pcb_name": "SM-S901A",
+                    "size": "60×40",
+                    "material": "FR-4",
+                    "smt": "Low (~10%)",
+                    "quantity": 5,
+                    "manufacturing_date": "2025-01-20",
+                    "status": "testing",
+                    "progress": 85,
+                    "scheduled": True,
+                    "inspection_type": "AOI검사",
+                    "priority": "high"
+                }
+            ],
+            "normal_priority_inspections": [
+                {
+                    "pcb_id": "5_2",
+                    "pcb_name": "LM-G820K",
+                    "size": "100×70",
+                    "material": "CEM-3",
+                    "smt": "Medium",
+                    "quantity": 3,
+                    "manufacturing_date": "2025-01-18",
+                    "status": "pending",
+                    "progress": 45,
+                    "scheduled": False,
+                    "inspection_type": "일반검사",
+                    "priority": "normal"
+                },
+                {
+                    "pcb_id": "8_1",
+                    "pcb_name": "CPH2451",
+                    "size": "130×90",
+                    "material": "Aluminum",
+                    "smt": "High (~40%)",
+                    "quantity": 2,
+                    "manufacturing_date": "2025-01-15",
+                    "status": "completed",
+                    "progress": 100,
+                    "scheduled": True,
+                    "inspection_type": "수동검사",
+                    "priority": "normal"
+                }
+            ],
+            "smt_inspections": {
+                "Low (~10%)": {"count": 1, "completed": 0, "in_progress": 1, "pending": 0},
+                "Medium": {"count": 1, "completed": 0, "in_progress": 0, "pending": 1},
+                "High (~40%)": {"count": 1, "completed": 1, "in_progress": 0, "pending": 0}
+            },
+            "preview_summary": {
+                "total_targets": 3,
+                "scheduled_targets": 2,
+                "high_priority_count": 1,
+                "different_materials": 3,
+                "different_sizes": 3,
+                "different_smt_levels": 3
+            },
+            "recent_inspection_results": {
+                "total_inspected": 10,
+                "passed": 7,
+                "failed": 3,
+                "defect_rate": 30.0,
+                "throughput": 2.0,
+                "major_defect_types": {
+                    "솔더링 불량": 2,
+                    "부품 누락": 1
+                },
+                "recent_history": [
+                    {"pcb_id": "11_0", "pcb_name": "XQ-AT52", "result": "failed", "defect_type": "외관 불량", "inspection_date": "2025-08-10", "inspector": "한검사", "notes": "외관 검사 재실시"},
+                    {"pcb_id": "10_4", "pcb_name": "Pixel-8Pro", "result": "passed", "defect_type": None, "inspection_date": "2025-08-10", "inspector": "정검사", "notes": "정상"},
+                    {"pcb_id": "9_1", "pcb_name": "V2312DA", "result": "failed", "defect_type": "부품 누락", "inspection_date": "2025-08-11", "inspector": "최검사", "notes": "부품 재확인 필요"},
+                    {"pcb_id": "7_2", "pcb_name": "CPH2341", "result": "passed", "defect_type": None, "inspection_date": "2025-08-11", "inspector": "박검사", "notes": "정상"},
+                    {"pcb_id": "5_8", "pcb_name": "LM-G820K", "result": "failed", "defect_type": "솔더링 불량", "inspection_date": "2025-08-12", "inspector": "이검사", "notes": "솔더링 품질 개선 필요"},
+                    {"pcb_id": "1_3", "pcb_name": "SM-S901A", "result": "passed", "defect_type": None, "inspection_date": "2025-08-12", "inspector": "김검사", "notes": "정상"},
+                    {"pcb_id": "12_9", "pcb_name": "A3101", "result": "passed", "defect_type": None, "inspection_date": "2025-08-08", "inspector": "최검사", "notes": "정상"},
+                    {"pcb_id": "8_6", "pcb_name": "CPH2451", "result": "passed", "defect_type": None, "inspection_date": "2025-08-08", "inspector": "박검사", "notes": "정상"},
+                    {"pcb_id": "6_5", "pcb_name": "XT2315-2", "result": "failed", "defect_type": "전기적 불량", "inspection_date": "2025-08-09", "inspector": "이검사", "notes": "전기 테스트 재실시"},
+                    {"pcb_id": "4_7", "pcb_name": "SM-G992N", "result": "passed", "defect_type": None, "inspection_date": "2025-08-09", "inspector": "김검사", "notes": "정상"}
+                ]
+            },
             "data_source": "fallback"
         }
     
@@ -1037,53 +1304,7 @@ class DataCrawler:
             "data_source": "fallback"
         }
     
-    async def crawl_mes_data(self):
-        """MES 시스템 데이터 크롤링"""
-        try:
-            print("⚡ MES 데이터 크롤링 시작...")
-            # 실제 환경에서는 MES API 엔드포인트를 사용
-            # response = await self.fetch_api_data("/api/mes/status")
-            
-            # 시뮬레이션 데이터 (실제 환경에 맞게 수정 필요)
-            result = {
-                "temperature": 23.5,
-                "humidity": 65.2,
-                "production_count": 742,
-                "quality_score": 94.2,
-                "environment": {
-                    "temperature": 23.5,
-                    "humidity": 65.2,
-                    "status": "정상"
-                },
-                "production": {
-                    "current_rate": 24,
-                    "target_rate": 25,
-                    "efficiency": 96.0
-                },
-                "quality": {
-                    "first_pass_yield": 94.2,
-                    "rework_rate": 5.8,
-                    "defect_rate": 2.1
-                },
-                "equipment": {
-                    "uptime": 95.5,
-                    "maintenance_due": 2,
-                    "alerts": 0
-                },
-                "data_source": "simulation"
-            }
-            print("✅ MES 크롤링 완료 (시뮬레이션 데이터)")
-            return result
-            
-        except Exception as e:
-            print(f"❌ MES 데이터 크롤링 오류: {e}")
-            return {
-                "temperature": 23.5,
-                "humidity": 65.2,
-                "production_count": 742,
-                "quality_score": 94.2,
-                "data_source": "fallback"
-            }
+
     
     async def get_menu_data(self, menu_id):
         """메뉴별 데이터 가져오기"""
@@ -1097,7 +1318,7 @@ class DataCrawler:
             "menu2": self.crawl_menu2_data,
             "menu3": self.crawl_menu3_data,
             "menu4": self.crawl_menu4_data,
-            "mse": self.crawl_mes_data
+            "mse": self.crawl_mse_data
         }
         
         crawler = menu_crawlers.get(menu_id)
@@ -1188,6 +1409,280 @@ class DataCrawler:
             "results": results,
             "timestamp": datetime.now().isoformat()
         }
+
+    async def crawl_mse_data(self):
+        """MSE (Manufacturing System Environment) 데이터 크롤링 - 실시간 환경 모니터링"""
+        try:
+            print("🌡️ MSE 데이터 크롤링 시작...")
+            
+            # 실제 환경에서는 환경 센서 API나 데이터베이스에서 데이터를 가져와야 함
+            # 현재는 시뮬레이션 데이터로 구현
+            
+            # 1. 실시간 환경 상태 모니터링 데이터
+            environment_data = {
+                "temperature": {
+                    "current": 23.5,
+                    "status": "normal",
+                    "trend": [22.1, 22.8, 23.2, 23.5, 23.1, 22.9, 23.5],
+                    "unit": "℃",
+                    "threshold": "18-25℃",
+                    "optimal_range": [18, 25]
+                },
+                "humidity": {
+                    "current": 65.2,
+                    "status": "warning",
+                    "trend": [62.1, 64.2, 66.8, 68.1, 67.5, 65.8, 65.2],
+                    "unit": "%",
+                    "threshold": "< 70%",
+                    "optimal_range": [0, 70]
+                },
+                "pm25": {
+                    "current": 12.3,
+                    "status": "normal",
+                    "trend": [10.2, 11.5, 12.1, 12.3, 11.8, 12.0, 12.3],
+                    "unit": "㎍/m³",
+                    "threshold": "< 50㎍/m³",
+                    "optimal_range": [0, 50]
+                },
+                "pm10": {
+                    "current": 18.7,
+                    "status": "normal",
+                    "trend": [16.2, 17.1, 18.2, 18.7, 17.9, 18.1, 18.7],
+                    "unit": "㎍/m³",
+                    "threshold": "< 100㎍/m³",
+                    "optimal_range": [0, 100]
+                },
+                "co2": {
+                    "current": 420,
+                    "status": "normal",
+                    "trend": [410, 415, 418, 420, 422, 419, 420],
+                    "unit": "ppm",
+                    "threshold": "< 1000ppm",
+                    "optimal_range": [300, 1000]
+                }
+            }
+            
+            # 2. 습도 민감 자재 모니터링 데이터
+            moisture_sensitive_materials = [
+                {
+                    "name": "MLCC",
+                    "optimal_range": "30-50%",
+                    "current_humidity": 45.2,
+                    "status": "normal",
+                    "warehouse": "A동",
+                    "material_type": "Capacitor",
+                    "moisture_sensitivity": "high",
+                    "storage_requirements": "습도 30-50% 유지, 밀폐 보관"
+                },
+                {
+                    "name": "BGA",
+                    "optimal_range": "20-40%",
+                    "current_humidity": 52.1,
+                    "status": "warning",
+                    "warehouse": "B동",
+                    "material_type": "IC Package",
+                    "moisture_sensitivity": "very_high",
+                    "storage_requirements": "습도 20-40% 유지, 건조제 사용"
+                },
+                {
+                    "name": "FPC",
+                    "optimal_range": "35-55%",
+                    "current_humidity": 38.7,
+                    "status": "normal",
+                    "warehouse": "C동",
+                    "material_type": "Flexible PCB",
+                    "moisture_sensitivity": "medium",
+                    "storage_requirements": "습도 35-55% 유지, 일반 보관"
+                },
+                {
+                    "name": "QFN",
+                    "optimal_range": "25-45%",
+                    "current_humidity": 48.3,
+                    "status": "normal",
+                    "warehouse": "A동",
+                    "material_type": "IC Package",
+                    "moisture_sensitivity": "high",
+                    "storage_requirements": "습도 25-45% 유지, 밀폐 보관"
+                }
+            ]
+            
+            # 3. 환경 데이터 이력 (최근 7개 데이터)
+            from datetime import datetime, timedelta
+            import random
+            
+            environment_history = []
+            base_time = datetime.now()
+            
+            for i in range(7):
+                # 1초씩 이전 시간으로 설정
+                data_time = base_time - timedelta(seconds=i)
+                
+                # 실제 센서 데이터와 유사한 변동성 추가
+                temp_variation = random.uniform(-0.5, 0.5)
+                humidity_variation = random.uniform(-1.0, 1.0)
+                pm25_variation = random.uniform(-0.3, 0.3)
+                pm10_variation = random.uniform(-0.5, 0.5)
+                co2_variation = random.uniform(-2, 2)
+                
+                history_entry = {
+                    "timestamp": data_time.isoformat(),
+                    "time_string": data_time.strftime('%H:%M:%S'),
+                    "temperature": round(23.5 + temp_variation, 1),
+                    "humidity": round(65.2 + humidity_variation, 1),
+                    "pm25": round(12.3 + pm25_variation, 1),
+                    "pm10": round(18.7 + pm10_variation, 1),
+                    "co2": round(420 + co2_variation),
+                    "sensor_status": "정상",
+                    "alert_level": "normal"
+                }
+                environment_history.append(history_entry)
+            
+            # 4. 시스템 상태 및 알림
+            system_status = {
+                "overall_status": "정상",
+                "connection_status": "connected",
+                "last_update": datetime.now().isoformat(),
+                "sensor_health": {
+                    "temperature_sensor": "정상",
+                    "humidity_sensor": "정상",
+                    "pm25_sensor": "정상",
+                    "pm10_sensor": "정상",
+                    "co2_sensor": "정상"
+                },
+                "alerts": {
+                    "active_alerts": 1,
+                    "critical_alerts": 0,
+                    "warning_alerts": 1,
+                    "info_alerts": 0
+                },
+                "maintenance": {
+                    "next_maintenance": "2025-02-15",
+                    "last_calibration": "2025-01-15",
+                    "calibration_due": False
+                }
+            }
+            
+            # 5. 통계 및 분석 데이터
+            analytics_data = {
+                "daily_averages": {
+                    "temperature": 23.4,
+                    "humidity": 65.8,
+                    "pm25": 12.1,
+                    "pm10": 18.3,
+                    "co2": 418
+                },
+                "trends": {
+                    "temperature_trend": "stable",
+                    "humidity_trend": "increasing",
+                    "air_quality_trend": "stable",
+                    "co2_trend": "stable"
+                },
+                "compliance": {
+                    "temperature_compliant": True,
+                    "humidity_compliant": False,
+                    "pm25_compliant": True,
+                    "pm10_compliant": True,
+                    "co2_compliant": True
+                }
+            }
+            
+            # 6. 창고별 환경 현황
+            warehouse_status = {
+                "A동": {
+                    "temperature": 23.2,
+                    "humidity": 45.8,
+                    "status": "정상",
+                    "materials_count": 156,
+                    "moisture_sensitive_count": 89
+                },
+                "B동": {
+                    "temperature": 24.1,
+                    "humidity": 52.3,
+                    "status": "주의",
+                    "materials_count": 203,
+                    "moisture_sensitive_count": 67
+                },
+                "C동": {
+                    "temperature": 22.8,
+                    "humidity": 38.9,
+                    "status": "정상",
+                    "materials_count": 98,
+                    "moisture_sensitive_count": 34
+                }
+            }
+            
+            result = {
+                "data_source": "simulation",
+                "timestamp": datetime.now().isoformat(),
+                
+                # 실시간 환경 상태 모니터링
+                "environment_data": environment_data,
+                
+                # 습도 민감 자재 모니터링
+                "moisture_sensitive_materials": moisture_sensitive_materials,
+                "moisture_materials_summary": {
+                    "total_materials": len(moisture_sensitive_materials),
+                    "normal_status": len([m for m in moisture_sensitive_materials if m["status"] == "normal"]),
+                    "warning_status": len([m for m in moisture_sensitive_materials if m["status"] == "warning"]),
+                    "critical_status": len([m for m in moisture_sensitive_materials if m["status"] == "critical"])
+                },
+                
+                # 환경 데이터 이력
+                "environment_history": environment_history,
+                "history_summary": {
+                    "total_records": len(environment_history),
+                    "time_range": f"{environment_history[-1]['time_string']} ~ {environment_history[0]['time_string']}",
+                    "average_temperature": round(sum(h["temperature"] for h in environment_history) / len(environment_history), 1),
+                    "average_humidity": round(sum(h["humidity"] for h in environment_history) / len(environment_history), 1)
+                },
+                
+                # 시스템 상태
+                "system_status": system_status,
+                
+                # 분석 데이터
+                "analytics": analytics_data,
+                
+                # 창고별 현황
+                "warehouse_status": warehouse_status,
+                
+                # 전체 요약
+                "summary": {
+                    "overall_environment_status": "정상",
+                    "critical_issues": 0,
+                    "warnings": 1,
+                    "recommendations": [
+                        "B동 습도가 기준치를 초과하고 있습니다. 건조제 교체를 권장합니다.",
+                        "습도 민감 자재 BGA의 보관 조건을 점검해주세요."
+                    ]
+                }
+            }
+            
+            print(f"✅ MSE 크롤링 완료:")
+            print(f"  - 환경 센서: 5개 (온도, 습도, PM2.5, PM10, CO₂)")
+            print(f"  - 습도 민감 자재: {len(moisture_sensitive_materials)}개")
+            print(f"  - 환경 이력: {len(environment_history)}개 기록")
+            print(f"  - 창고 현황: {len(warehouse_status)}개 창고")
+            
+            return result
+            
+        except Exception as e:
+            print(f"❌ MSE 데이터 크롤링 오류: {e}")
+            import traceback
+            traceback.print_exc()
+            
+            # 기본 데이터 반환
+            return {
+                "data_source": "fallback",
+                "timestamp": datetime.now().isoformat(),
+                "environment_data": {
+                    "temperature": {"current": 23.5, "status": "normal", "unit": "℃"},
+                    "humidity": {"current": 65.2, "status": "normal", "unit": "%"}
+                },
+                "moisture_sensitive_materials": [],
+                "environment_history": [],
+                "system_status": {"overall_status": "오류", "connection_status": "disconnected"},
+                "summary": {"overall_environment_status": "오류", "critical_issues": 0, "warnings": 0}
+            }
 
 # 전역 크롤러 인스턴스
 crawler = DataCrawler()

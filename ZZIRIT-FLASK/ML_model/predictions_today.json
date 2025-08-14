@@ -1,0 +1,6718 @@
+[
+  {
+    "part_id": 73,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 17,
+    "opening_stock": 432,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.887005131019518,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 56.8166,
+        "expected_total_cost": 28408.32,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 500,
+        "expected_unit_price": 56.8874,
+        "expected_total_cost": 28443.69,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 3,
+        "quantity": 600,
+        "expected_unit_price": 56.9513,
+        "expected_total_cost": 34170.81,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 144,
+    "category": "Resistor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 359,
+    "opening_stock": 2478,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.368496629743493,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3500,
+        "expected_unit_price": 11.3633,
+        "expected_total_cost": 39771.65,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3900,
+        "expected_unit_price": 11.3775,
+        "expected_total_cost": 44372.16,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4300,
+        "expected_unit_price": 11.4152,
+        "expected_total_cost": 49085.27,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 51,
+    "category": "Ferrite Bead",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 97,
+    "opening_stock": 361,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.004645493870944,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1100,
+        "expected_unit_price": 17.045,
+        "expected_total_cost": 18749.49,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1200,
+        "expected_unit_price": 17.0662,
+        "expected_total_cost": 20479.46,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1300,
+        "expected_unit_price": 17.1228,
+        "expected_total_cost": 22259.6,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 50,
+    "category": "Diode",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 865,
+    "opening_stock": 420,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.238081157953351,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 12200,
+        "expected_unit_price": 22.7416,
+        "expected_total_cost": 328062.56,
+        "stockout_penalty": 50600.16,
+        "holding_cost": 14.33
+      },
+      {
+        "day_offset": 1,
+        "quantity": 12200,
+        "expected_unit_price": 22.77,
+        "expected_total_cost": 426951.12,
+        "stockout_penalty": 149143.25,
+        "holding_cost": 14.35
+      },
+      {
+        "day_offset": 2,
+        "quantity": 12200,
+        "expected_unit_price": 22.8454,
+        "expected_total_cost": 527172.41,
+        "stockout_penalty": 248443.92,
+        "holding_cost": 14.39
+      }
+    ]
+  },
+  {
+    "part_id": 49,
+    "category": "Diode",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 950,
+    "opening_stock": 192,
+    "predicted_order_qty": 327.575,
+    "predicted_days_to_depletion": 2.0250983865588346,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 13300,
+        "expected_unit_price": 22.7267,
+        "expected_total_cost": 388398.54,
+        "stockout_penalty": 86134.02,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 13300,
+        "expected_unit_price": 22.755,
+        "expected_total_cost": 496968.17,
+        "stockout_penalty": 194327.3,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 13300,
+        "expected_unit_price": 22.8304,
+        "expected_total_cost": 607059.27,
+        "stockout_penalty": 303415.48,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 48,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 209,
+    "opening_stock": 352,
+    "predicted_order_qty": 602.6275,
+    "predicted_days_to_depletion": 1.8910931192384295,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2800,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 44506.76,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3000,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 53005.41,
+        "stockout_penalty": 5251.97,
+        "holding_cost": 8.24
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3000,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 69867.42,
+        "stockout_penalty": 21955.73,
+        "holding_cost": 8.27
+      }
+    ]
+  },
+  {
+    "part_id": 47,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 203,
+    "opening_stock": 2115,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.613625517065332,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3000,
+        "expected_unit_price": 13.6245,
+        "expected_total_cost": 40873.56,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3300,
+        "expected_unit_price": 13.6415,
+        "expected_total_cost": 45016.9,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3700,
+        "expected_unit_price": 13.6867,
+        "expected_total_cost": 50640.75,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 46,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 310,
+    "opening_stock": 3530,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.679431390556056,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5500,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 62523.47,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 69574.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 52,
+    "category": "Ferrite Bead",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 136,
+    "opening_stock": 238,
+    "predicted_order_qty": 580.3325,
+    "predicted_days_to_depletion": 1.7936651134610941,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1900,
+        "expected_unit_price": 14.1922,
+        "expected_total_cost": 26965.19,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2000,
+        "expected_unit_price": 14.2099,
+        "expected_total_cost": 30844.99,
+        "stockout_penalty": 2415.68,
+        "holding_cost": 9.55
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2000,
+        "expected_unit_price": 14.257,
+        "expected_total_cost": 40641.94,
+        "stockout_penalty": 12118.42,
+        "holding_cost": 9.58
+      }
+    ]
+  },
+  {
+    "part_id": 45,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 196,
+    "opening_stock": 3477,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.778692908674447,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5600,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 63660.26,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 69574.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 43,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 128,
+    "opening_stock": 761,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.713984497700932,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 19074.33,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 20689.58,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1500,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 23951.71,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 42,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 105,
+    "opening_stock": 3511,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 10.519635224751172,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5600,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 63660.26,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 69574.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 41,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 112,
+    "opening_stock": 3512,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 10.51684708051811,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3633,
+        "expected_total_cost": 56816.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5500,
+        "expected_unit_price": 11.3775,
+        "expected_total_cost": 62576.12,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4152,
+        "expected_total_cost": 69632.6,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 40,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 201,
+    "opening_stock": 738,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.070744429045298,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2300,
+        "expected_unit_price": 15.9087,
+        "expected_total_cost": 36589.91,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2500,
+        "expected_unit_price": 15.9285,
+        "expected_total_cost": 39821.17,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2700,
+        "expected_unit_price": 15.9813,
+        "expected_total_cost": 43149.38,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 39,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 119,
+    "opening_stock": 515,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.074085524535447,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1300,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 20663.85,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1400,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 22281.09,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1600,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 25548.49,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 38,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 232,
+    "opening_stock": 855,
+    "predicted_order_qty": 1868.765,
+    "predicted_days_to_depletion": 3.1239856031484656,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4300,
+        "expected_unit_price": 13.636,
+        "expected_total_cost": 58634.77,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4600,
+        "expected_unit_price": 13.653,
+        "expected_total_cost": 62803.67,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4800,
+        "expected_unit_price": 13.6982,
+        "expected_total_cost": 76618.88,
+        "stockout_penalty": 10860.73,
+        "holding_cost": 6.71
+      }
+    ]
+  },
+  {
+    "part_id": 44,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 60,
+    "opening_stock": 2081,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 16.01492857256017,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3000,
+        "expected_unit_price": 13.636,
+        "expected_total_cost": 40907.98,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3400,
+        "expected_unit_price": 13.653,
+        "expected_total_cost": 46420.1,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3700,
+        "expected_unit_price": 13.6982,
+        "expected_total_cost": 50683.4,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 37,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 191,
+    "opening_stock": 1107,
+    "predicted_order_qty": 1610.775,
+    "predicted_days_to_depletion": 3.2353128831604936,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 13.645,
+        "expected_total_cost": 54579.95,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4300,
+        "expected_unit_price": 13.662,
+        "expected_total_cost": 58746.5,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.7073,
+        "expected_total_cost": 64424.08,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 53,
+    "category": "Ferrite Bead",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 148,
+    "opening_stock": 620,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.159673329319025,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1600,
+        "expected_unit_price": 14.1948,
+        "expected_total_cost": 22711.67,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1800,
+        "expected_unit_price": 14.2125,
+        "expected_total_cost": 25582.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1900,
+        "expected_unit_price": 14.2596,
+        "expected_total_cost": 27093.17,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 55,
+    "category": "Ferrite Bead",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 94,
+    "opening_stock": 278,
+    "predicted_order_qty": 503.5325,
+    "predicted_days_to_depletion": 2.534385026950531,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 14.2042,
+        "expected_total_cost": 17044.99,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 14.2218,
+        "expected_total_cost": 18488.4,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 14.269,
+        "expected_total_cost": 20270.33,
+        "stockout_penalty": 285.38,
+        "holding_cost": 8.39
+      }
+    ]
+  },
+  {
+    "part_id": 69,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 0,
+    "opening_stock": 48,
+    "predicted_order_qty": 100.0,
+    "predicted_days_to_depletion": 3.2996748892900007,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 300,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 19969.09,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.69
+      },
+      {
+        "day_offset": 1,
+        "quantity": 300,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 19993.96,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.71
+      },
+      {
+        "day_offset": 2,
+        "quantity": 300,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 22780.26,
+        "stockout_penalty": 2720.05,
+        "holding_cost": 17.77
+      }
+    ]
+  },
+  {
+    "part_id": 68,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 0,
+    "opening_stock": 255,
+    "predicted_order_qty": 499.26,
+    "predicted_days_to_depletion": 3.2507977296946837,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3784,
+        "expected_total_cost": 56854.11,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.4374,
+        "expected_total_cost": 61668.65,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5946,
+        "expected_total_cost": 73085.73,
+        "stockout_penalty": 6425.27,
+        "holding_cost": 27.99
+      }
+    ]
+  },
+  {
+    "part_id": 67,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 8,
+    "opening_stock": 119,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.9368336517288345,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 200,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 13300.94,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 200,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 13317.5,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 200,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 13361.63,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 66,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 173,
+    "opening_stock": 126,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.740170045461551,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2500,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 181926.6,
+        "stockout_penalty": 15628.6,
+        "holding_cost": 36.31
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2500,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 239751.3,
+        "stockout_penalty": 73246.23,
+        "holding_cost": 36.36
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2500,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 298334.85,
+        "stockout_penalty": 131278.01,
+        "holding_cost": 36.48
+      }
+    ]
+  },
+  {
+    "part_id": 65,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 0,
+    "opening_stock": 85,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.543516959013468,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 200,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 13300.94,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 300,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 19993.96,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.71
+      },
+      {
+        "day_offset": 3,
+        "quantity": 300,
+        "expected_unit_price": 66.6624,
+        "expected_total_cost": 20016.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.73
+      }
+    ]
+  },
+  {
+    "part_id": 64,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 49,
+    "opening_stock": 620,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.084124206913332,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 800,
+        "expected_unit_price": 47.3466,
+        "expected_total_cost": 37877.24,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 900,
+        "expected_unit_price": 47.4055,
+        "expected_total_cost": 42664.96,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1000,
+        "expected_unit_price": 47.5626,
+        "expected_total_cost": 47562.6,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 54,
+    "category": "Ferrite Bead",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 71,
+    "opening_stock": 198,
+    "predicted_order_qty": 305.4475,
+    "predicted_days_to_depletion": 2.649314538895951,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 900,
+        "expected_unit_price": 17.0562,
+        "expected_total_cost": 15350.61,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1000,
+        "expected_unit_price": 17.0775,
+        "expected_total_cost": 17078.19,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.72
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1000,
+        "expected_unit_price": 17.1341,
+        "expected_total_cost": 18419.84,
+        "stockout_penalty": 1285.05,
+        "holding_cost": 0.72
+      }
+    ]
+  },
+  {
+    "part_id": 63,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 85,
+    "opening_stock": 402,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.062623909007214,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1100,
+        "expected_unit_price": 47.3784,
+        "expected_total_cost": 52116.27,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1200,
+        "expected_unit_price": 47.4374,
+        "expected_total_cost": 56924.9,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1200,
+        "expected_unit_price": 47.5946,
+        "expected_total_cost": 57113.54,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 61,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 65,
+    "opening_stock": 85,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.3989387610125315,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 900,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 59854.21,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1000,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 81611.62,
+        "stockout_penalty": 14982.18,
+        "holding_cost": 41.95
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1000,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 103594.71,
+        "stockout_penalty": 36744.48,
+        "holding_cost": 42.09
+      }
+    ]
+  },
+  {
+    "part_id": 60,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 46,
+    "opening_stock": 49,
+    "predicted_order_qty": 100.725,
+    "predicted_days_to_depletion": 2.584975807421362,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 700,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 46579.34,
+        "stockout_penalty": 0.0,
+        "holding_cost": 26.07
+      },
+      {
+        "day_offset": 1,
+        "quantity": 700,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 60953.65,
+        "stockout_penalty": 14316.31,
+        "holding_cost": 26.1
+      },
+      {
+        "day_offset": 2,
+        "quantity": 700,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 76521.52,
+        "stockout_penalty": 29729.62,
+        "holding_cost": 26.19
+      }
+    ]
+  },
+  {
+    "part_id": 59,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 21,
+    "opening_stock": 55,
+    "predicted_order_qty": 100.0,
+    "predicted_days_to_depletion": 2.6229954247420313,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 300,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 19954.2,
+        "stockout_penalty": 0.0,
+        "holding_cost": 2.79
+      },
+      {
+        "day_offset": 1,
+        "quantity": 300,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 19979.04,
+        "stockout_penalty": 0.0,
+        "holding_cost": 2.8
+      },
+      {
+        "day_offset": 2,
+        "quantity": 300,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 22717.58,
+        "stockout_penalty": 2672.33,
+        "holding_cost": 2.81
+      }
+    ]
+  },
+  {
+    "part_id": 58,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 0,
+    "opening_stock": 357,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.62011731116278,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 56.8159,
+        "expected_total_cost": 28407.93,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 600,
+        "expected_unit_price": 56.8866,
+        "expected_total_cost": 34131.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 600,
+        "expected_unit_price": 57.0751,
+        "expected_total_cost": 34245.07,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 57,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 49,
+    "opening_stock": 298,
+    "predicted_order_qty": 499.26,
+    "predicted_days_to_depletion": 3.2626438179481756,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3472,
+        "expected_total_cost": 56816.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.4062,
+        "expected_total_cost": 61628.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1300,
+        "expected_unit_price": 47.5632,
+        "expected_total_cost": 61832.22,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 56,
+    "category": "Ferrite Bead",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 131,
+    "opening_stock": 147,
+    "predicted_order_qty": 394.595,
+    "predicted_days_to_depletion": 1.5265662041621528,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1900,
+        "expected_unit_price": 17.0306,
+        "expected_total_cost": 32366.1,
+        "stockout_penalty": 0.0,
+        "holding_cost": 7.87
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1900,
+        "expected_unit_price": 17.0519,
+        "expected_total_cost": 42211.22,
+        "stockout_penalty": 9804.82,
+        "holding_cost": 7.88
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1900,
+        "expected_unit_price": 17.1084,
+        "expected_total_cost": 53557.08,
+        "stockout_penalty": 21043.29,
+        "holding_cost": 7.9
+      }
+    ]
+  },
+  {
+    "part_id": 62,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 87,
+    "opening_stock": 72,
+    "predicted_order_qty": 100.93,
+    "predicted_days_to_depletion": 2.6632515081742327,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1300,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 91482.1,
+        "stockout_penalty": 4987.85,
+        "holding_cost": 38.17
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 120561.57,
+        "stockout_penalty": 33959.62,
+        "holding_cost": 38.22
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1300,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 150022.63,
+        "stockout_penalty": 63133.7,
+        "holding_cost": 38.35
+      }
+    ]
+  },
+  {
+    "part_id": 36,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 70,
+    "opening_stock": 1054,
+    "predicted_order_qty": 1700.15,
+    "predicted_days_to_depletion": 3.6844931559069756,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4100,
+        "expected_unit_price": 13.6358,
+        "expected_total_cost": 55906.81,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4400,
+        "expected_unit_price": 13.6528,
+        "expected_total_cost": 60072.26,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.698,
+        "expected_total_cost": 64380.74,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 35,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 50,
+    "opening_stock": 2097,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 16.114839118183127,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3000,
+        "expected_unit_price": 13.6245,
+        "expected_total_cost": 40873.56,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3400,
+        "expected_unit_price": 13.6415,
+        "expected_total_cost": 46381.04,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3700,
+        "expected_unit_price": 13.6867,
+        "expected_total_cost": 50640.75,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 34,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 51,
+    "opening_stock": 375,
+    "predicted_order_qty": 686.83,
+    "predicted_days_to_depletion": 3.583240517069931,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1400,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 22253.38,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1500,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 23872.6,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1600,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 25551.17,
+        "stockout_penalty": 0.0,
+        "holding_cost": 2.68
+      }
+    ]
+  },
+  {
+    "part_id": 14,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 269,
+    "opening_stock": 2099,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.47528326137884,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3000,
+        "expected_unit_price": 13.627,
+        "expected_total_cost": 40881.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3400,
+        "expected_unit_price": 13.644,
+        "expected_total_cost": 46389.49,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3700,
+        "expected_unit_price": 13.6892,
+        "expected_total_cost": 50649.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 13,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 191,
+    "opening_stock": 740,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.081790774906154,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2200,
+        "expected_unit_price": 15.8821,
+        "expected_total_cost": 34940.63,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2400,
+        "expected_unit_price": 15.9019,
+        "expected_total_cost": 38164.51,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2600,
+        "expected_unit_price": 15.9546,
+        "expected_total_cost": 41481.89,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 12,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 184,
+    "opening_stock": 3500,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.809601052355787,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5600,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 63660.26,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 69574.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 11,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 270,
+    "opening_stock": 292,
+    "predicted_order_qty": 704.485,
+    "predicted_days_to_depletion": 1.6082052711514152,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3800,
+        "expected_unit_price": 15.9087,
+        "expected_total_cost": 60455.13,
+        "stockout_penalty": 0.0,
+        "holding_cost": 2.23
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3800,
+        "expected_unit_price": 15.9285,
+        "expected_total_cost": 80281.7,
+        "stockout_penalty": 19751.3,
+        "holding_cost": 2.23
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3800,
+        "expected_unit_price": 15.9813,
+        "expected_total_cost": 102122.44,
+        "stockout_penalty": 41391.44,
+        "holding_cost": 2.24
+      }
+    ]
+  },
+  {
+    "part_id": 10,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 154,
+    "opening_stock": 491,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.075957758747878,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1900,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 30201.02,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2000,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 31830.13,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2200,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 35134.09,
+        "stockout_penalty": 0.0,
+        "holding_cost": 4.92
+      }
+    ]
+  },
+  {
+    "part_id": 9,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 97,
+    "opening_stock": 3537,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 12.688038356750207,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3633,
+        "expected_total_cost": 56816.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5500,
+        "expected_unit_price": 11.3775,
+        "expected_total_cost": 62576.12,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4152,
+        "expected_total_cost": 69632.6,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 15,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 141,
+    "opening_stock": 1085,
+    "predicted_order_qty": 1700.15,
+    "predicted_days_to_depletion": 3.3721034815472954,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 13.6245,
+        "expected_total_cost": 54498.08,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4400,
+        "expected_unit_price": 13.6415,
+        "expected_total_cost": 60022.53,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.6867,
+        "expected_total_cost": 64327.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 8,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 126,
+    "opening_stock": 729,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.391369070867799,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 19074.33,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 20689.58,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1500,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 23951.71,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 6,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 241,
+    "opening_stock": 3461,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.753044148081797,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5600,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 63660.26,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6200,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 70714.56,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 5,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 231,
+    "opening_stock": 1768,
+    "predicted_order_qty": 2793.965,
+    "predicted_days_to_depletion": 3.2461081080501613,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 6700,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 76070.23,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 7300,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 82985.69,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7900,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 90105.16,
+        "stockout_penalty": 0.0,
+        "holding_cost": 1.12
+      }
+    ]
+  },
+  {
+    "part_id": 4,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 192,
+    "opening_stock": 3492,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.8081859990092,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5600,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 63660.26,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 69574.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 3,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 133,
+    "opening_stock": 739,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.4301959565617945,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1300,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 20663.85,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1400,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 22281.09,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1600,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 25548.49,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 2,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 121,
+    "opening_stock": 444,
+    "predicted_order_qty": 503.44,
+    "predicted_days_to_depletion": 2.9842620711677976,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1400,
+        "expected_unit_price": 15.9087,
+        "expected_total_cost": 22272.12,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1500,
+        "expected_unit_price": 15.9285,
+        "expected_total_cost": 23892.7,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1700,
+        "expected_unit_price": 15.9813,
+        "expected_total_cost": 27168.8,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.67
+      }
+    ]
+  },
+  {
+    "part_id": 1,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 135,
+    "opening_stock": 1119,
+    "predicted_order_qty": 1448.5925,
+    "predicted_days_to_depletion": 3.411499774328287,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 13.636,
+        "expected_total_cost": 54543.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4300,
+        "expected_unit_price": 13.653,
+        "expected_total_cost": 58707.78,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.6982,
+        "expected_total_cost": 64381.61,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 7,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 305,
+    "opening_stock": 748,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.0423913003084975,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3900,
+        "expected_unit_price": 15.9192,
+        "expected_total_cost": 62084.69,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4200,
+        "expected_unit_price": 15.939,
+        "expected_total_cost": 66943.69,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4300,
+        "expected_unit_price": 15.9918,
+        "expected_total_cost": 82121.21,
+        "stockout_penalty": 13353.15,
+        "holding_cost": 3.36
+      }
+    ]
+  },
+  {
+    "part_id": 16,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 240,
+    "opening_stock": 1134,
+    "predicted_order_qty": 1598.485,
+    "predicted_days_to_depletion": 3.1462393756893743,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 13.6245,
+        "expected_total_cost": 54498.08,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4300,
+        "expected_unit_price": 13.6415,
+        "expected_total_cost": 58658.38,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.6867,
+        "expected_total_cost": 64327.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 17,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 46,
+    "opening_stock": 719,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.71759160747629,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1000,
+        "expected_unit_price": 15.9087,
+        "expected_total_cost": 15908.66,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1100,
+        "expected_unit_price": 15.9285,
+        "expected_total_cost": 17521.31,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1200,
+        "expected_unit_price": 15.9813,
+        "expected_total_cost": 19177.5,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 18,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 168,
+    "opening_stock": 2159,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.732045953063024,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3000,
+        "expected_unit_price": 13.636,
+        "expected_total_cost": 40907.98,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3300,
+        "expected_unit_price": 13.653,
+        "expected_total_cost": 45054.81,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3600,
+        "expected_unit_price": 13.6982,
+        "expected_total_cost": 49313.58,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 33,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 131,
+    "opening_stock": 316,
+    "predicted_order_qty": 587.0675,
+    "predicted_days_to_depletion": 2.232275554210082,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1700,
+        "expected_unit_price": 15.9087,
+        "expected_total_cost": 27044.72,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1800,
+        "expected_unit_price": 15.9285,
+        "expected_total_cost": 28671.24,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1900,
+        "expected_unit_price": 15.9813,
+        "expected_total_cost": 36524.54,
+        "stockout_penalty": 6152.78,
+        "holding_cost": 7.38
+      }
+    ]
+  },
+  {
+    "part_id": 32,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 298,
+    "opening_stock": 3498,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.678790147489459,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5600,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 63660.26,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6100,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 69574.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 31,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 213,
+    "opening_stock": 375,
+    "predicted_order_qty": 602.6275,
+    "predicted_days_to_depletion": 2.0373450092042433,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2900,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 46096.29,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3000,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 51805.54,
+        "stockout_penalty": 4058.34,
+        "holding_cost": 2.01
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3000,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 68982.93,
+        "stockout_penalty": 21077.5,
+        "holding_cost": 2.01
+      }
+    ]
+  },
+  {
+    "part_id": 30,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 336,
+    "opening_stock": 307,
+    "predicted_order_qty": 596.7475,
+    "predicted_days_to_depletion": 1.7809192803038218,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4800,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 78612.8,
+        "stockout_penalty": 2304.81,
+        "holding_cost": 10.68
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4800,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 105447.99,
+        "stockout_penalty": 29044.99,
+        "holding_cost": 10.69
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4800,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 132623.35,
+        "stockout_penalty": 55967.15,
+        "holding_cost": 10.73
+      }
+    ]
+  },
+  {
+    "part_id": 29,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 106,
+    "opening_stock": 783,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.0252576990597735,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1000,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 15895.27,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1100,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 17506.57,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1200,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 19161.37,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 28,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 384,
+    "opening_stock": 298,
+    "predicted_order_qty": 690.2875,
+    "predicted_days_to_depletion": 1.613550900243714,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5400,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 92672.11,
+        "stockout_penalty": 6834.97,
+        "holding_cost": 2.67
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5400,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 123344.42,
+        "stockout_penalty": 37400.4,
+        "holding_cost": 2.67
+      },
+      {
+        "day_offset": 2,
+        "quantity": 5400,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 154411.35,
+        "stockout_penalty": 68182.52,
+        "holding_cost": 2.68
+      }
+    ]
+  },
+  {
+    "part_id": 27,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 239,
+    "opening_stock": 443,
+    "predicted_order_qty": 503.3625,
+    "predicted_days_to_depletion": 2.6713369130790654,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3200,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 50864.87,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3400,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 56902.37,
+        "stockout_penalty": 2785.14,
+        "holding_cost": 6.02
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3400,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 76172.46,
+        "stockout_penalty": 21875.89,
+        "holding_cost": 6.04
+      }
+    ]
+  },
+  {
+    "part_id": 26,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 124,
+    "opening_stock": 1129,
+    "predicted_order_qty": 1598.16,
+    "predicted_days_to_depletion": 3.6007871283054556,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 13.6245,
+        "expected_total_cost": 54498.08,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4300,
+        "expected_unit_price": 13.6415,
+        "expected_total_cost": 58658.38,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.6867,
+        "expected_total_cost": 64327.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 25,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 141,
+    "opening_stock": 781,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.6995673348550815,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1400,
+        "expected_unit_price": 15.9087,
+        "expected_total_cost": 22272.12,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1500,
+        "expected_unit_price": 15.9285,
+        "expected_total_cost": 23892.7,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1700,
+        "expected_unit_price": 15.9813,
+        "expected_total_cost": 27168.13,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 24,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 76,
+    "opening_stock": 311,
+    "predicted_order_qty": 593.2925,
+    "predicted_days_to_depletion": 3.0696744550273674,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1400,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 22253.38,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1500,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 23872.6,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1600,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 27684.01,
+        "stockout_penalty": 2132.84,
+        "holding_cost": 2.68
+      }
+    ]
+  },
+  {
+    "part_id": 23,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 91,
+    "opening_stock": 3458,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 27.210689874150244,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5000,
+        "expected_unit_price": 11.3444,
+        "expected_total_cost": 56721.79,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5600,
+        "expected_unit_price": 11.3585,
+        "expected_total_cost": 63607.51,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6200,
+        "expected_unit_price": 11.3961,
+        "expected_total_cost": 70655.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 22,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 177,
+    "opening_stock": 1140,
+    "predicted_order_qty": 1610.775,
+    "predicted_days_to_depletion": 3.280630489662962,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 13.636,
+        "expected_total_cost": 54543.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4300,
+        "expected_unit_price": 13.653,
+        "expected_total_cost": 58707.78,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.6982,
+        "expected_total_cost": 64381.61,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 21,
+    "category": "Capacitor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 140,
+    "opening_stock": 1123,
+    "predicted_order_qty": 1610.775,
+    "predicted_days_to_depletion": 3.36891158472032,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 13.636,
+        "expected_total_cost": 54543.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4300,
+        "expected_unit_price": 13.653,
+        "expected_total_cost": 58707.78,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4700,
+        "expected_unit_price": 13.6982,
+        "expected_total_cost": 64381.61,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 20,
+    "category": "Capacitor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 224,
+    "opening_stock": 1939,
+    "predicted_order_qty": 2651.2425,
+    "predicted_days_to_depletion": 3.3763378431857882,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 6600,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 74934.86,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 7100,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 80712.11,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7700,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 87822.92,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 19,
+    "category": "Capacitor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 153,
+    "opening_stock": 445,
+    "predicted_order_qty": 503.255,
+    "predicted_days_to_depletion": 2.7347476717972343,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1900,
+        "expected_unit_price": 15.8953,
+        "expected_total_cost": 30201.02,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2100,
+        "expected_unit_price": 15.9151,
+        "expected_total_cost": 33421.63,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2200,
+        "expected_unit_price": 15.9678,
+        "expected_total_cost": 36253.4,
+        "stockout_penalty": 1117.75,
+        "holding_cost": 6.48
+      }
+    ]
+  },
+  {
+    "part_id": 70,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 121,
+    "opening_stock": 616,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.380402321824324,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3466,
+        "expected_total_cost": 56815.87,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1400,
+        "expected_unit_price": 47.4055,
+        "expected_total_cost": 66367.71,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1500,
+        "expected_unit_price": 47.5626,
+        "expected_total_cost": 71343.9,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 145,
+    "category": "Resistor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 460,
+    "opening_stock": 1236,
+    "predicted_order_qty": 2075.545,
+    "predicted_days_to_depletion": 2.5222794970437423,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5700,
+        "expected_unit_price": 11.3633,
+        "expected_total_cost": 64770.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6200,
+        "expected_unit_price": 11.3775,
+        "expected_total_cost": 70540.35,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6500,
+        "expected_unit_price": 11.4152,
+        "expected_total_cost": 82422.39,
+        "stockout_penalty": 8218.93,
+        "holding_cost": 4.79
+      }
+    ]
+  },
+  {
+    "part_id": 71,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 0,
+    "opening_stock": 85,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.543516959013468,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 200,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 13300.94,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 300,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 19993.96,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.71
+      },
+      {
+        "day_offset": 3,
+        "quantity": 300,
+        "expected_unit_price": 66.6624,
+        "expected_total_cost": 20016.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.73
+      }
+    ]
+  },
+  {
+    "part_id": 74,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 8,
+    "opening_stock": 277,
+    "predicted_order_qty": 499.025,
+    "predicted_days_to_depletion": 3.2790147519908897,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3074,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.3663,
+        "expected_total_cost": 61576.14,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5232,
+        "expected_total_cost": 67748.54,
+        "stockout_penalty": 1188.08,
+        "holding_cost": 27.94
+      }
+    ]
+  },
+  {
+    "part_id": 125,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 214,
+    "opening_stock": 2079,
+    "predicted_order_qty": 3236.4675,
+    "predicted_days_to_depletion": 3.3446545548581037,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 7800,
+        "expected_unit_price": 9.4694,
+        "expected_total_cost": 73861.63,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 8500,
+        "expected_unit_price": 9.4812,
+        "expected_total_cost": 80590.46,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 9100,
+        "expected_unit_price": 9.5126,
+        "expected_total_cost": 86565.11,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 124,
+    "category": "Resistor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 258,
+    "opening_stock": 1241,
+    "predicted_order_qty": 2002.67,
+    "predicted_days_to_depletion": 3.198955741883716,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4700,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 53362.7,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5100,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 57976.3,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 5500,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 62730.66,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 123,
+    "category": "Resistor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 377,
+    "opening_stock": 2168,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.447210783589168,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3800,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 43144.31,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4200,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 47745.19,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4600,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 52465.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 122,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 289,
+    "opening_stock": 4101,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.666349502583037,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4615,
+        "expected_total_cost": 54876.54,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6500,
+        "expected_unit_price": 9.4733,
+        "expected_total_cost": 61576.14,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7100,
+        "expected_unit_price": 9.5046,
+        "expected_total_cost": 67482.98,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 121,
+    "category": "RF Front-End / PA",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 287,
+    "opening_stock": 6521,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 1343.3661105296126,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 4750.3341,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 4756.2489,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 4772.0104,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 120,
+    "category": "RF Front-End / PA",
+    "size": "2015",
+    "manufacturer": "samsung",
+    "today_usage": 295,
+    "opening_stock": 3521,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 724.125384073362,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1000,
+        "expected_unit_price": 4750.3341,
+        "expected_total_cost": 4750334.06,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1200,
+        "expected_unit_price": 4756.2489,
+        "expected_total_cost": 5707498.63,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1500,
+        "expected_unit_price": 4772.0104,
+        "expected_total_cost": 7158015.61,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 126,
+    "category": "Resistor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 391,
+    "opening_stock": 1278,
+    "predicted_order_qty": 1996.6225,
+    "predicted_days_to_depletion": 2.7263313136205567,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4700,
+        "expected_unit_price": 11.3633,
+        "expected_total_cost": 53407.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5100,
+        "expected_unit_price": 11.3775,
+        "expected_total_cost": 58025.13,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 5500,
+        "expected_unit_price": 11.4152,
+        "expected_total_cost": 62783.49,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 119,
+    "category": "RF Front-End / PA",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 256,
+    "opening_stock": 5521,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 1135.8746647450203,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 5700.4009,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 5707.4986,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 5726.4125,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 117,
+    "category": "RF Filter / Module",
+    "size": "2015",
+    "manufacturer": "samsung",
+    "today_usage": 1263,
+    "opening_stock": 2932,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 453.0432496577064,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 16100,
+        "expected_unit_price": 3800.2672,
+        "expected_total_cost": 61184302.68,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 17300,
+        "expected_unit_price": 3804.9991,
+        "expected_total_cost": 65826484.15,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 17700,
+        "expected_unit_price": 3817.6083,
+        "expected_total_cost": 83930600.01,
+        "stockout_penalty": 16358451.67,
+        "holding_cost": 481.02
+      }
+    ]
+  },
+  {
+    "part_id": 116,
+    "category": "RF Filter / Duplexer",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 91,
+    "opening_stock": 4637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 611.970298522747,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 1710.1203,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 1712.2496,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 1717.9237,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 115,
+    "category": "RF Filter / Duplexer",
+    "size": "2015",
+    "manufacturer": "samsung",
+    "today_usage": 174,
+    "opening_stock": 6637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 875.2344476162277,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 1425.1002,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 1426.8747,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 1431.6031,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 114,
+    "category": "RF Filter / Duplexer",
+    "size": "2015",
+    "manufacturer": "samsung",
+    "today_usage": 257,
+    "opening_stock": 3637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 479.80225508543083,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 300,
+        "expected_unit_price": 1425.1002,
+        "expected_total_cost": 427530.07,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 500,
+        "expected_unit_price": 1426.8747,
+        "expected_total_cost": 713437.33,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 800,
+        "expected_unit_price": 1431.6031,
+        "expected_total_cost": 1145282.5,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 113,
+    "category": "RF Filter / Duplexer",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 139,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 1425.1002,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 1426.8747,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 1431.6031,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 112,
+    "category": "RF Filter / Duplexer",
+    "size": "2520",
+    "manufacturer": "samsung",
+    "today_usage": 90,
+    "opening_stock": 4637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 611.9402513926206,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 1710.1203,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 1712.2496,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 1717.9237,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 118,
+    "category": "RF Front-End / PA",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 159,
+    "opening_stock": 3521,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 724.3894822699456,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 5700.4009,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 5707.4986,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 5726.4125,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 111,
+    "category": "RF Filter / Duplexer",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 66,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 1425.1002,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 1426.8747,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 1431.6031,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 127,
+    "category": "Resistor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 416,
+    "opening_stock": 2511,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.3335812604604,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3800,
+        "expected_unit_price": 11.3538,
+        "expected_total_cost": 43144.31,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4200,
+        "expected_unit_price": 11.3679,
+        "expected_total_cost": 47745.19,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4600,
+        "expected_unit_price": 11.4056,
+        "expected_total_cost": 52465.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 129,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 459,
+    "opening_stock": 4062,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.442363898032005,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4615,
+        "expected_total_cost": 54876.54,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6500,
+        "expected_unit_price": 9.4733,
+        "expected_total_cost": 61576.14,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7200,
+        "expected_unit_price": 9.5046,
+        "expected_total_cost": 68433.45,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 143,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 204,
+    "opening_stock": 898,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.327598242690989,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2200,
+        "expected_unit_price": 13.2572,
+        "expected_total_cost": 29165.87,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2400,
+        "expected_unit_price": 13.2737,
+        "expected_total_cost": 31856.93,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2600,
+        "expected_unit_price": 13.3177,
+        "expected_total_cost": 34626.05,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 142,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 353,
+    "opening_stock": 887,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.89457521697272,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4500,
+        "expected_unit_price": 13.2572,
+        "expected_total_cost": 59657.47,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4800,
+        "expected_unit_price": 13.2737,
+        "expected_total_cost": 63713.87,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 5000,
+        "expected_unit_price": 13.3177,
+        "expected_total_cost": 78047.19,
+        "stockout_penalty": 11453.23,
+        "holding_cost": 5.41
+      }
+    ]
+  },
+  {
+    "part_id": 141,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 320,
+    "opening_stock": 448,
+    "predicted_order_qty": 721.2275,
+    "predicted_days_to_depletion": 2.2582431094470743,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4400,
+        "expected_unit_price": 13.266,
+        "expected_total_cost": 58370.22,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4500,
+        "expected_unit_price": 13.2825,
+        "expected_total_cost": 72524.19,
+        "stockout_penalty": 12751.18,
+        "holding_cost": 1.86
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4500,
+        "expected_unit_price": 13.3265,
+        "expected_total_cost": 94086.91,
+        "stockout_penalty": 34115.82,
+        "holding_cost": 1.87
+      }
+    ]
+  },
+  {
+    "part_id": 140,
+    "category": "Resistor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 302,
+    "opening_stock": 1304,
+    "predicted_order_qty": 1544.9775,
+    "predicted_days_to_depletion": 3.106536107201517,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4700,
+        "expected_unit_price": 11.3633,
+        "expected_total_cost": 53407.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5100,
+        "expected_unit_price": 11.3775,
+        "expected_total_cost": 58025.13,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 5500,
+        "expected_unit_price": 11.4152,
+        "expected_total_cost": 62783.49,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 139,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 192,
+    "opening_stock": 4124,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.772627051802915,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4694,
+        "expected_total_cost": 54922.75,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6400,
+        "expected_unit_price": 9.4812,
+        "expected_total_cost": 60679.87,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7100,
+        "expected_unit_price": 9.5126,
+        "expected_total_cost": 67539.81,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 138,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 433,
+    "opening_stock": 1692,
+    "predicted_order_qty": 3513.7025,
+    "predicted_days_to_depletion": 2.983608888557279,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 8200,
+        "expected_unit_price": 9.4536,
+        "expected_total_cost": 77519.79,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 8900,
+        "expected_unit_price": 9.4654,
+        "expected_total_cost": 84242.09,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 9300,
+        "expected_unit_price": 9.4968,
+        "expected_total_cost": 101615.17,
+        "stockout_penalty": 13288.7,
+        "holding_cost": 6.51
+      }
+    ]
+  },
+  {
+    "part_id": 128,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 203,
+    "opening_stock": 875,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.177683714238523,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2200,
+        "expected_unit_price": 13.266,
+        "expected_total_cost": 29185.11,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2400,
+        "expected_unit_price": 13.2825,
+        "expected_total_cost": 31877.95,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2600,
+        "expected_unit_price": 13.3265,
+        "expected_total_cost": 34648.88,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 137,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 250,
+    "opening_stock": 4066,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.59679304361574,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4694,
+        "expected_total_cost": 54922.75,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6500,
+        "expected_unit_price": 9.4812,
+        "expected_total_cost": 61628.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7200,
+        "expected_unit_price": 9.5126,
+        "expected_total_cost": 68491.08,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 135,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 488,
+    "opening_stock": 336,
+    "predicted_order_qty": 745.5475,
+    "predicted_days_to_depletion": 1.8860050103293227,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 6900,
+        "expected_unit_price": 13.2461,
+        "expected_total_cost": 101471.13,
+        "stockout_penalty": 10067.01,
+        "holding_cost": 6.31
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6900,
+        "expected_unit_price": 13.2626,
+        "expected_total_cost": 133958.1,
+        "stockout_penalty": 42440.17,
+        "holding_cost": 6.31
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6900,
+        "expected_unit_price": 13.3065,
+        "expected_total_cost": 166869.89,
+        "stockout_penalty": 75048.68,
+        "holding_cost": 6.33
+      }
+    ]
+  },
+  {
+    "part_id": 134,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 258,
+    "opening_stock": 366,
+    "predicted_order_qty": 695.6725,
+    "predicted_days_to_depletion": 1.9797771078574682,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3600,
+        "expected_unit_price": 13.2461,
+        "expected_total_cost": 47685.82,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3700,
+        "expected_unit_price": 13.2626,
+        "expected_total_cost": 59026.53,
+        "stockout_penalty": 9946.92,
+        "holding_cost": 8.17
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3700,
+        "expected_unit_price": 13.3065,
+        "expected_total_cost": 76387.53,
+        "stockout_penalty": 27145.27,
+        "holding_cost": 8.2
+      }
+    ]
+  },
+  {
+    "part_id": 133,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 256,
+    "opening_stock": 415,
+    "predicted_order_qty": 721.63,
+    "predicted_days_to_depletion": 2.146091495302969,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 3500,
+        "expected_unit_price": 13.2572,
+        "expected_total_cost": 46400.25,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 3600,
+        "expected_unit_price": 13.2737,
+        "expected_total_cost": 54224.64,
+        "stockout_penalty": 6437.76,
+        "holding_cost": 1.49
+      },
+      {
+        "day_offset": 2,
+        "quantity": 3600,
+        "expected_unit_price": 13.3177,
+        "expected_total_cost": 71451.0,
+        "stockout_penalty": 23505.76,
+        "holding_cost": 1.49
+      }
+    ]
+  },
+  {
+    "part_id": 132,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 236,
+    "opening_stock": 4128,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.772065575863253,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4632,
+        "expected_total_cost": 54886.53,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6400,
+        "expected_unit_price": 9.475,
+        "expected_total_cost": 60639.85,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7100,
+        "expected_unit_price": 9.5064,
+        "expected_total_cost": 67495.27,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 131,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 431,
+    "opening_stock": 4074,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.4736815822543505,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4632,
+        "expected_total_cost": 54886.53,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6500,
+        "expected_unit_price": 9.475,
+        "expected_total_cost": 61587.35,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7100,
+        "expected_unit_price": 9.5064,
+        "expected_total_cost": 67495.27,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 130,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 379,
+    "opening_stock": 4063,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.479838333397416,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4536,
+        "expected_total_cost": 54831.07,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6500,
+        "expected_unit_price": 9.4654,
+        "expected_total_cost": 61525.12,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7200,
+        "expected_unit_price": 9.4968,
+        "expected_total_cost": 68376.75,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 136,
+    "category": "Resistor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 382,
+    "opening_stock": 4114,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.541016329446839,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5800,
+        "expected_unit_price": 9.4694,
+        "expected_total_cost": 54922.75,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6500,
+        "expected_unit_price": 9.4812,
+        "expected_total_cost": 61628.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 7100,
+        "expected_unit_price": 9.5126,
+        "expected_total_cost": 67539.81,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 110,
+    "category": "RF Filter / Duplexer",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 153,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 1710.1203,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 1712.2496,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 1717.9237,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 109,
+    "category": "RF Filter / Duplexer",
+    "size": "2015",
+    "manufacturer": "samsung",
+    "today_usage": 47,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 1425.1002,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 1426.8747,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 1431.6031,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 108,
+    "category": "RF Filter / Duplexer",
+    "size": "2520",
+    "manufacturer": "samsung",
+    "today_usage": 246,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1100,
+        "expected_unit_price": 1710.1203,
+        "expected_total_cost": 1881132.29,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 1712.2496,
+        "expected_total_cost": 2225924.46,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1600,
+        "expected_unit_price": 1717.9237,
+        "expected_total_cost": 2748677.99,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 88,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 152,
+    "opening_stock": 290,
+    "predicted_order_qty": 501.0,
+    "predicted_days_to_depletion": 1.7629991830817073,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 2000,
+        "expected_unit_price": 47.3472,
+        "expected_total_cost": 94694.4,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2200,
+        "expected_unit_price": 47.4062,
+        "expected_total_cost": 107635.86,
+        "stockout_penalty": 3318.43,
+        "holding_cost": 23.89
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2200,
+        "expected_unit_price": 47.5632,
+        "expected_total_cost": 144140.62,
+        "stockout_penalty": 39477.5,
+        "holding_cost": 23.97
+      }
+    ]
+  },
+  {
+    "part_id": 87,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 25,
+    "opening_stock": 291,
+    "predicted_order_qty": 499.26,
+    "predicted_days_to_depletion": 3.271967971216078,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3472,
+        "expected_total_cost": 56816.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.4062,
+        "expected_total_cost": 61628.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5632,
+        "expected_total_cost": 66616.52,
+        "stockout_penalty": 0.0,
+        "holding_cost": 27.97
+      }
+    ]
+  },
+  {
+    "part_id": 86,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 0,
+    "opening_stock": 351,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.549650672801815,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 56.7688,
+        "expected_total_cost": 28384.41,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 600,
+        "expected_unit_price": 56.8395,
+        "expected_total_cost": 34103.71,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 3,
+        "quantity": 700,
+        "expected_unit_price": 56.9034,
+        "expected_total_cost": 39832.4,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 85,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 25,
+    "opening_stock": 182,
+    "predicted_order_qty": 308.4675,
+    "predicted_days_to_depletion": 3.814826282092227,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 700,
+        "expected_unit_price": 56.8159,
+        "expected_total_cost": 39771.11,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 800,
+        "expected_unit_price": 56.8866,
+        "expected_total_cost": 45514.86,
+        "stockout_penalty": 0.0,
+        "holding_cost": 5.57
+      },
+      {
+        "day_offset": 2,
+        "quantity": 800,
+        "expected_unit_price": 57.0751,
+        "expected_total_cost": 45665.69,
+        "stockout_penalty": 0.0,
+        "holding_cost": 5.59
+      }
+    ]
+  },
+  {
+    "part_id": 84,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 60,
+    "opening_stock": 616,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.024347555331771,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 800,
+        "expected_unit_price": 47.3074,
+        "expected_total_cost": 37845.89,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 900,
+        "expected_unit_price": 47.3663,
+        "expected_total_cost": 42629.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1000,
+        "expected_unit_price": 47.5232,
+        "expected_total_cost": 47523.23,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 83,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 25,
+    "opening_stock": 431,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.86293415871454,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 56.7688,
+        "expected_total_cost": 28384.41,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 500,
+        "expected_unit_price": 56.8395,
+        "expected_total_cost": 28419.76,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 3,
+        "quantity": 600,
+        "expected_unit_price": 56.9034,
+        "expected_total_cost": 34142.05,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 89,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 76,
+    "opening_stock": 158,
+    "predicted_order_qty": 311.25,
+    "predicted_days_to_depletion": 2.0006583145077217,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1000,
+        "expected_unit_price": 56.8541,
+        "expected_total_cost": 56854.11,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1100,
+        "expected_unit_price": 56.9249,
+        "expected_total_cost": 62631.74,
+        "stockout_penalty": 0.0,
+        "holding_cost": 14.35
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1100,
+        "expected_unit_price": 57.1135,
+        "expected_total_cost": 82829.03,
+        "stockout_penalty": 19989.74,
+        "holding_cost": 14.39
+      }
+    ]
+  },
+  {
+    "part_id": 82,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 25,
+    "opening_stock": 186,
+    "predicted_order_qty": 301.4675,
+    "predicted_days_to_depletion": 3.8166661126788153,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 700,
+        "expected_unit_price": 56.8159,
+        "expected_total_cost": 39771.11,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 800,
+        "expected_unit_price": 56.8866,
+        "expected_total_cost": 45514.86,
+        "stockout_penalty": 0.0,
+        "holding_cost": 5.57
+      },
+      {
+        "day_offset": 2,
+        "quantity": 800,
+        "expected_unit_price": 57.0751,
+        "expected_total_cost": 45665.69,
+        "stockout_penalty": 0.0,
+        "holding_cost": 5.59
+      }
+    ]
+  },
+  {
+    "part_id": 80,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 16,
+    "opening_stock": 633,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.245582302427375,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 800,
+        "expected_unit_price": 47.3074,
+        "expected_total_cost": 37845.89,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 900,
+        "expected_unit_price": 47.3663,
+        "expected_total_cost": 42629.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1000,
+        "expected_unit_price": 47.5232,
+        "expected_total_cost": 47523.23,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 79,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 25,
+    "opening_stock": 274,
+    "predicted_order_qty": 499.26,
+    "predicted_days_to_depletion": 3.266387403230164,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3472,
+        "expected_total_cost": 56816.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.4062,
+        "expected_total_cost": 61628.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5632,
+        "expected_total_cost": 68519.05,
+        "stockout_penalty": 1902.53,
+        "holding_cost": 27.97
+      }
+    ]
+  },
+  {
+    "part_id": 78,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 17,
+    "opening_stock": 85,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.439479585618992,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 200,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 13300.94,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 300,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 19993.96,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.71
+      },
+      {
+        "day_offset": 3,
+        "quantity": 300,
+        "expected_unit_price": 66.6624,
+        "expected_total_cost": 20016.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.73
+      }
+    ]
+  },
+  {
+    "part_id": 77,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 66,
+    "opening_stock": 267,
+    "predicted_order_qty": 501.9225,
+    "predicted_days_to_depletion": 3.0686344074785636,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3074,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.3663,
+        "expected_total_cost": 61576.14,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5232,
+        "expected_total_cost": 70124.7,
+        "stockout_penalty": 3564.24,
+        "holding_cost": 27.94
+      }
+    ]
+  },
+  {
+    "part_id": 76,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 17,
+    "opening_stock": 330,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 5.086309111862552,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 600,
+        "expected_unit_price": 56.8541,
+        "expected_total_cost": 34112.47,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 600,
+        "expected_unit_price": 56.9249,
+        "expected_total_cost": 34154.94,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 3,
+        "quantity": 700,
+        "expected_unit_price": 56.9889,
+        "expected_total_cost": 39892.23,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 75,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 0,
+    "opening_stock": 264,
+    "predicted_order_qty": 499.025,
+    "predicted_days_to_depletion": 3.2802975836568518,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3074,
+        "expected_total_cost": 56768.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.3663,
+        "expected_total_cost": 61576.14,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5232,
+        "expected_total_cost": 70837.55,
+        "stockout_penalty": 4277.09,
+        "holding_cost": 27.94
+      }
+    ]
+  },
+  {
+    "part_id": 81,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 0,
+    "opening_stock": 391,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.245379783693465,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 56.8166,
+        "expected_total_cost": 28408.32,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 600,
+        "expected_unit_price": 56.8874,
+        "expected_total_cost": 34132.43,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 600,
+        "expected_unit_price": 57.0759,
+        "expected_total_cost": 34245.54,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 90,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 17,
+    "opening_stock": 1085,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 61.55901859509552,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 91,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "murata",
+    "today_usage": 8,
+    "opening_stock": 289,
+    "predicted_order_qty": 499.26,
+    "predicted_days_to_depletion": 3.2685912942901623,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3472,
+        "expected_total_cost": 56816.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.4062,
+        "expected_total_cost": 61628.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5632,
+        "expected_total_cost": 66616.52,
+        "stockout_penalty": 0.0,
+        "holding_cost": 27.97
+      }
+    ]
+  },
+  {
+    "part_id": 92,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 13,
+    "opening_stock": 85,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.4599617077634806,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 200,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 13300.94,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 300,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 19993.96,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.71
+      },
+      {
+        "day_offset": 3,
+        "quantity": 300,
+        "expected_unit_price": 66.6624,
+        "expected_total_cost": 20016.44,
+        "stockout_penalty": 0.0,
+        "holding_cost": 17.73
+      }
+    ]
+  },
+  {
+    "part_id": 107,
+    "category": "PMIC / Power IC",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 208,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 2375.167,
+        "expected_total_cost": 1187583.51,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 700,
+        "expected_unit_price": 2378.1244,
+        "expected_total_cost": 1664687.1,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 900,
+        "expected_unit_price": 2386.0052,
+        "expected_total_cost": 2147404.68,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 106,
+    "category": "PMIC / Power IC",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 143,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 2850.2004,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 0,
+        "expected_unit_price": 2853.7493,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 0,
+        "expected_unit_price": 2863.2062,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 105,
+    "category": "PMIC / Power IC",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 238,
+    "opening_stock": 3637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 479.8190184579777,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 0,
+        "expected_unit_price": 2375.167,
+        "expected_total_cost": 0.0,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 200,
+        "expected_unit_price": 2378.1244,
+        "expected_total_cost": 475624.89,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 500,
+        "expected_unit_price": 2386.0052,
+        "expected_total_cost": 1193002.6,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 104,
+    "category": "PMIC / Power IC",
+    "size": "2520",
+    "manufacturer": "samsung",
+    "today_usage": 192,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 300,
+        "expected_unit_price": 2850.2004,
+        "expected_total_cost": 855060.13,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 500,
+        "expected_unit_price": 2853.7493,
+        "expected_total_cost": 1426874.66,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 700,
+        "expected_unit_price": 2863.2062,
+        "expected_total_cost": 2004244.37,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 103,
+    "category": "PMIC / Power IC",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 271,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1500,
+        "expected_unit_price": 2375.167,
+        "expected_total_cost": 3562750.54,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1700,
+        "expected_unit_price": 2378.1244,
+        "expected_total_cost": 4042811.53,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2000,
+        "expected_unit_price": 2386.0052,
+        "expected_total_cost": 4772010.4,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 102,
+    "category": "PMIC / Power IC",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 252,
+    "opening_stock": 3637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 479.81645317988614,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 200,
+        "expected_unit_price": 2850.2004,
+        "expected_total_cost": 570040.09,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 400,
+        "expected_unit_price": 2853.7493,
+        "expected_total_cost": 1141499.73,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 700,
+        "expected_unit_price": 2863.2062,
+        "expected_total_cost": 2004244.37,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 101,
+    "category": "PMIC / Power IC",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 428,
+    "opening_stock": 4637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 611.9459153904326,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1800,
+        "expected_unit_price": 2850.2004,
+        "expected_total_cost": 5130360.78,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2300,
+        "expected_unit_price": 2853.7493,
+        "expected_total_cost": 6563623.42,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2700,
+        "expected_unit_price": 2863.2062,
+        "expected_total_cost": 7730656.86,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 100,
+    "category": "PMIC / Power IC",
+    "size": "2520",
+    "manufacturer": "murata",
+    "today_usage": 353,
+    "opening_stock": 3637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 479.81645317988614,
+    "risk_6m": false,
+    "risk_12m": false,
+    "warning": false,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1700,
+        "expected_unit_price": 2850.2004,
+        "expected_total_cost": 4845340.74,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 2100,
+        "expected_unit_price": 2853.7493,
+        "expected_total_cost": 5992873.56,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 2400,
+        "expected_unit_price": 2863.2062,
+        "expected_total_cost": 6871694.98,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 99,
+    "category": "Misc IC / Unknown",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 555,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5700,
+        "expected_unit_price": 950.0668,
+        "expected_total_cost": 5415380.83,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6300,
+        "expected_unit_price": 951.2498,
+        "expected_total_cost": 5992873.56,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6800,
+        "expected_unit_price": 954.4021,
+        "expected_total_cost": 6489934.15,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 98,
+    "category": "Misc IC / Unknown",
+    "size": "2015",
+    "manufacturer": "murata",
+    "today_usage": 440,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 4000,
+        "expected_unit_price": 950.0668,
+        "expected_total_cost": 3800267.25,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 4500,
+        "expected_unit_price": 951.2498,
+        "expected_total_cost": 4280623.97,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 4900,
+        "expected_unit_price": 954.4021,
+        "expected_total_cost": 4676570.2,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 97,
+    "category": "Misc IC / Unknown",
+    "size": "2015",
+    "manufacturer": "samsung",
+    "today_usage": 526,
+    "opening_stock": 2637,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 345.0106805972544,
+    "risk_6m": false,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 5300,
+        "expected_unit_price": 950.0668,
+        "expected_total_cost": 5035354.1,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 5800,
+        "expected_unit_price": 951.2498,
+        "expected_total_cost": 5517248.67,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6400,
+        "expected_unit_price": 954.4021,
+        "expected_total_cost": 6108173.32,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 96,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 67,
+    "opening_stock": 528,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 8.119247007308497,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 56.8541,
+        "expected_total_cost": 28427.06,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 600,
+        "expected_unit_price": 56.9249,
+        "expected_total_cost": 34154.94,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 3,
+        "quantity": 700,
+        "expected_unit_price": 56.9889,
+        "expected_total_cost": 39892.23,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 95,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "murata",
+    "today_usage": 104,
+    "opening_stock": 432,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.36792743207028,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 56.8541,
+        "expected_total_cost": 68224.93,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 56.9249,
+        "expected_total_cost": 74002.37,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 57.1135,
+        "expected_total_cost": 79958.96,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 94,
+    "category": "Inductor",
+    "size": "0402",
+    "manufacturer": "samsung",
+    "today_usage": 8,
+    "opening_stock": 271,
+    "predicted_order_qty": 499.025,
+    "predicted_days_to_depletion": 3.279521546157191,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 1200,
+        "expected_unit_price": 47.3466,
+        "expected_total_cost": 56815.87,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 1300,
+        "expected_unit_price": 47.4055,
+        "expected_total_cost": 61627.16,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 2,
+        "quantity": 1400,
+        "expected_unit_price": 47.5626,
+        "expected_total_cost": 69231.55,
+        "stockout_penalty": 2615.94,
+        "holding_cost": 27.97
+      }
+    ]
+  },
+  {
+    "part_id": 93,
+    "category": "Inductor",
+    "size": "1008",
+    "manufacturer": "murata",
+    "today_usage": 25,
+    "opening_stock": 85,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 4.398951245390266,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 300,
+        "expected_unit_price": 66.5047,
+        "expected_total_cost": 19951.4,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 400,
+        "expected_unit_price": 66.5875,
+        "expected_total_cost": 26658.3,
+        "stockout_penalty": 0.0,
+        "holding_cost": 23.31
+      },
+      {
+        "day_offset": 2,
+        "quantity": 400,
+        "expected_unit_price": 66.8081,
+        "expected_total_cost": 26746.64,
+        "stockout_penalty": 0.0,
+        "holding_cost": 23.38
+      }
+    ]
+  },
+  {
+    "part_id": 72,
+    "category": "Inductor",
+    "size": "0604",
+    "manufacturer": "samsung",
+    "today_usage": 21,
+    "opening_stock": 435,
+    "predicted_order_qty": 0.0,
+    "predicted_days_to_depletion": 6.9340530344028615,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 500,
+        "expected_unit_price": 56.8159,
+        "expected_total_cost": 28407.93,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 1,
+        "quantity": 500,
+        "expected_unit_price": 56.8866,
+        "expected_total_cost": 28443.3,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      },
+      {
+        "day_offset": 3,
+        "quantity": 600,
+        "expected_unit_price": 56.9506,
+        "expected_total_cost": 34170.34,
+        "stockout_penalty": 0.0,
+        "holding_cost": 0.0
+      }
+    ]
+  },
+  {
+    "part_id": 146,
+    "category": "Resistor",
+    "size": "1008",
+    "manufacturer": "samsung",
+    "today_usage": 466,
+    "opening_stock": 383,
+    "predicted_order_qty": 695.6725,
+    "predicted_days_to_depletion": 2.1718111195322565,
+    "risk_6m": true,
+    "risk_12m": true,
+    "warning": true,
+    "predicted_best_order_day": 0,
+    "best_day_top3": [
+      {
+        "day_offset": 0,
+        "prob": 1.0
+      }
+    ],
+    "recommendations_top3": [
+      {
+        "day_offset": 0,
+        "quantity": 6600,
+        "expected_unit_price": 13.2461,
+        "expected_total_cost": 92928.16,
+        "stockout_penalty": 5497.12,
+        "holding_cost": 7.05
+      },
+      {
+        "day_offset": 1,
+        "quantity": 6600,
+        "expected_unit_price": 13.2626,
+        "expected_total_cost": 123945.62,
+        "stockout_penalty": 36405.71,
+        "holding_cost": 7.06
+      },
+      {
+        "day_offset": 2,
+        "quantity": 6600,
+        "expected_unit_price": 13.3065,
+        "expected_total_cost": 155360.51,
+        "stockout_penalty": 67530.51,
+        "holding_cost": 7.08
+      }
+    ]
+  }
+]

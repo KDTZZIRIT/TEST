@@ -33,6 +33,4 @@ router.post('/consume', consumeParts);
 //검사 버튼 클릭 처리
 router.post('/inspection', handleInspectionClick);
 
-//박세진
-
 export default router;

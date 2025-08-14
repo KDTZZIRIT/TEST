@@ -1,94 +1,155 @@
 from flask import Blueprint, request, jsonify
-from services.external.gemini import get_gemini_response, get_api_status
+from gemini_handler import get_gemini_response, get_api_status
 import json
 from datetime import datetime
 import asyncio
 import concurrent.futures
-from services.external.crawler import crawler
+from data_crawler import crawler
 import traceback
 import os
 
 chat_bp = Blueprint('chat', __name__)
 
-# 메뉴별 프롬프트 템플릿 (개선된 버전)
+# 메뉴별 프롬프트 템플릿
 PROMPT_TEMPLATES = {
-    "menu1": {
-        "system": """당신은 PCB 생산 관리 전문가입니다. 
-현재 메뉴1(PCB 대시보드)에서는 PCB 생산 현황, 검사 일정, 라인 부하 상태, 알림 등을 종합적으로 관리합니다.
+    "menu1": """당신은 PCB-Manager의 생산 관리 전문 AI 어시스턴트입니다.
 
-주요 기능:
-- 예약된 검사 일정 관리 및 모니터링
-- 생산 라인별 부하 상태 실시간 추적
-- PCB 모델별 평균 생산 소요시간 분석
-- 최근 7일 알림 추이 및 긴급 알림 관리
-- PCB 상세 목록 및 진행률 모니터링
-- 생산 공정 플로우 및 상태 분포 분석
+현재 메뉴: 생산 관리 대시보드 (Menu1)
 
-답변 시 다음 정보를 우선적으로 활용하세요:
-1. **예약된 검사 일정**: 검사 예정 PCB, 검사 유형, 개수, 날짜
-2. **생산 라인 부하**: 1~4라인별 부하율, 작업 중인 PCB, 상태
-3. **PCB 생산 시간**: 모델별 소요일수, 평균 대비 지연/빠름 여부
-4. **알림 현황**: 일별 알림 추이, 긴급 알림, 심각도별 분류
-5. **PCB 상세 정보**: 이름, 라인, 상태, 진행률, 시작/완료일
-6. **생산 공정**: 설계/제조/검사/완료 단계별 현황
+사용 가능한 데이터:
+- 총 PCB 수: {total_pcbs}개
+- 예약된 검사 일정: {scheduled_inspections_count}건
+- 생산 현황 및 진행률
+- 긴급 알림 및 알림 트렌드
 
-한국어로 친근하고 도움이 되는 답변을 제공해주세요. 구체적인 수치와 데이터가 있으면 반드시 포함하세요."""
-    },
-    
-    "menu2": {
-        "system": """당신은 PCB 검사 관리 전문가입니다.
-현재 메뉴2(검사 관리)에서는 검사 일정, 실시간 모니터링, 검사 예약 등을 관리합니다.
+사용자의 질문에 대해 위의 데이터를 바탕으로 정확하고 도움이 되는 답변을 제공해주세요.
+데이터가 없는 경우 "데이터를 확인할 수 없습니다"라고 안내해주세요.
 
-주요 기능:
-- 검사 일정 캘린더 관리
-- 실시간 검사 모니터링
-- 검사 예약 및 관리
-- 검사 결과 추적
+답변 형식:
+- 명확하고 간결하게
+- 구체적인 수치와 현황 포함
+- 필요시 권장사항 제시
+- 한국어로 답변""",
 
-한국어로 친근하고 도움이 되는 답변을 제공해주세요. 검사 관련 구체적인 정보가 있으면 포함하세요."""
-    },
-    
-    "menu3": {
-        "system": """당신은 PCB 불량 관리 전문가입니다.
-현재 메뉴3(분석)에서는 PCB 불량률 분석, 불량 유형 분포, 불량률 추이 등을 관리합니다.
+    "menu2": """당신은 PCB-Manager의 검사 관리 전문 AI 어시스턴트입니다.
 
-주요 기능:
-- PCB 불량률 실시간 모니터링
-- 불량 유형별 분포 분석
-- 불량률 추이 차트
-- 불량 위치 분석
-- 담당자 이메일 발송
+현재 메뉴: 검사 관리 (Menu2)
 
-한국어로 친근하고 도움이 되는 답변을 제공해주세요. 불량률과 품질 관련 구체적인 수치를 포함하세요."""
-    },
-    
-    "inventory": {
-        "system": """당신은 부품 재고 관리 전문가입니다.
-현재 인벤토리 메뉴에서는 부품 재고 현황, 부품 상세 정보, 재고 관리 등을 관리합니다.
+사용 가능한 데이터:
+- 총 검사 수: {total_inspections}건
+- 검사 완료율: {completion_rate}%
+- 오늘 예정된 검사: {today_inspections}건
+- 검사 대상 미리 보기 정보
+- 최근 검사 결과 및 불량률
 
-주요 기능:
-- 부품 재고 현황 조회
-- 부품 상세 정보 관리
-- 재고 부족 알림
-- 부품 분류 및 검색
-- 재고 이력 관리
+사용자의 질문에 대해 위의 데이터를 바탕으로 정확하고 도움이 되는 답변을 제공해주세요.
+데이터가 없는 경우 "데이터를 확인할 수 없습니다"라고 안내해주세요.
 
-한국어로 친근하고 도움이 되는 답변을 제공해주세요. 재고 관련 구체적인 수량과 정보를 포함하세요."""
-    },
-    
-    "mes": {
-        "system": """당신은 제조 실행 시스템(MES) 전문가입니다.
-현재 MES 메뉴에서는 실시간 생산 모니터링, 환경 데이터, 생산성 분석 등을 관리합니다.
+답변 형식:
+- 명확하고 간결하게
+- 구체적인 수치와 현황 포함
+- 필요시 권장사항 제시
+- 한국어로 답변""",
 
-주요 기능:
-- 실시간 환경 모니터링 (온도, 습도)
-- 생산량 추적
-- 품질 지표 모니터링
-- 설비 상태 관리
-- 실시간 알림
+    "menu3": """당신은 PCB-Manager의 불량 분석 전문 AI 어시스턴트입니다.
 
-한국어로 친근하고 도움이 되는 답변을 제공해주세요. 환경 데이터와 생산 관련 구체적인 수치를 포함하세요."""
-    }
+현재 메뉴: 불량 분석 (Menu3)
+
+사용 가능한 데이터:
+- 총 검사 수: {total_inspections}건
+- 총 불량 수: {total_defects}건
+- 평균 불량률: {average_defect_rate}%
+- 목표 불량률: {target_defect_rate}%
+- 주요 불량 유형별 통계
+- 불량률이 높은 PCB 상위 3개
+
+사용자의 질문에 대해 위의 데이터를 바탕으로 정확하고 도움이 되는 답변을 제공해주세요.
+데이터가 없는 경우 "데이터를 확인할 수 없습니다"라고 안내해주세요.
+
+답변 형식:
+- 명확하고 간결하게
+- 구체적인 수치와 현황 포함
+- 필요시 개선 방안 제시
+- 한국어로 답변""",
+
+    "inventory": """당신은 PCB-Manager의 재고 관리 전문 AI 어시스턴트입니다.
+
+현재 메뉴: 재고 관리 (Menu4)
+
+사용 가능한 데이터:
+- 총 부품 수: {total_items}개
+- 재고 부족 부품: {low_stock_items}개
+- 긴급 발주 필요: {critical_items}개
+- 흡습 민감 자재: {moisture_sensitive_items}개
+- 부품별 상세 정보 및 검색 인덱스
+
+사용자의 질문에 대해 위의 데이터를 바탕으로 정확하고 도움이 되는 답변을 제공해주세요.
+데이터가 없는 경우 "데이터를 확인할 수 없습니다"라고 안내해주세요.
+
+답변 형식:
+- 명확하고 간결하게
+- 구체적인 수치와 현황 포함
+- 필요시 발주 권장사항 제시
+- 한국어로 답변""",
+
+    "mse": """당신은 PCB-Manager의 제조 시스템 환경(MSE) 전문 AI 어시스턴트입니다.
+
+현재 메뉴: 실시간 환경 모니터링 (MSE)
+
+사용 가능한 데이터:
+
+🌡️ **실시간 환경 상태 모니터링:**
+- 온도: {temperature_current}℃ ({temperature_status}) - 기준: {temperature_threshold}
+- 습도: {humidity_current}% ({humidity_status}) - 기준: {humidity_threshold}
+- PM2.5: {pm25_current}㎍/m³ ({pm25_status}) - 기준: {pm25_threshold}
+- PM10: {pm10_current}㎍/m³ ({pm10_status}) - 기준: {pm10_threshold}
+- CO₂: {co2_current}ppm ({co2_status}) - 기준: {co2_threshold}
+
+💧 **습도 민감 자재 모니터링:**
+- 총 자재: {moisture_total}개
+- 정상 상태: {moisture_normal}개
+- 주의 상태: {moisture_warning}개
+- 자재별 상세 정보 (MLCC, BGA, FPC, QFN 등)
+
+📊 **환경 데이터 이력:**
+- 최근 {history_count}개 기록
+- 시간 범위: {history_time_range}
+- 평균 온도: {avg_temperature}℃
+- 평균 습도: {avg_humidity}%
+
+🏭 **창고별 환경 현황:**
+- A동, B동, C동 창고별 온도/습도 상태
+- 창고별 보관 자재 수량
+
+사용자의 질문에 대해 위의 데이터를 바탕으로 정확하고 도움이 되는 답변을 제공해주세요.
+환경 모니터링, 습도 민감 자재 관리, 창고 환경 최적화 등에 대한 전문적인 조언을 제공해주세요.
+
+답변 형식:
+- 명확하고 간결하게
+- 구체적인 수치와 현황 포함
+- 환경 문제 시 즉시 대응 방안 제시
+- 습도 민감 자재 보관 최적화 권장사항
+- 한국어로 답변""",
+
+    "overview": """당신은 PCB-Manager의 전체 시스템 개요 전문 AI 어시스턴트입니다.
+
+현재 메뉴: 시스템 개요 (Overview)
+
+사용 가능한 데이터:
+- 생산 관리 현황
+- 검사 관리 현황  
+- 불량 분석 현황
+- 재고 관리 현황
+- 환경 모니터링 현황
+
+사용자의 질문에 대해 위의 데이터를 바탕으로 정확하고 도움이 되는 답변을 제공해주세요.
+전체 시스템의 종합적인 현황과 주요 이슈를 파악하여 답변해주세요.
+
+답변 형식:
+- 명확하고 간결하게
+- 구체적인 수치와 현황 포함
+- 필요시 종합적인 권장사항 제시
+- 한국어로 답변"""
 }
 
 # 전역 executor (비동기 작업용)
@@ -98,13 +159,14 @@ def run_async_in_thread(coro):
     """비동기 함수를 동기 함수에서 실행하기 위한 헬퍼 (개선된 버전)"""
     try:
         # 현재 이벤트 루프가 있는지 확인
-        loop = asyncio.get_running_loop()
-        # 이미 실행 중인 루프가 있으면 새 스레드에서 실행
-        future = executor.submit(asyncio.run, coro)
-        return future.result(timeout=45)  # 타임아웃 증가 (45초)
-    except RuntimeError:
-        # 실행 중인 루프가 없으면 직접 실행
-        return asyncio.run(coro)
+        try:
+            loop = asyncio.get_running_loop()
+            # 이미 실행 중인 루프가 있으면 새 스레드에서 실행
+            future = executor.submit(asyncio.run, coro)
+            return future.result(timeout=45)  # 타임아웃 증가 (45초)
+        except RuntimeError:
+            # 실행 중인 루프가 없으면 직접 실행
+            return asyncio.run(coro)
     except concurrent.futures.TimeoutError:
         print("❌ 비동기 실행 타임아웃 (45초 초과)")
         return None
@@ -119,7 +181,18 @@ def get_all_menu_data_sync():
         print("🚀 전체 메뉴 데이터 크롤링 시작...")
         start_time = datetime.now()
         
+        # MSE 메뉴를 포함한 모든 메뉴 데이터 크롤링
         all_data = run_async_in_thread(crawler.get_all_menu_data())
+        
+        # MSE 메뉴가 없으면 별도로 추가
+        if all_data and 'mse' not in all_data:
+            print("🔍 MSE 메뉴 데이터 별도 크롤링...")
+            mse_data = run_async_in_thread(crawler.crawl_mse_data())
+            if mse_data:
+                all_data['mse'] = mse_data
+                print("✅ MSE 메뉴 데이터 추가 완료")
+            else:
+                print("⚠️ MSE 메뉴 데이터 크롤링 실패")
         
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()
@@ -146,7 +219,8 @@ def get_all_menu_data_sync():
                 'duration_seconds': duration,
                 'data_sources': data_sources,
                 'total_menus': len(all_data),
-                'successful_menus': len(cleaned_data) - 1  # _metadata 제외
+                'successful_menus': len(cleaned_data) - 1,  # _metadata 제외
+                'mse_included': 'mse' in all_data
             }
             
             return cleaned_data
@@ -155,7 +229,8 @@ def get_all_menu_data_sync():
             return None
             
     except Exception as e:
-        print(f"❌ 전체 메뉴 데이터 크롤링 오류: {e}")
+        print(f"❌ 전체 메뉴 데이터 가져오기 오류: {e}")
+        import traceback
         traceback.print_exc()
         return None
 
@@ -165,7 +240,12 @@ def get_menu_data_sync(menu_id):
         print(f"🚀 {menu_id} 데이터 크롤링 시작...")
         start_time = datetime.now()
         
-        data = run_async_in_thread(crawler.get_menu_data(menu_id))
+        # MSE 메뉴 특별 처리
+        if menu_id == "mse":
+            print("🌡️ MSE (환경 모니터링) 메뉴 데이터 크롤링...")
+            data = run_async_in_thread(crawler.crawl_mse_data())
+        else:
+            data = run_async_in_thread(crawler.get_menu_data(menu_id))
         
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()
@@ -173,6 +253,18 @@ def get_menu_data_sync(menu_id):
         if data:
             source = data.get('data_source', 'unknown') if isinstance(data, dict) else 'unknown'
             print(f"✅ {menu_id} 데이터 크롤링 성공 (소요시간: {duration:.2f}초, 소스: {source})")
+            
+            # MSE 메뉴 데이터 검증 및 요약 출력
+            if menu_id == "mse" and isinstance(data, dict):
+                env_data = data.get('environment_data', {})
+                moisture_summary = data.get('moisture_materials_summary', {})
+                history_summary = data.get('history_summary', {})
+                
+                print(f"📊 MSE 데이터 요약:")
+                print(f"  - 환경 센서: 온도 {env_data.get('temperature', {}).get('current', 'N/A')}℃, 습도 {env_data.get('humidity', {}).get('current', 'N/A')}%")
+                print(f"  - 습도 민감 자재: {moisture_summary.get('total_materials', 0)}개 (정상: {moisture_summary.get('normal_status', 0)}개, 주의: {moisture_summary.get('warning_status', 0)}개)")
+                print(f"  - 환경 이력: {history_summary.get('total_records', 0)}개 기록")
+            
             return data
         else:
             print(f"❌ {menu_id} 데이터 크롤링 실패 (소요시간: {duration:.2f}초)")
@@ -399,361 +491,122 @@ def calculate_similarity(str1, str2):
         return 0.0
 
 def get_ai_response_with_context(user_message, current_menu, context_data=None):
-    """컨텍스트 데이터를 포함한 AI 응답 생성 (부품 검색 로직 개선)"""
+    """컨텍스트 데이터를 활용한 AI 응답 생성 (개선된 버전)"""
     try:
-        user_message_lower = user_message.lower()
+        print(f"🤖 AI 응답 생성 시작 - 메뉴: {current_menu}")
         
-        # 메뉴 매핑
-        menu_mapping = {
-            "overview": "menu1",
-            "defects": "menu2", 
-            "analytics": "menu3",
-            "inventory": "inventory",
-            "mes": "mes"
-        }
-        
-        menu_id = menu_mapping.get(current_menu, "menu1")
-        menu_prompt = PROMPT_TEMPLATES.get(menu_id)
-        
+        # 메뉴별 프롬프트 템플릿 선택
+        menu_prompt = PROMPT_TEMPLATES.get(current_menu)
         if not menu_prompt:
-            return "죄송합니다. 해당 메뉴에 대한 정보를 찾을 수 없습니다."
+            print(f"⚠️ 지원하지 않는 메뉴: {current_menu}")
+            return f"죄송합니다. {current_menu} 메뉴는 현재 지원하지 않습니다."
         
-        # 일반적인 인사말 처리
-        greeting_keywords = ["안녕", "hello", "hi", "반가워", "하이", "헬로"]
-        if any(word in user_message_lower for word in greeting_keywords) and len(user_message.strip()) < 10:
-            return f"안녕하세요! PCB-Manager AI 어시스트입니다. 전체 시스템의 모든 메뉴 정보를 종합적으로 분석해드릴 수 있습니다. 어떤 도움이 필요하신가요?"
-        
-        # 컨텍스트 데이터가 제공되지 않았으면 크롤링
-        if not context_data:
-            print("📊 컨텍스트 데이터가 없어서 새로 크롤링합니다...")
-            context_data = get_all_menu_data_sync()
-        
-        # 부품 ID 검색 로직 추가
-        part_search_results = None
-        if context_data and context_data.get("inventory"):
-            part_search_results = search_parts_in_inventory(user_message, context_data["inventory"])
-        
-        # 전체 시스템 종합 컨텍스트 정보 구성 (개선된 버전)
-        context_info = ""
-        metadata = {}
-        
-        if context_data:
-            try:
-                # 메타데이터 추출
-                metadata = context_data.get('_metadata', {})
-                crawl_time = metadata.get('crawl_time', 'Unknown')
-                data_sources = metadata.get('data_sources', {})
+        # 컨텍스트 데이터에서 변수 추출 및 프롬프트 치환
+        if context_data and isinstance(context_data, dict):
+            print(f"📊 컨텍스트 데이터 활용 - 키: {list(context_data.keys())}")
+            
+            # MSE 메뉴 특별 처리
+            if current_menu == "mse":
+                # 환경 데이터 변수 추출
+                env_data = context_data.get('environment_data', {})
+                temp_data = env_data.get('temperature', {})
+                humidity_data = env_data.get('humidity', {})
+                pm25_data = env_data.get('pm25', {})
+                pm10_data = env_data.get('pm10', {})
+                co2_data = env_data.get('co2', {})
                 
-                context_info += f"\n\n📊 **PCB-Manager 시스템 종합 데이터** (수집시간: {crawl_time})"
+                # 습도 민감 자재 데이터 변수 추출
+                moisture_summary = context_data.get('moisture_materials_summary', {})
                 
-                # 부품 검색 결과가 있으면 우선 표시
-                if part_search_results:
-                    context_info += f"\n\n🔍 **부품 검색 결과:**"
-                    
-                    # 정확히 일치하는 부품
-                    if part_search_results.get('exact_matches'):
-                        context_info += f"\n\n✅ **정확히 일치하는 부품:**"
-                        for part in part_search_results['exact_matches']:
-                            context_info += f"\n- **{part.get('part_id')}** ({part.get('product_name', 'Unknown')})"
-                            context_info += f"\n  • 현재재고: {part.get('quantity', 0)}개 (최소: {part.get('min_stock', 0)}개)"
-                            context_info += f"\n  • 제조사: {part.get('manufacturer', 'Unknown')}, 크기: {part.get('size', 'Unknown')}"
-                            context_info += f"\n  • 흡습여부: {'O' if part.get('moisture_absorption') else 'X'}"
-                            context_info += f"\n  • 흡습자재: {part.get('moisture_materials', '불필요')}"
-                            context_info += f"\n  • 입고일: {part.get('received_date', 'Unknown')}"
-                            context_info += f"\n  • 조치필요: {part.get('action_required', '-')}"
-                    
-                    # 유사한 부품들
-                    if part_search_results.get('similar_matches'):
-                        context_info += f"\n\n🔎 **유사한 부품들 ({len(part_search_results['similar_matches'])}개):**"
-                        for part in part_search_results['similar_matches'][:5]:  # 상위 5개만
-                            context_info += f"\n- **{part.get('part_id')}** ({part.get('product_name', 'Unknown')})"
-                            context_info += f"\n  • 재고: {part.get('quantity', 0)}개, 제조사: {part.get('manufacturer', 'Unknown')}"
-                    
-                    # 검색 키워드
-                    if part_search_results.get('search_keywords'):
-                        context_info += f"\n\n🏷️ **검색된 키워드:** {', '.join(part_search_results['search_keywords'])}"
+                # 환경 이력 데이터 변수 추출
+                history_summary = context_data.get('history_summary', {})
                 
-                # 1. 메뉴1 (개요) 데이터
-                menu1_data = context_data.get("menu1")
-                if menu1_data:
-                    ps = menu1_data.get('production_status', {})
-                    context_info += f"\n\n🏭 **PCB 생산 관리 (메뉴1)** [{data_sources.get('menu1', 'unknown')} 데이터]:"
-                    context_info += f"\n- 총 PCB: {menu1_data.get('total_pcbs', 0)}개"
-                    context_info += f"\n- 설계중: {ps.get('design', 0)}개, 제조중: {ps.get('manufacturing', 0)}개"
-                    context_info += f"\n- 테스트중: {ps.get('testing', 0)}개, 완료: {ps.get('completed', 0)}개"
-                    context_info += f"\n- 평균 진행률: {menu1_data.get('average_progress', 0)}%"
-                    context_info += f"\n- 생산 효율성: {menu1_data.get('production_efficiency', 0)}%"
-                    
-                    # 예약된 검사 일정
-                    scheduled_inspections = menu1_data.get('scheduled_inspections', [])
-                    if scheduled_inspections:
-                        context_info += f"\n\n📅 **예약된 검사 일정 ({len(scheduled_inspections)}건):**"
-                        for inspection in scheduled_inspections[:5]:  # 상위 5개만
-                            pcb_name = inspection.get('pcbName', 'Unknown')
-                            insp_type = inspection.get('type', 'Unknown')
-                            count = inspection.get('count', 0)
-                            date = inspection.get('date', 'Unknown')
-                            context_info += f"\n- {pcb_name}: {insp_type} {count}개 ({date})"
-                    
-                    # 생산 라인 부하 상태
-                    production_lines = menu1_data.get('production_lines', {})
-                    if production_lines:
-                        context_info += f"\n\n🏭 **생산 라인 부하 상태:**"
-                        for line_name, line_data in production_lines.items():
-                            load = line_data.get('load', 0)
-                            pcbs = line_data.get('pcbs', [])
-                            status = line_data.get('status', 'normal')
-                            context_info += f"\n- {line_name}: {load}% 부하 ({', '.join(pcbs[:2])})"
-                    
-                    # PCB 모델별 생산 소요시간
-                    pcb_production_times = menu1_data.get('pcb_production_times', [])
-                    if pcb_production_times:
-                        context_info += f"\n\n⏱️ **PCB 모델별 생산 소요시간:**"
-                        for pcb_time in pcb_production_times[:5]:  # 상위 5개만
-                            model = pcb_time.get('model', 'Unknown')
-                            days = pcb_time.get('days', 0)
-                            status = pcb_time.get('status', '정상')
-                            context_info += f"\n- {model}: {days}일 ({status})"
-                    
-                    # 긴급 알림
-                    emergency_alerts = menu1_data.get('emergency_alerts', [])
-                    if emergency_alerts:
-                        context_info += f"\n\n🚨 **긴급 알림 ({len(emergency_alerts)}건):**"
-                        for alert in emergency_alerts[:3]:  # 상위 3개만
-                            message = alert.get('message', 'Unknown')
-                            severity = alert.get('severity', 'medium')
-                            line = alert.get('line', 'Unknown')
-                            context_info += f"\n- [{severity.upper()}] {message} ({line})"
-                    
-                    # 알림 추이
-                    alert_trend = menu1_data.get('alert_trend', {})
-                    if alert_trend:
-                        total_today = alert_trend.get('total_today', 0)
-                        trend = alert_trend.get('trend', 'stable')
-                        context_info += f"\n\n📊 **알림 현황:**"
-                        context_info += f"\n- 오늘 발생: {total_today}건"
-                        context_info += f"\n- 추세: {trend}"
-                    
-                    # PCB 상세 목록
-                    pcb_detailed_list = menu1_data.get('pcb_detailed_list', [])
-                    if pcb_detailed_list:
-                        context_info += f"\n\n📋 **PCB 상세 목록 (상위 5개):**"
-                        for pcb in pcb_detailed_list[:5]:
-                            name = pcb.get('name', 'Unknown')
-                            line = pcb.get('line', 'Unknown')
-                            status = pcb.get('status', 'Unknown')
-                            progress = pcb.get('progress', 0)
-                            context_info += f"\n- {name} ({line}): {status} {progress}%"
-                    
-                    # 생산 공정 플로우
-                    process_flow = menu1_data.get('process_flow', [])
-                    if process_flow:
-                        context_info += f"\n\n🔄 **생산 공정 플로우:**"
-                        for stage in process_flow:
-                            stage_name = stage.get('stage', 'Unknown')
-                            count = stage.get('count', 0)
-                            is_active = stage.get('isActive', False)
-                            status = "활성" if is_active else "대기"
-                            context_info += f"\n- {stage_name}: {count}개 ({status})"
-                    
-                    # 상태 분포
-                    status_distribution = menu1_data.get('status_distribution', [])
-                    if status_distribution:
-                        context_info += f"\n\n📊 **PCB 상태 분포:**"
-                        for status_item in status_distribution:
-                            status_name = status_item.get('status', 'Unknown')
-                            count = status_item.get('count', 0)
-                            percentage = status_item.get('percentage', 0)
-                            context_info += f"\n- {status_name}: {count}개 ({percentage}%)"
-                    
-                    # 진행률별 통계 (기존)
-                    progress_stats = menu1_data.get('progress_stats', {})
-                    if progress_stats:
-                        context_info += f"\n- 진행률별 분포:"
-                        for range_key, count in progress_stats.items():
-                            context_info += f"\n  • {range_key}: {count}개"
-                    
-                    # 최근 PCB 정보 (기존)
-                    recent_pcbs = menu1_data.get('recent_pcbs', [])
-                    if recent_pcbs:
-                        context_info += f"\n- 주요 PCB 현황:"
-                        for pcb in recent_pcbs[:3]:  # 상위 3개만 표시
-                            pcb_name = pcb.get('name', 'Unknown')
-                            status = pcb.get('status', 'Unknown')
-                            progress = pcb.get('progress', 0)
-                            context_info += f"\n  • {pcb_name}: {status} ({progress}%)"
+                # 창고 상태 데이터 변수 추출
+                warehouse_status = context_data.get('warehouse_status', {})
                 
-                # 2. 메뉴2 (검사) 데이터
-                menu2_data = context_data.get("menu2")
-                if menu2_data:
-                    context_info += f"\n\n🔍 **검사 관리 (메뉴2)** [{data_sources.get('menu2', 'unknown')} 데이터]:"
-                    context_info += f"\n- 총 검사: {menu2_data.get('total_inspections', 0)}건"
-                    
-                    # 검사 상태별 통계
-                    inspection_status = menu2_data.get('inspection_status', {})
-                    if inspection_status:
-                        context_info += f"\n- 예약된 검사: {inspection_status.get('scheduled', 0)}건"
-                        context_info += f"\n- 완료된 검사: {inspection_status.get('completed', 0)}건"
-                        context_info += f"\n- 검사중: {inspection_status.get('testing', 0)}건"
-                        context_info += f"\n- 대기중: {inspection_status.get('pending', 0)}건"
-                    
-                    # 검사 진행률별 통계
-                    inspection_progress = menu2_data.get('inspection_progress', {})
-                    if inspection_progress:
-                        context_info += f"\n- 검사 준비 완료: {inspection_progress.get('ready_for_inspection', 0)}건"
-                        context_info += f"\n- 검사 진행중: {inspection_progress.get('in_progress', 0)}건"
-                        context_info += f"\n- 검사 미준비: {inspection_progress.get('not_ready', 0)}건"
-                    
-                    context_info += f"\n- 검사 완료율: {menu2_data.get('completion_rate', 0)}%"
-                    context_info += f"\n- 오늘 예정: {menu2_data.get('today_inspections', 0)}건"
-                    context_info += f"\n- 평균 검사 시간: {menu2_data.get('avg_inspection_time', 0)}시간"
-                
-                # 3. 메뉴3 (분석) 데이터
-                menu3_data = context_data.get("menu3")
-                if menu3_data:
-                    context_info += f"\n\n📈 **불량 분석 (메뉴3)** [{data_sources.get('menu3', 'unknown')} 데이터]:"
-                    context_info += f"\n- 총 검사: {menu3_data.get('total_inspections', 0)}건"
-                    context_info += f"\n- 총 불량: {menu3_data.get('total_defects', 0)}개"
-                    context_info += f"\n- 평균 불량률: {menu3_data.get('average_defect_rate', 0)}%"
-                    context_info += f"\n- 목표 불량률: {menu3_data.get('target_defect_rate', 0)}%"
-                    
-                    # 구체적인 PCB 정보 추가
-                    top_defective_pcbs = menu3_data.get('top_defective_pcbs', [])
-                    if top_defective_pcbs:
-                        context_info += f"\n\n🔍 **상위 불량 PCB 정보:**"
-                        for pcb in top_defective_pcbs[:3]:  # 상위 3개만 표시
-                            pcb_name = pcb.get('pcb_name', pcb.get('name', 'Unknown'))
-                            defect_rate = pcb.get('defect_rate', 0)
-                            defect_count = pcb.get('defect_count', 0)
-                            total_inspections = pcb.get('total_inspections', 0)
-                            context_info += f"\n- {pcb_name}: 불량률 {defect_rate}% (불량 {defect_count}개/총 {total_inspections}개)"
-                    
-                    # 불량 유형 정보
-                    defect_types = menu3_data.get('defect_types', {})
-                    if defect_types and isinstance(defect_types, dict):
-                        context_info += f"\n\n📊 **불량 유형별 분포:**"
-                        # 상위 3개 불량 유형 찾기
-                        sorted_defects = sorted(defect_types.items(), key=lambda x: x[1], reverse=True)[:3]
-                        for defect_name, defect_count in sorted_defects:
-                            context_info += f"\n- {defect_name}: {defect_count}개"
-                
-                # 4. 인벤토리 데이터 (상세 부품 정보 포함)
-                inventory_data = context_data.get("inventory")
-                if inventory_data:
-                    context_info += f"\n\n📦 **부품 재고 (인벤토리)** [{data_sources.get('inventory', 'unknown')} 데이터]:"
-                    context_info += f"\n- 총 부품: {inventory_data.get('total_items', 0)}개"
-                    context_info += f"\n- 재고 부족: {inventory_data.get('low_stock_items', 0)}개"
-                    context_info += f"\n- 긴급 부족: {inventory_data.get('critical_items', 0)}개"
-                    context_info += f"\n- 습도 민감 자재: {inventory_data.get('moisture_sensitive_items', 0)}개"
-                    context_info += f"\n- 커패시터: {inventory_data.get('capacitor_items', 0)}개"
-                    context_info += f"\n- 삼성 부품: {inventory_data.get('samsung_parts', 0)}개"
-                    context_info += f"\n- 무라타 부품: {inventory_data.get('murata_parts', 0)}개"
-                    
-                    total_value = inventory_data.get('total_value', 0)
-                    if total_value > 0:
-                        context_info += f"\n- 총 재고 가치: {total_value:,}원"
-                    
-                    # 제조사별 통계
-                    manufacturer_stats = inventory_data.get('manufacturer_stats', {})
-                    if manufacturer_stats:
-                        context_info += f"\n\n🏭 **제조사별 부품 수:**"
-                        # 상위 5개 제조사만 표시
-                        sorted_manufacturers = sorted(manufacturer_stats.items(), key=lambda x: x[1], reverse=True)[:5]
-                        for manufacturer, count in sorted_manufacturers:
-                            context_info += f"\n- {manufacturer}: {count}개"
-                    
-                    # 부품 타입별 통계
-                    type_stats = inventory_data.get('type_stats', {})
-                    if type_stats:
-                        context_info += f"\n\n🔧 **부품 타입별 분포:**"
-                        # 상위 5개 타입만 표시
-                        sorted_types = sorted(type_stats.items(), key=lambda x: x[1], reverse=True)[:5]
-                        for part_type, count in sorted_types:
-                            context_info += f"\n- {part_type}: {count}개"
-                
-                # 5. MES 데이터
-                mes_data = context_data.get("mes")
-                if mes_data:
-                    context_info += f"\n\n🏭 **제조 실행 시스템 (MES)** [{data_sources.get('mes', 'unknown')} 데이터]:"
-                    context_info += f"\n- 실시간 온도: {mes_data.get('temperature', 0)}°C"
-                    context_info += f"\n- 실시간 습도: {mes_data.get('humidity', 0)}%"
-                    context_info += f"\n- 생산량: {mes_data.get('production_count', 0)}개"
-                    context_info += f"\n- 품질 지표: {mes_data.get('quality_score', 0)}%"
-                    
-                    # 환경 정보
-                    env_data = mes_data.get('environment', {})
-                    if env_data:
-                        context_info += f"\n- 환경 상태: {env_data.get('status', '알 수 없음')}"
-                    
-                    # 생산 정보
-                    prod_data = mes_data.get('production', {})
-                    if prod_data:
-                        context_info += f"\n- 생산 효율: {prod_data.get('efficiency', 0)}%"
-                        context_info += f"\n- 현재 생산율: {prod_data.get('current_rate', 0)}/시간"
-                        context_info += f"\n- 목표 생산율: {prod_data.get('target_rate', 0)}/시간"
-                
-                # 현재 메뉴 강조
-                menu_names = {
-                    "menu1": "개요 (생산 관리)",
-                    "menu2": "검사 관리", 
-                    "menu3": "불량 분석",
-                    "inventory": "부품 재고",
-                    "mes": "제조 실행 시스템"
+                # MSE 프롬프트 변수 치환
+                prompt_vars = {
+                    'temperature_current': temp_data.get('current', 'N/A'),
+                    'temperature_status': temp_data.get('status', 'N/A'),
+                    'temperature_threshold': temp_data.get('threshold', 'N/A'),
+                    'humidity_current': humidity_data.get('current', 'N/A'),
+                    'humidity_status': humidity_data.get('status', 'N/A'),
+                    'humidity_threshold': humidity_data.get('threshold', 'N/A'),
+                    'pm25_current': pm25_data.get('current', 'N/A'),
+                    'pm25_status': pm25_data.get('status', 'N/A'),
+                    'pm25_threshold': pm25_data.get('threshold', 'N/A'),
+                    'pm10_current': pm10_data.get('current', 'N/A'),
+                    'pm10_status': pm10_data.get('status', 'N/A'),
+                    'pm10_threshold': pm10_data.get('threshold', 'N/A'),
+                    'co2_current': co2_data.get('current', 'N/A'),
+                    'co2_status': co2_data.get('status', 'N/A'),
+                    'co2_threshold': co2_data.get('threshold', 'N/A'),
+                    'moisture_total': moisture_summary.get('total_materials', 0),
+                    'moisture_normal': moisture_summary.get('normal_status', 0),
+                    'moisture_warning': moisture_summary.get('warning_status', 0),
+                    'history_count': history_summary.get('total_records', 0),
+                    'history_time_range': history_summary.get('time_range', 'N/A'),
+                    'avg_temperature': history_summary.get('average_temperature', 'N/A'),
+                    'avg_humidity': history_summary.get('average_humidity', 'N/A')
                 }
-                current_menu_name = menu_names.get(current_menu, current_menu)
-                context_info += f"\n\n📍 **현재 위치: {current_menu_name} 메뉴**"
                 
-            except Exception as e:
-                print(f"❌ 컨텍스트 정보 구성 오류: {e}")
-                traceback.print_exc()
-                context_info = f"\n\n⚠️ 데이터 구성 중 오류가 발생했습니다: {str(e)}"
+                # 프롬프트 변수 치환
+                for var_name, var_value in prompt_vars.items():
+                    menu_prompt = menu_prompt.replace(f'{{{var_name}}}', str(var_value))
+                
+                print(f"✅ MSE 프롬프트 변수 치환 완료")
+                
+            else:
+                # 기존 메뉴들의 변수 치환
+                prompt_vars = {
+                    'total_pcbs': context_data.get('total_pcbs', 0),
+                    'scheduled_inspections_count': len(context_data.get('scheduled_inspections', [])),
+                    'total_inspections': context_data.get('total_inspections', 0),
+                    'completion_rate': context_data.get('completion_rate', 0),
+                    'today_inspections': context_data.get('today_inspections', 0),
+                    'total_defects': context_data.get('total_defects', 0),
+                    'average_defect_rate': context_data.get('average_defect_rate', 0),
+                    'target_defect_rate': context_data.get('target_defect_rate', 0),
+                    'total_items': context_data.get('total_items', 0),
+                    'low_stock_items': context_data.get('low_stock_items', 0),
+                    'critical_items': context_data.get('critical_items', 0),
+                    'moisture_sensitive_items': context_data.get('moisture_sensitive_items', 0)
+                }
+                
+                # 프롬프트 변수 치환
+                for var_name, var_value in prompt_vars.items():
+                    menu_prompt = menu_prompt.replace(f'{{{var_name}}}', str(var_value))
+                
+                print(f"✅ {current_menu} 프롬프트 변수 치환 완료")
         else:
-            context_info = "\n\n⚠️ 실시간 데이터를 가져올 수 없습니다."
+            print("⚠️ 컨텍스트 데이터가 없거나 올바르지 않음")
         
-        # Gemini에 전송할 프롬프트 구성 (개선된 버전)
-        full_prompt = f"""{menu_prompt['system']}
-
-**중요한 응답 규칙:**
-1. 사용자가 물어본 것에 정확하게 답변하세요
-2. 질문과 관련 없는 정보는 포함하지 마세요  
-3. 답변은 적절한 수준의 상세함으로 작성하세요 (너무 간결하지도, 너무 길지도 않게)
-4. 구체적인 수치와 PCB 정보가 있으면 포함하세요
-5. PCB 이름이나 구체적인 정보를 물어보면 해당 정보를 찾아서 답변하세요
-6. 데이터 소스 정보도 필요시 언급하세요 (API 데이터인지 기본 데이터인지)
-7. **부품 관련 질문 처리 (매우 중요):**
-   - 부품 검색 결과가 있으면 **반드시** 그 정보를 사용하세요
-   - 정확히 일치하는 부품이 있으면 그 정보를 우선적으로 제공하세요
-   - 유사한 부품들도 함께 제시하여 사용자가 원하는 부품을 찾을 수 있도록 도와주세요
-   - 부품을 찾을 수 없는 경우에만 "찾을 수 없다"고 말하세요
-   - Part ID, 제품명, 제조사, 재고량, 흡습 여부 등을 구체적으로 제공하세요
-
-{context_info}
+        # 최종 프롬프트 구성
+        final_prompt = f"""
+{menu_prompt}
 
 사용자 질문: {user_message}
 
-위의 실시간 데이터를 바탕으로 사용자 질문에 정확하고 적절한 수준의 상세함으로 답변해주세요. 특히 부품 검색 결과가 있으면 그 정보를 최우선으로 활용하세요."""
+위의 정보를 바탕으로 사용자의 질문에 정확하고 도움이 되는 답변을 제공해주세요.
+"""
+        
+        print(f"📝 최종 프롬프트 길이: {len(final_prompt)}자")
         
         # Gemini API 호출
-        print("🤖 Gemini API 호출 중...")
-        start_time = datetime.now()
+        response = get_gemini_response(final_prompt, apply_format=True)
         
-        response = get_gemini_response(full_prompt)
-        
-        end_time = datetime.now()
-        duration = (end_time - start_time).total_seconds()
-        
-        # 오류 처리 및 기본 응답
-        if response.startswith("[오류]") or response.startswith("[❌]"):
-            print(f"⚠️ Gemini API 오류 (응답시간: {duration:.2f}초), 기본 응답 생성")
-            return generate_fallback_response(menu_id, user_message, context_data)
-        
-        print(f"✅ AI 응답 생성 완료 (응답시간: {duration:.2f}초)")
-        return response
-        
+        if response:
+            print(f"✅ AI 응답 생성 완료 - 길이: {len(response)}자")
+            return response
+        else:
+            print("⚠️ Gemini API 응답 없음")
+            return f"죄송합니다. {current_menu} 메뉴에 대한 응답을 생성할 수 없습니다. 잠시 후 다시 시도해주세요."
+            
     except Exception as e:
         print(f"❌ AI 응답 생성 오류: {e}")
+        import traceback
         traceback.print_exc()
-        return generate_fallback_response(menu_id, user_message, context_data)
+        return f"죄송합니다. 응답 생성 중 오류가 발생했습니다: {str(e)}"
 
 def generate_fallback_response(menu_id, user_message, context_data):
     """Gemini API 실패시 기본 응답 생성 (개선된 버전)"""
@@ -788,7 +641,7 @@ def generate_fallback_response(menu_id, user_message, context_data):
                 # 예약된 검사 일정
                 if scheduled_inspections:
                     response += f"\n\n📅 **예약된 검사 일정: {len(scheduled_inspections)}건**"
-                    for inspection in scheduled_inspections[:3]:
+                    for inspection in scheduled_inspections:  # 모든 예약된 검사 일정 표시
                         pcb_name = inspection.get('pcbName', 'Unknown')
                         insp_type = inspection.get('type', 'Unknown')
                         count = inspection.get('count', 0)
@@ -885,6 +738,45 @@ def generate_fallback_response(menu_id, user_message, context_data):
             else:
                 response = base_response + "부품 재고 데이터를 확인하고 있습니다. 잠시 후 다시 시도해주세요."
                 
+        elif menu_id == "mse":
+            if current_data:
+                env_data = current_data.get('environment_data', {})
+                temp_data = env_data.get('temperature', {})
+                humidity_data = env_data.get('humidity', {})
+                moisture_summary = current_data.get('moisture_materials_summary', {})
+                history_summary = current_data.get('history_summary', {})
+                warehouse_status = current_data.get('warehouse_status', {})
+                
+                response = base_response + f"""🌡️ **실시간 환경 모니터링 현황** (데이터 소스: {data_source})
+
+🌡️ **환경 센서 상태:**
+- 온도: {temp_data.get('current', 'N/A')}℃ ({temp_data.get('status', 'N/A')})
+- 습도: {humidity_data.get('current', 'N/A')}% ({humidity_data.get('status', 'N/A')})
+- 기준값: 온도 {temp_data.get('threshold', 'N/A')}, 습도 {humidity_data.get('threshold', 'N/A')}
+
+💧 **습도 민감 자재 모니터링:**
+- 총 자재: {moisture_summary.get('total_materials', 0)}개
+- 정상 상태: {moisture_summary.get('normal_status', 0)}개
+- 주의 상태: {moisture_summary.get('warning_status', 0)}개
+
+📊 **환경 데이터 이력:**
+- 최근 기록: {history_summary.get('total_records', 0)}개
+- 평균 온도: {history_summary.get('average_temperature', 'N/A')}℃
+- 평균 습도: {history_summary.get('average_humidity', 'N/A')}%"""
+
+                # 창고별 현황 추가
+                if warehouse_status:
+                    response += f"\n\n🏭 **창고별 환경 현황:**"
+                    for warehouse_name, warehouse_data in warehouse_status.items():
+                        temp = warehouse_data.get('temperature', 'N/A')
+                        humidity = warehouse_data.get('humidity', 'N/A')
+                        status = warehouse_data.get('status', 'N/A')
+                        response += f"\n- {warehouse_name}: 온도 {temp}℃, 습도 {humidity}% ({status})"
+                
+                response += "\n\n환경 모니터링이나 습도 민감 자재 관리에 대해 더 자세한 정보가 필요하시면 구체적으로 질문해주세요."
+            else:
+                response = base_response + "환경 모니터링 데이터를 확인하고 있습니다. 잠시 후 다시 시도해주세요."
+                
         elif menu_id == "mes":
             if current_data:
                 temp = current_data.get('temperature', 0)
@@ -947,6 +839,7 @@ def llm_chat():
             "defects": "menu2", 
             "analytics": "menu3",
             "inventory": "inventory",
+            "mse": "mse",
             "mes": "mes"
         }
         
@@ -1064,8 +957,26 @@ def chat():
         print(f"[📋] 사용자 메시지: {user_message[:100]}...")
         print(f"[📋] 전체 대화 기록: {len(messages)}개 메시지")
         
-        # 현재 메뉴 추정 (기본값: defects)
-        current_menu = "defects"
+        # 현재 메뉴 자동 감지 (사용자 메시지 기반)
+        current_menu = "defects"  # 기본값
+        
+        # 메시지 내용을 기반으로 메뉴 자동 감지
+        user_message_lower = user_message.lower()
+        
+        if any(keyword in user_message_lower for keyword in ['생산', 'pcb', '라인', '진행률', '완료']):
+            current_menu = "menu1"
+        elif any(keyword in user_message_lower for keyword in ['검사', 'inspection', 'aoi', '수동검사']):
+            current_menu = "menu2"
+        elif any(keyword in user_message_lower for keyword in ['불량', 'defect', '품질', '분석']):
+            current_menu = "menu3"
+        elif any(keyword in user_message_lower for keyword in ['재고', '부품', 'inventory', 'stock', '발주']):
+            current_menu = "inventory"
+        elif any(keyword in user_message_lower for keyword in ['환경', '온도', '습도', '센서', '모니터링', '창고', '자재']):
+            current_menu = "mse"
+        elif any(keyword in user_message_lower for keyword in ['mes', '시스템', '생산량']):
+            current_menu = "mes"
+        
+        print(f"[🎯] 감지된 메뉴: {current_menu}")
         
         # 컨텍스트 데이터 크롤링
         print("[📊] 실시간 데이터 크롤링 시작...")

@@ -17,13 +17,17 @@ import {
   Bot,
   Send,
   Minus,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+// Main4AI 컴포넌트 임포트
+import Main4AI from "@/components/menu4AI/Main"
 
 import type { FC } from "react"
-
-
 
 // --- Data Types ---
 interface CategoryStats {
@@ -255,10 +259,6 @@ const CategoryPieChart: FC<{
   )
 }
 
-
-
-
-
 const Menu4 = () => {
   const router = useRouter()
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([])
@@ -301,7 +301,7 @@ const Menu4 = () => {
   // 전체 재고 목록 조회
   const fetchInventoryItems = async () => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://43.201.249.204:5000/api/user"
+      const apiUrl = "http://43.201.249.204:5000/api/user"
       const response = await fetch(`${apiUrl}/pcb-parts`)
       const data = await response.json()
       
@@ -350,7 +350,7 @@ const Menu4 = () => {
     }
   }
 
-  // 발주요청 버튼 클릭 핸들러
+  // 발주요청 버튼 클릭 핸들러 (새로운 모달 열기)
   const handleOrderRequest = (item: InventoryItem) => {
     setSelectedItem(item)
     setOrderData({
@@ -414,7 +414,7 @@ const Menu4 = () => {
     setIsChatLoading(true)
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
+      const apiUrl = "http://localhost:5100"
       const response = await fetch(`${apiUrl}/api/inventory-chat`, {
         method: 'POST',
         headers: {
@@ -469,7 +469,7 @@ const Menu4 = () => {
     setIsChatLoading(true)
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
+      const apiUrl = "http://localhost:5100"
       const response = await fetch(`${apiUrl}/api/quick-actions`, {
         method: 'POST',
         headers: {
@@ -572,7 +572,7 @@ const Menu4 = () => {
                 size="sm"
                 className="text-gray-400 hover:text-white hover:bg-gray-700/50 h-8 w-8 p-0"
               >
-                <Minus className="w-4 h-4" />
+                {showPredictionResult ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </Button>
             )}
           </div>
@@ -594,7 +594,7 @@ const Menu4 = () => {
             </div>
           </div>
 
-          {/* 예측 결과 표시 영역 - 블록 높이가 스르륵 증가 */}
+          {/* AI 예측 결과 표시 영역 - Main4AI 컴포넌트 임베드 */}
           <div 
             className={`overflow-hidden transition-all ease-in-out ${
               showPredictionResult 
@@ -604,56 +604,10 @@ const Menu4 = () => {
             style={{ transitionDuration: '1000ms' }}
           >
             <div className="space-y-6 pt-4">
-              {/* 준비 중 메시지 */}
+              {/* Main4AI 컴포넌트 임베드 */}
               <div className="bg-[#0D1117]/50 border border-[#30363D] rounded-lg p-6">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Brain className="w-8 h-8 text-purple-400 animate-pulse" />
-                  </div>
-                  <h3 className="text-white text-xl font-semibold mb-2">AI 예측 결과</h3>
-                  <p className="text-gray-300 text-lg mb-4">준비 중</p>
-                  <p className="text-gray-400 text-sm">
-                    현재 AI 예측 모델이 개발 중입니다. 곧 다음과 같은 기능이 제공될 예정입니다:
-                  </p>
-                </div>
+                <Main4AI />
               </div>
-
-              {/* 예정 기능 미리보기 */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-[#0D1117]/30 border border-[#30363D]/50 rounded-lg p-4">
-                  <h4 className="text-white font-medium mb-2 flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-yellow-400" />
-                    재고 부족 예측
-                  </h4>
-                  <p className="text-gray-400 text-sm">
-                    향후 7-30일 내 부족할 가능성이 높은 부품을 미리 알려드립니다.
-                  </p>
-                </div>
-                
-                <div className="bg-[#0D1117]/30 border border-[#30363D]/50 rounded-lg p-4">
-                  <h4 className="text-white font-medium mb-2 flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-green-400" />
-                    최적 발주 시점
-                  </h4>
-                  <p className="text-gray-400 text-sm">
-                    과거 사용 패턴을 분석하여 최적의 발주 타이밍을 추천합니다.
-                  </p>
-                </div>
-                
-                <div className="bg-[#0D1117]/30 border border-[#30363D]/50 rounded-lg p-4">
-                  <h4 className="text-white font-medium mb-2 flex items-center gap-2">
-                    <BarChart3 className="w-4 h-4 text-blue-400" />
-                    사용량 패턴 분석
-                  </h4>
-                  <p className="text-gray-400 text-sm">
-                    계절별, 프로젝트별 부품 사용량 패턴을 분석하여 예측 정확도를 높입니다.
-                  </p>
-                </div>
-                
-
-              </div>
-
-
             </div>
           </div>
         </CardContent>
@@ -661,9 +615,6 @@ const Menu4 = () => {
 
       {/* 파이차트 섹션 - 맨 위에 배치 */}
       <div className="space-y-4">
-
-
-        
         {/* 파이차트 그리드 - 정상/부족만 */}
         <div className="space-y-4 mt-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -704,82 +655,196 @@ const Menu4 = () => {
                 )
               })
             })()}
+          </div>
+        </div>
+      </div>
+
+      {/* 새로운 발주요청 모달 - 추천발주와 직접발주 탭 구성 */}
+      <Dialog open={showOrderModal} onOpenChange={setShowOrderModal}>
+        <DialogContent className="bg-[#161B22]/80 backdrop-blur-xl border-[#30363D] shadow-2xl max-w-[600px] mx-4">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Package className="w-5 h-5 text-orange-400" />
+              발주요청 - {selectedItem?.product}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <Tabs defaultValue="recommended" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 bg-[#0D1117]/50">
+              <TabsTrigger 
+                value="recommended" 
+                className="data-[state=active]:bg-purple-600 data-[state=active]:text-white"
+              >
+                AI 추천 발주
+              </TabsTrigger>
+              <TabsTrigger 
+                value="manual" 
+                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+              >
+                직접 발주
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="recommended" className="space-y-4 mt-4">
+              {/* AI 추천 발주 섹션 */}
+              <div className="bg-[#0D1117]/50 border border-purple-500/30 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Brain className="w-5 h-5 text-purple-400" />
+                  <h3 className="text-white font-semibold">AI 추천 사항</h3>
+                </div>
+                
+                <div className="space-y-3 text-sm">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-gray-400">추천 수량:</span>
+                      <span className="text-white font-bold ml-2">
+                        {Math.max(100, (selectedItem?.minimumStock || 0) * 2)}개
+                      </span>
                     </div>
+                    <div>
+                      <span className="text-gray-400">예상 비용:</span>
+                      <span className="text-green-400 font-bold ml-2">
+                        ₩{(Math.max(100, (selectedItem?.minimumStock || 0) * 2) * 1000).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-gray-400">추천 발주일:</span>
+                      <span className="text-white font-bold ml-2">
+                        {new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('ko-KR')}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">도착 예정일:</span>
+                      <span className="text-blue-400 font-bold ml-2">
+                        {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('ko-KR')}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-[#161B22]/50 border border-[#30363D] rounded p-3 mt-3">
+                    <div className="text-gray-400 text-xs mb-2">AI 분석 근거:</div>
+                    <ul className="text-xs text-gray-300 space-y-1">
+                      <li>• 현재 재고: {selectedItem?.quantity || 0}개</li>
+                      <li>• 최소 재고: {selectedItem?.minimumStock || 0}개</li>
+                      <li>• 예상 소진 기간: 14일</li>
+                      <li>• 납기 고려 안전 재고: 2배수 권장</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="flex gap-2 mt-4">
+                  <Button 
+                    onClick={() => {
+                      // AI 추천 사항으로 발주 처리
+                      console.log("AI 추천 발주 실행:", {
+                        item: selectedItem?.product,
+                        quantity: Math.max(100, (selectedItem?.minimumStock || 0) * 2),
+                        type: "ai_recommended"
+                      })
+                      setShowOrderModal(false)
+                    }}
+                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+                  >
+                    AI 추천으로 발주
+                  </Button>
+                  <Button
+                    onClick={() => setShowOrderModal(false)}
+                    variant="outline"
+                    className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                  >
+                    취소
+                  </Button>
                 </div>
               </div>
+            </TabsContent>
+            
+            <TabsContent value="manual" className="space-y-4 mt-4">
+              {/* 직접 발주 섹션 */}
+              <div className="bg-[#0D1117]/50 border border-blue-500/30 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Package className="w-5 h-5 text-blue-400" />
+                  <h3 className="text-white font-semibold">직접 발주 입력</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-white block mb-2 text-sm">발주 부품</label>
+                    <Input
+                      value={orderData.orderPart}
+                      onChange={(e) => setOrderData(prev => ({ ...prev, orderPart: e.target.value }))}
+                      className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white"
+                      placeholder="발주할 부품명"
+                      disabled
+                    />
+                  </div>
 
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-white block mb-2 text-sm">발주 수량</label>
+                      <Input
+                        type="number"
+                        value={orderData.orderQuantity}
+                        onChange={(e) => setOrderData(prev => ({ ...prev, orderQuantity: e.target.value }))}
+                        className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        placeholder="수량 입력"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="text-white block mb-2 text-sm">예상 단가(₩)</label>
+                      <Input
+                        type="number"
+                        value={orderData.amount}
+                        onChange={(e) => setOrderData(prev => ({ ...prev, amount: e.target.value }))}
+                        className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        placeholder="단가 입력"
+                      />
+                    </div>
+                  </div>
 
-
-      {/* 발주요청 모달 */}
-      <Dialog open={showOrderModal} onOpenChange={setShowOrderModal}>
-        <DialogContent className="bg-[#161B22]/80 backdrop-blur-xl border-[#30363D] shadow-2xl max-w-[360px] mx-4">
-          <DialogHeader>
-            <DialogTitle className="text-white">발주요청</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div>
-              <label className="text-white block mb-2">발주 부품</label>
-              <Input
-                value={orderData.orderPart}
-                onChange={(e) => setOrderData(prev => ({ ...prev, orderPart: e.target.value }))}
-                className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white"
-                placeholder="발주할 부품명"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="text-white block mb-2">발주 수량</label>
-              <Input
-                type="number"
-                value={orderData.orderQuantity}
-                onChange={(e) => setOrderData(prev => ({ ...prev, orderQuantity: e.target.value }))}
-                className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                placeholder="발주 수량을 입력하세요"
-                required
-              />
-                            </div>
-
-            <div>
-              <label className="text-white block mb-2">도착 요청일</label>
-              <Input
-                type="date"
-                value={orderData.deliveryDate}
-                onChange={(e) => setOrderData(prev => ({ ...prev, deliveryDate: e.target.value }))}
-                className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white"
-                required
-              />
-                            </div>
-
-            <div>
-              <label className="text-white block mb-2">금액(₩)</label>
-              <Input
-                type="number"
-                value={orderData.amount}
-                onChange={(e) => setOrderData(prev => ({ ...prev, amount: e.target.value }))}
-                className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                placeholder="발주 금액을 입력하세요"
-                required
-              />
-                            </div>
-
-            <div className="flex gap-3 pt-4">
-              <Button
-                onClick={handleSubmitOrder}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg"
-                disabled={!orderData.orderPart || !orderData.orderQuantity || !orderData.deliveryDate || !orderData.amount}
-              >
-                발주요청
-              </Button>
-              <Button
-                onClick={() => setShowOrderModal(false)}
-                variant="outline"
-                className="flex-1 border-[#30363D] text-gray-300 hover:bg-[#21262D]"
-              >
-                취소
-              </Button>
-            </div>
-      </div>
+                  <div>
+                    <label className="text-white block mb-2 text-sm">도착 요청일</label>
+                    <Input
+                      type="date"
+                      value={orderData.deliveryDate}
+                      onChange={(e) => setOrderData(prev => ({ ...prev, deliveryDate: e.target.value }))}
+                      className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white"
+                    />
+                  </div>
+                  
+                  {/* 예상 총 비용 표시 */}
+                  {orderData.orderQuantity && orderData.amount && (
+                    <div className="bg-[#161B22]/50 border border-[#30363D] rounded p-3">
+                      <div className="text-sm text-gray-400">예상 총 비용:</div>
+                      <div className="text-lg font-bold text-green-400">
+                        ₩{(Number(orderData.orderQuantity) * Number(orderData.amount)).toLocaleString()}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={handleSubmitOrder}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                    disabled={!orderData.orderPart || !orderData.orderQuantity || !orderData.deliveryDate || !orderData.amount}
+                  >
+                    직접 발주 요청
+                  </Button>
+                  <Button
+                    onClick={() => setShowOrderModal(false)}
+                    variant="outline"
+                    className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                  >
+                    취소
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </DialogContent>
       </Dialog>
 

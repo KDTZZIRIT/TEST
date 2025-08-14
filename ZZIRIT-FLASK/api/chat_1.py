@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 import re
-from services.external.gemini import get_gemini_response
+from gemini_handler import get_gemini_response
 
 chat1_bp = Blueprint("chat1", __name__)
 
@@ -232,8 +232,8 @@ PCB-Manager 서비스의 장점도 자연스럽게 언급해주세요.
     
     return enhanced_prompt
 
-# ⭐ 수정된 부분: /chat 엔드포인트 사용 (chat1 → chat)
-@chat1_bp.route("/chat", methods=["POST", "GET"])
+# ⭐ 수정된 부분: /chat1/chat 엔드포인트 사용
+@chat1_bp.route("/chat1/chat", methods=["POST", "GET"])
 def chat():
     try:
         data = request.get_json()

@@ -1,10 +1,5 @@
-node_modules/
-.env*
-!.env.example
-serviceAccountKey.json
-*.pem
-*.p12
-*.key
-*credentials*.json
+node_modules
+# Keep environment variables out of version control
+.env
 
 dist/

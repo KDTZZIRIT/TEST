@@ -58,14 +58,6 @@ const ChatbotModal = ({ isOpen, onClose, currentMenu }: ChatbotModalProps) => {
 
   // 개선된 서버 URL 결정 로직
   const getServerUrl = () => {
-    // 1. 환경 변수 확인
-    if (typeof window !== 'undefined') {
-      const envApiUrl = process.env.NEXT_PUBLIC_API_URL
-      if (envApiUrl) {
-        console.log('🌐 환경변수 API URL 사용:', envApiUrl)
-        return envApiUrl
-      }
-    }
 
     // 2. 현재 호스트 기반 판단
     if (typeof window !== 'undefined') {
