@@ -5,6 +5,7 @@ from api.chat_1 import chat1_bp
 from api.chat_4 import chat4_bp
 from api.cnn import pcbai_bp
 from api.send_email import email_bp
+from api.api_server import api_bp as api_server_bp
 import os
 from dotenv import load_dotenv
 
@@ -34,6 +35,7 @@ app.register_blueprint(chat1_bp, url_prefix="/api")
 app.register_blueprint(chat4_bp, url_prefix="/api")
 app.register_blueprint(email_bp, url_prefix="/api")
 app.register_blueprint(pcbai_bp, url_prefix="/api")
+app.register_blueprint(api_server_bp, url_prefix="/api")
 
 @app.route("/")
 def index():

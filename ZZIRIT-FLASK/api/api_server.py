@@ -3,8 +3,7 @@ import os
 import json
 import joblib
 from datetime import datetime
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Blueprint, request, jsonify
 import importlib.util
 from pathlib import Path
 
@@ -16,7 +15,7 @@ except Exception:
     DB_CONFIG = None
     pymysql = None
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent  # ZZIRIT-FLASK 루트 디렉토리
 MODEL_DIR = ROOT / "ML_model"
 DATA_DIR = ROOT / "data"
 PKL_PATH = MODEL_DIR / "model_bundle.pkl"
@@ -54,9 +53,9 @@ def _load_bundle():
         _BUNDLE_MTIME = mtime
     return _BUNDLE
 
-# --- ai-5-3.py 모듈 동적 로드 ---
+# --- ai-5-4.py 모듈 동적 로드 ---
 def _load_ai_module():
-    ai_path = ROOT / "ai-5-3.py"   # ★ 경로 다르면 수정
+    ai_path = ROOT / "ai-5-4.py"   # ★ ai-5-4.py로 수정
     spec = importlib.util.spec_from_file_location("ai5", str(ai_path))
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)  # type: ignore
@@ -64,8 +63,8 @@ def _load_ai_module():
 
 ai5 = _load_ai_module()
 
-app = Flask(__name__)
-CORS(app)
+# Blueprint 생성
+api_bp = Blueprint('api_server', __name__)
 
 # ============ 유틸 ============
 def _safe_int(v, default=0):
@@ -102,7 +101,7 @@ def _load_meta():
     return (b or {}).get("meta", {})
 
 # ============ API ============
-@app.get("/api/model/meta")
+@api_bp.get("/model/meta")
 def model_meta():
     meta = _load_meta() or {}
     return jsonify({
@@ -110,12 +109,12 @@ def model_meta():
         "meta": meta,
         "updated_at": datetime.now().isoformat(timespec="seconds"),
     })
-@app.get("/api/health")
+@api_bp.get("/health")
 def health():
     return jsonify({"ok": True, "model": bool(_load_bundle())})
 
 # 사용자 인벤토리: DB에서 직접 조회
-@app.get("/api/user/pcb-parts")
+@api_bp.get("/user/pcb-parts")
 def list_pcb_parts():
     conn = _get_db_conn()
     if conn is None:
@@ -162,11 +161,11 @@ def list_pcb_parts():
             pass
 
 # 임시: 결함 데이터 엔드포인트(없는 경우 404 방지)
-@app.get("/api/user/pcb-defect")
+@api_bp.get("/user/pcb-defect")
 def list_pcb_defect():
     return jsonify([])
 
-@app.post("/api/predict")
+@api_bp.post("/predict")
 def predict():
     """
     요청 스키마(예):
@@ -188,40 +187,73 @@ def predict():
     if not bundle:
         return jsonify({"error": "model_bundle.pkl not found"}), 404
 
-    # 1) 예측용 데이터 로드 (★ ai-5-3의 함수명과 일치해야 함)
+    # 1) DB에서 현재 재고 데이터 직접 로드
     try:
-        df_all = ai5.load_annual_category_data(str(DATA_DIR), args["years"])  # ★
+        # DB 연결하여 부품 데이터 조회
+        conn = _get_db_conn()
+        if conn is None:
+            return jsonify({"error": "DB 연결 실패"}), 500
+            
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT part_id, part_number, category, size, received_date,
+                       is_humidity_sensitive, needs_humidity_control,
+                       manufacturer, quantity, min_stock
+                FROM pcb_parts
+                ORDER BY part_id ASC
+            """)
+            rows = cur.fetchall() or []
+        conn.close()
+        
+        if not rows:
+            return jsonify({"error": "재고 데이터가 없습니다"}), 404
+            
+        df_current = pd.DataFrame(rows)
+        
     except Exception as e:
         return jsonify({"error": f"data load failed: {e}"}), 500
 
-    # 2) 오늘 계획 병합 (board_plan → pid 사용량 변환)
+    # 2) 예측 실행 (ai-5-4.py의 실제 함수 사용)
     try:
-        board_plan = args["board_plan"] or {}
-        # (A) 키가 'PCB-'로 시작하면 PCB 계획으로 판단 → part_id 사용량 맵으로 변환
-        if board_plan and all(isinstance(k, str) and k.startswith("PCB-") for k in board_plan.keys()):
-            # ai-5-3.py 안의 보드-부품 매핑 함수/상수 가져오기
-            get_board_map = getattr(ai5, "load_fixed_board_parts_map", None)
-            board_map = get_board_map() if callable(get_board_map) else getattr(ai5, "BOARD_PARTS_MAP")
-            today_usage_by_pid = {}
-            for b, cnt in board_plan.items():
-                if b not in board_map:
-                    continue
-                for pid, per_board in board_map[b].items():
-                    today_usage_by_pid[int(pid)] = today_usage_by_pid.get(int(pid), 0) + int(per_board) * int(cnt)
-        else:
-            # (B) 이미 pid→수량 맵이면 그대로 사용
-            today_usage_by_pid = {int(k): int(v) for k, v in board_plan.items()}
-
-        feats_today = ai5.merge_today_plan_with_inventory(df_all, today_usage_by_pid)
+        # args 객체 생성 (ai-5-4.py 스타일)
+        class Args:
+            def __init__(self, **kwargs):
+                for k, v in kwargs.items():
+                    setattr(self, k, v)
+        
+        predict_args = Args(
+            horizon=30,
+            service_days=args["service_days"],
+            pack_size=args["pack_size"],
+            moq=args["moq"],
+            holding_rate_per_day=args["holding_rate_per_day"],
+            penalty_multiplier=args["penalty_multiplier"],
+            allow_negative_in_calc=False,
+            event_prob=0.08,
+            seed=1234
+        )
+        
+        # ai-5-4.py의 실제 함수 호출
+        import pandas as pd
+        predictions_df = ai5._predict_rows(df_current, predict_args)
+        
+        # 결과를 API 응답 형식으로 변환
+        preds = []
+        for _, row in predictions_df.iterrows():
+            preds.append({
+                "part_id": int(row["part_id"]),
+                "category": str(row["category"]),
+                "size": str(row["size"]),
+                "manufacturer": str(row["manufacturer"]),
+                "opening_stock": float(row["opening_stock_calc"]),
+                "predicted_order_qty": int(row.get("recommendations_top3", [{}])[0].get("quantity", 0)) if row.get("recommendations_top3") else 0,
+                "predicted_days_to_depletion": float(row["pred_days_to_zero"]),
+                "warning": bool(row["risk_6m"] or row["risk_12m"]),
+                "recommendations_top3": row.get("recommendations_top3", [])
+            })
+            
     except Exception as e:
-        return jsonify({"error": f"merge plan failed: {e}"}), 500
-
-
-    # 3) 모델 추론
-    try:
-        preds = ai5.predict_today(PKL_PATH, feats_today)  # ★ reg_order, reg_days, cls_* 사용
-    except Exception as e:
-        return jsonify({"error": f"inference failed: {e}"}), 500
+        return jsonify({"error": f"prediction failed: {e}"}), 500
 
     # 4) Top-3 추천 계산 (ai-5-3의 동일 로직 사용)
     try:
@@ -304,6 +336,4 @@ def predict():
         "summary": summary
     })
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+# Blueprint이므로 직접 실행 코드 제거
