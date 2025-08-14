@@ -27,31 +27,9 @@ import FeaturesSection from "@/components/main/main2"
 import ProcessSection from "@/components/main/main3"
 import TeamSection from "@/components/main/main4"
 import Footer from "@/components/layout/footer"
-import AuthModal from "@/components/auth-modal"
+
 import Chatbot from "@/components/chatbot/chatbot"
-
-function LandingPage() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const router = useRouter()
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    // 간단한 로그인 처리 (실제로는 인증 로직 필요)
-    if (email && password) {
-      setIsLoginOpen(false)
-      router.push("/dashboard")
-    }
-  }
-
-  const handleDashboardClick = () => {
-    router.push("/dashboard")
-  }
-}
 export default function HomePage() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login")
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   // 페이지 로드 시 로그인 상태 확인
@@ -62,25 +40,16 @@ export default function HomePage() {
     }
   }, [])
 
+  const router = useRouter()
+
   const openModal = (mode: "login" | "signup") => {
-    setAuthMode(mode)
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
-
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true)
-    closeModal()
+    // 로그인 페이지로 모드에 따라 이동
+    router.push(`/login?mode=${mode}`)
   }
 
   const handleLogout = () => {
     localStorage.removeItem("auth-token")
     setIsLoggedIn(false)
-    // 로그아웃 후 로그인 모달을 다시 띄울 수 있도록 상태를 초기화합니다.
-    setTimeout(() => openModal("login"), 100)
   }
 
   return (
@@ -114,7 +83,7 @@ export default function HomePage() {
           <Footer />
         </section>
       </main>
-      <AuthModal isOpen={isModalOpen} onClose={closeModal} initialMode={authMode} onLoginSuccess={handleLoginSuccess} />
+
       <Chatbot />
     </div>
   )
