@@ -414,7 +414,7 @@ const Menu4 = () => {
     setIsChatLoading(true)
 
     try {
-      const apiUrl = "http://localhost:5100"
+      const apiUrl = "http://localhost:5000"
       const response = await fetch(`${apiUrl}/api/inventory-chat`, {
         method: 'POST',
         headers: {
@@ -991,3 +991,4 @@ const Menu4 = () => {
 }
 
 export default Menu4
+

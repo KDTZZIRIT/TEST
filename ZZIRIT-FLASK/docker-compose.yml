@@ -1,0 +1,52 @@
+services:
+  zzirit-flask:
+    build: .
+    container_name: zzirit-flask-app
+    ports:
+      - "5200:5200"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+      - PORT=5200
+      - DB_HOST=52.79.248.3
+      - DB_PORT=3306
+      - DB_USER=bigdata054
+      - DB_PASSWORD=1234
+      - DB_NAME=my_db
+    volumes:
+      - ./data:/app/data
+      - ./ML_model:/app/ML_model
+      - ./LLM_model:/app/LLM_model
+      - ./services:/app/services
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5200/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zzirit-network
+
+  # MySQL 데이터베이스 (선택사항 - 외부 DB 사용 시 제거)
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: zzirit-mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: rootpassword
+  #     MYSQL_DATABASE: my_db
+  #     MYSQL_USER: bigdata054
+  #     MYSQL_PASSWORD: 1234
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #   networks:
+  #     - zzirit-network
+
+networks:
+  zzirit-network:
+    driver: bridge
+
+# volumes:
+#   mysql_data:

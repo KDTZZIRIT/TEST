@@ -4,6 +4,12 @@ import { useState, useRef, useEffect } from "react"
 import { User, Settings, LogOut, Database } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
+interface UserInfo {
+  name: string
+  email: string
+  position: string
+}
+
 interface UserProfileDropdownProps {
   isLoggedIn: boolean
   onLogout: () => void
@@ -11,7 +17,22 @@ interface UserProfileDropdownProps {
 
 export default function UserProfileDropdown({ isLoggedIn, onLogout }: UserProfileDropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // localStorage에서 사용자 정보 로드
+  useEffect(() => {
+    if (isLoggedIn) {
+      const storedUserInfo = localStorage.getItem("user-info")
+      if (storedUserInfo) {
+        try {
+          setUserInfo(JSON.parse(storedUserInfo))
+        } catch (error) {
+          console.error("사용자 정보 파싱 오류:", error)
+        }
+      }
+    }
+  }, [isLoggedIn])
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -38,8 +59,8 @@ export default function UserProfileDropdown({ isLoggedIn, onLogout }: UserProfil
           <User className="w-4 h-4 text-white" />
         </div>
         <div className="hidden sm:block text-left">
-          <p className="text-sm font-medium text-white">김철수</p>
-          <p className="text-xs text-gray-400">kim.chulsu@company.com</p>
+          <p className="text-sm font-medium text-white">{userInfo?.name || "사용자"}</p>
+          <p className="text-xs text-gray-400">{userInfo?.email || ""}</p>
         </div>
       </button>
 
@@ -60,15 +81,15 @@ export default function UserProfileDropdown({ isLoggedIn, onLogout }: UserProfil
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">김철수</p>
-                  <p className="text-sm text-gray-400">선임 관리자</p>
+                  <p className="font-medium text-white">{userInfo?.name || "사용자"}</p>
+                  <p className="text-sm text-gray-400">{userInfo?.position || ""}</p>
                 </div>
               </div>
             </div>
 
             {/* 이메일 */}
             <div className="px-4 py-2 border-b border-[#30363D]">
-              <p className="text-sm text-gray-300">kim.chulsu@company.com</p>
+              <p className="text-sm text-gray-300">{userInfo?.email || ""}</p>
             </div>
 
             {/* 메뉴 항목들 */}

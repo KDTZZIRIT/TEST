@@ -215,25 +215,25 @@ export default function HeroSection({ onLogin, onSignup, isLoggedIn, onLogout }:
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white shadow-2xl shadow-cyan-500/25 border-0 px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/40"
-                  onClick={onLogin}
+                  asChild
                 >
-                  🔐 로그인
+                  <Link href="/login">로그인</Link>
                 </Button>
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-2xl shadow-blue-500/25 border-0 px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-blue-500/40" 
                   onClick={onSignup}
                 >
-                  ✨ 회원가입
+                  회원가입
                 </Button>
                 {/* 개발 모드용 대시보드 버튼 */}
-                <Button 
+                {/* <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-2xl shadow-green-500/25 border-0 px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-green-500/40" 
                   asChild
                 >
                   <Link href="/dashboard">⚡ 대시보드 (개발모드)</Link>
-                </Button>
+                </Button> */}
               </>
             )}
           </motion.div>

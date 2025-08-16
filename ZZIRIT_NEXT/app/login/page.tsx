@@ -170,15 +170,39 @@ export default function LoginPage() {
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // 로그인/회원가입 처리 (Demo)
+  // 하드코딩된 로그인 정보
+  const VALID_EMAIL = "bigdata5us@gknu.ac.kr";
+  const VALID_PASSWORD = "andong5!";
+
+  // 사용자 정보 매핑
+  const USER_DATA: { [key: string]: { name: string; email: string; position: string } } = {
+    "bigdata5us@gknu.ac.kr": {
+      name: "강호근",
+      email: "bigdata5us@gknu.ac.kr",
+      position: "선임 관리자"
+    }
+  };
+
+  // 로그인 처리
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      localStorage.setItem("auth-token", "demo-token");
-      router.push("/dashboard");
-      setIsLoading(false);
-    }, 700);
+    
+    // 입력된 이메일과 비밀번호 검증
+    if (loginData.email === VALID_EMAIL && loginData.password === VALID_PASSWORD) {
+      setTimeout(() => {
+        // 토큰과 사용자 정보 저장
+        localStorage.setItem("auth-token", "demo-token");
+        localStorage.setItem("user-info", JSON.stringify(USER_DATA[loginData.email]));
+        router.push("/dashboard");
+        setIsLoading(false);
+      }, 700);
+    } else {
+      setTimeout(() => {
+        setIsLoading(false);
+        alert(language === "ko" ? "이메일 또는 비밀번호가 올바르지 않습니다." : "Invalid email or password.");
+      }, 700);
+    }
   };
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();

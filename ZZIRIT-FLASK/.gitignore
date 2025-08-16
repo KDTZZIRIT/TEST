@@ -1,2 +1,4 @@
 # Specific CNN model file
 CNN_model/best_model_by_confidence.pt
+data/
+ML_model/model_bundle.pkl

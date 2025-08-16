@@ -36,7 +36,7 @@ const PCBDetailTable: FC = () => {
       boardArea: "4800"
     },
     {
-      name: "M-G820K",
+      name: "LM-G820K",
       size: "100×70",
       material: "CEM-3",
       smtDensity: "Medium", 

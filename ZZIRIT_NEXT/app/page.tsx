@@ -40,6 +40,8 @@ export default function HomePage() {
     }
   }, [])
 
+
+  
   const router = useRouter()
 
   const openModal = (mode: "login" | "signup") => {
@@ -83,7 +85,6 @@ export default function HomePage() {
           <Footer />
         </section>
       </main>
-
       <Chatbot />
     </div>
   )

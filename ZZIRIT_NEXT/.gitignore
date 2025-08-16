@@ -4,7 +4,11 @@
 /node_modules
 
 # next.js
+<<<<<<< HEAD
+/.next/
+=======
 
+>>>>>>> bf17cf61dd93d6f1f23465eb5aa8563c9868ee86
 /out/
 
 # production
@@ -24,9 +28,13 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+<<<<<<< HEAD
+next-env.d.ts
+=======
 next-env.d.ts
 .next/
 node_modules/
 
 !.env.example
 
+>>>>>>> bf17cf61dd93d6f1f23465eb5aa8563c9868ee86

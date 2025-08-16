@@ -365,7 +365,7 @@ def analyze_inventory_intent(user_message):
         if any(keyword in message_lower for keyword in keywords):
             return f"component_type_{component_type}"
     
-    if any(keyword in message_lower for keyword in ["부족", "부족한", "low stock", "shortage", "없는", "떨어진"]):
+    if any(keyword in message_lower for keyword in ["부족", "부족한", "low stock", "shortage", "없는", "떨어진", "주문 필요", "order needed", "발주 필요"]):
         return "low_stock"
     if any(keyword in message_lower for keyword in ["흡습", "moisture", "습도", "humidity", "건조", "보관"]):
         return "moisture_management"
@@ -410,7 +410,20 @@ def fetch_components_by_type(component_type: str):
         # 먼저 데이터베이스 스키마 확인
         cur.execute("DESCRIBE pcb_parts")
         columns = cur.fetchall()
-        column_names = [col[0] for col in columns]
+        
+        # 컬럼명 추출을 안전하게 처리
+        column_names = []
+        for col in columns:
+            if isinstance(col, dict):
+                # dictionary 형태인 경우
+                column_names.append(col['Field'])
+            elif isinstance(col, (list, tuple)):
+                # list/tuple 형태인 경우 (첫 번째 요소가 컬럼명)
+                column_names.append(col[0])
+            else:
+                print(f"⚠️ 예상치 못한 컬럼 데이터 형태: {type(col)} - {col}")
+                continue
+        
         print(f"🔍 데이터베이스 컬럼 구조: {column_names}")
         
         # 부품 타입별 SQL 쿼리 매핑 (다양한 필드명 시도)
@@ -485,7 +498,7 @@ def fetch_components_by_type(component_type: str):
             """,
             "switch": """
                 SELECT * FROM pcb_parts 
-                WHERE LOWER(COALESCE(part_type, component_type, category, part_category, '')) LIKE '%switch%' 
+                WHERE LOWER(COALESCE(part_type, component_type, category, part_number, '')) LIKE '%switch%' 
                    OR LOWER(COALESCE(part_type, component_type, category, part_category, '')) LIKE '%스위치%'
                    OR LOWER(COALESCE(part_name, name, part_number, '')) LIKE '%switch%'
                    OR LOWER(COALESCE(part_name, name, part_number, '')) LIKE '%스위치%'
@@ -519,6 +532,99 @@ def fetch_components_by_type(component_type: str):
         traceback.print_exc()
         return []
 
+def fetch_low_stock_components():
+    """주문이 필요한 부품들만 조회 (재고 부족 또는 재고 없음)"""
+    try:
+        conn = get_db_connection()
+        
+        if not conn.is_connected():
+            print("❌ 데이터베이스 연결 실패")
+            return []
+        
+        cur = conn.cursor(dictionary=True)
+        
+        # 먼저 실제 컬럼 구조 확인
+        cur.execute("DESCRIBE pcb_parts")
+        columns = cur.fetchall()
+        
+        # 컬럼명 추출을 안전하게 처리
+        column_names = []
+        for col in columns:
+            if isinstance(col, dict):
+                # dictionary 형태인 경우
+                column_names.append(col['Field'])
+            elif isinstance(col, (list, tuple)):
+                # list/tuple 형태인 경우 (첫 번째 요소가 컬럼명)
+                column_names.append(col[0])
+            else:
+                print(f"⚠️ 예상치 못한 컬럼 데이터 형태: {type(col)} - {col}")
+                continue
+        
+        print(f"🔍 실제 데이터베이스 컬럼 구조: {column_names}")
+        
+        # 실제 존재하는 컬럼명만 사용
+        quantity_col = 'quantity' if 'quantity' in column_names else 'qty' if 'qty' in column_names else None
+        min_stock_col = 'min_stock' if 'min_stock' in column_names else 'minimum_stock' if 'minimum_stock' in column_names else None
+        
+        if not quantity_col or not min_stock_col:
+            print(f"❌ 필요한 컬럼을 찾을 수 없습니다. quantity: {quantity_col}, min_stock: {min_stock_col}")
+            cur.close()
+            conn.close()
+            return []
+        
+        # 먼저 전체 데이터 확인
+        cur.execute("SELECT COUNT(*) as total FROM pcb_parts")
+        total_count = cur.fetchone()['total']
+        print(f"🔍 전체 부품 수: {total_count}개")
+        
+        # 샘플 데이터 확인
+        cur.execute("SELECT * FROM pcb_parts LIMIT 3")
+        sample_data = cur.fetchall()
+        print(f"🔍 샘플 데이터 (처음 3개):")
+        for i, row in enumerate(sample_data):
+            print(f"  {i+1}. {dict(row)}")
+        
+        # 주문 필요 부품만 조회 (재고가 최소재고량보다 적거나 0개인 경우)
+        query = f"""
+            SELECT * FROM pcb_parts 
+            WHERE {quantity_col} < {min_stock_col} OR {quantity_col} = 0
+            ORDER BY 
+                CASE 
+                    WHEN {quantity_col} = 0 THEN 1
+                    ELSE 2
+                END,
+                ({min_stock_col} - {quantity_col}) DESC
+        """
+        
+        print(f"🔍 실행할 쿼리: {query}")
+        print("🔍 주문 필요 부품 조회 중...")
+        
+        cur.execute(query)
+        rows = cur.fetchall()
+        
+        print(f"🔍 주문 필요 부품: {len(rows)}개 발견")
+        if rows:
+            print(f"🔍 첫 번째 결과 샘플: {dict(rows[0])}")
+            
+            # 주문 필요 부품들의 상세 정보 출력
+            for i, row in enumerate(rows[:5]):  # 처음 5개만 출력
+                qty = int(row.get(quantity_col, 0) or 0)
+                min_qty = int(row.get(min_stock_col, 0) or 0)
+                shortage = max(0, min_qty - qty)
+                print(f"  {i+1}. {row.get('part_number', 'Unknown')} - 현재: {qty}개, 최소: {min_qty}개, 부족: {shortage}개")
+        else:
+            print("🔍 주문이 필요한 부품이 없습니다. 모든 부품의 재고가 충분합니다.")
+        
+        cur.close()
+        conn.close()
+        
+        return rows
+    except Exception as e:
+        print(f"주문 필요 부품 조회 오류: {e}")
+        import traceback
+        traceback.print_exc()
+        return []
+
 def generate_component_type_response(component_type: str, components: list):
     """부품 타입별 응답 생성"""
     if not components:
@@ -545,19 +651,15 @@ def generate_component_type_response(component_type: str, components: list):
     
     korean_name = korean_names.get(component_type, component_type)
     
-    # 통계 계산 (다양한 컬럼명 고려)
+    # 통계 계산 (실제 컬럼명 사용)
     total_quantity = 0
     total_parts = len(components)
     low_stock_count = 0
     
     for comp in components:
-        # 재고량 추출 (여러 필드명 시도)
-        qty_value = comp.get('quantity') or comp.get('stock') or comp.get('qty') or comp.get('stock_quantity') or 0
-        quantity = int(qty_value) if qty_value else 0
-        
-        # 최소재고량 추출 (여러 필드명 시도)
-        min_stock_value = comp.get('min_stock') or comp.get('minimum_stock') or comp.get('min_qty') or comp.get('minimum_quantity') or 0
-        min_stock = int(min_stock_value) if min_stock_value else 0
+        # 재고량 추출 (실제 컬럼명 사용)
+        quantity = int(comp.get('quantity', 0) or 0)
+        min_stock = int(comp.get('min_stock', 0) or 0)
         
         total_quantity += quantity
         
@@ -567,14 +669,13 @@ def generate_component_type_response(component_type: str, components: list):
     # 제조사별 통계
     manufacturers = {}
     for comp in components:
-        # 제조사 추출 (여러 필드명 시도)
-        manufacturer = comp.get('manufacturer') or comp.get('maker') or comp.get('brand') or comp.get('company') or 'Unknown'
+        # 제조사 추출 (실제 컬럼명 사용)
+        manufacturer = comp.get('manufacturer', 'Unknown')
         if manufacturer not in manufacturers:
             manufacturers[manufacturer] = {'count': 0, 'quantity': 0}
         
         # 재고량 추출
-        qty_value = comp.get('quantity') or comp.get('stock') or comp.get('qty') or comp.get('stock_quantity') or 0
-        quantity = int(qty_value) if qty_value else 0
+        quantity = int(comp.get('quantity', 0) or 0)
         
         manufacturers[manufacturer]['count'] += 1
         manufacturers[manufacturer]['quantity'] += quantity
@@ -597,26 +698,18 @@ def generate_component_type_response(component_type: str, components: list):
     
     # 부품별 상세 정보 (최대 10개)
     for i, comp in enumerate(components[:10]):
-        # 다양한 필드명으로 부품 정보 추출
-        part_number = (comp.get('part_number') or comp.get('part_id') or 
-                      comp.get('id') or comp.get('product_id') or 'Unknown')
+        # 실제 컬럼명으로 부품 정보 추출
+        part_number = comp.get('part_number', 'Unknown')
+        manufacturer = comp.get('manufacturer', 'Unknown')
         
-        manufacturer = (comp.get('manufacturer') or comp.get('maker') or 
-                       comp.get('brand') or comp.get('company') or 'Unknown')
+        # 재고량 추출 (실제 컬럼명 사용)
+        quantity = int(comp.get('quantity', 0) or 0)
         
-        # 재고량 추출 (여러 필드명 시도)
-        qty_value = (comp.get('quantity') or comp.get('stock') or 
-                    comp.get('qty') or comp.get('stock_quantity') or 0)
-        quantity = int(qty_value) if qty_value else 0
+        # 최소재고량 추출 (실제 컬럼명 사용)
+        min_stock = int(comp.get('min_stock', 0) or 0)
         
-        # 최소재고량 추출 (여러 필드명 시도)
-        min_stock_value = (comp.get('min_stock') or comp.get('minimum_stock') or 
-                          comp.get('min_qty') or comp.get('minimum_quantity') or 0)
-        min_stock = int(min_stock_value) if min_stock_value else 0
-        
-        # 사이즈 추출 (여러 필드명 시도)
-        size = (comp.get('size') or comp.get('dimension') or 
-               comp.get('package') or comp.get('footprint') or 'Unknown')
+        # 사이즈 추출 (실제 컬럼명 사용)
+        size = comp.get('size', 'Unknown')
         
         print(f"🔍 부품 {i+1} 데이터: part_number={part_number}, manufacturer={manufacturer}, quantity={quantity}, min_stock={min_stock}")
         
@@ -697,7 +790,7 @@ def generate_inventory_specific_response(user_message, search_results, intent):
         p = context_parts[0]
         resp = f"""🔍 부품 검색 결과
 
-**{p['product_name']}**
+{p['product_name']}
 - 제조사: {p['manufacturer']}
 - 현재재고: {p['quantity']}개 (최소: {p['min_stock']}개)
 - 상태: {p['stock_status']}
@@ -712,6 +805,120 @@ def generate_inventory_specific_response(user_message, search_results, intent):
     summary = [f"{i+1}. {p['product_name']} - {p['quantity']}개 ({p['stock_status']})"
                for i, p in enumerate(context_parts[:3])]
     return "📊 재고 분석 결과\n\n" + "\n".join(summary)
+
+def generate_low_stock_response(components: list):
+    """주문이 필요한 부품들에 대한 응답 생성"""
+    if not components:
+        return """✅ **주문 필요 부품이 없습니다!**
+
+🔍 **재고 현황:**
+• 현재 모든 부품이 최소 재고량 이상 보유하고 있습니다.
+• 즉시 발주가 필요한 부품은 없습니다.
+
+💡 **참고사항:**
+• 재고 부족 부품이 생기면 자동으로 감지됩니다.
+• 정기적으로 재고 현황을 확인하는 것을 권장합니다."""
+    
+    # 통계 계산
+    total_shortage = 0
+    zero_stock_count = 0
+    low_stock_count = 0
+    
+    for comp in components:
+        # 재고량과 최소재고량 추출 (실제 컬럼명 사용)
+        quantity = int(comp.get('quantity', 0) or 0)
+        min_stock = int(comp.get('min_stock', 0) or 0)
+        
+        if quantity == 0:
+            zero_stock_count += 1
+            total_shortage += min_stock
+        elif quantity < min_stock:
+            low_stock_count += 1
+            total_shortage += (min_stock - quantity)
+    
+    # 제조사별 통계
+    manufacturers = {}
+    for comp in components:
+        manufacturer = comp.get('manufacturer', 'Unknown')
+        if manufacturer not in manufacturers:
+            manufacturers[manufacturer] = {'count': 0, 'shortage': 0}
+        
+        # 부족량 계산
+        quantity = int(comp.get('quantity', 0) or 0)
+        min_stock = int(comp.get('min_stock', 0) or 0)
+        
+        shortage = max(0, min_stock - quantity)
+        
+        manufacturers[manufacturer]['count'] += 1
+        manufacturers[manufacturer]['shortage'] += shortage
+    
+    # 응답 구성
+    response = f"""🚨 **주문 필요 부품 현황**
+
+📊 **전체 통계:**
+• 총 주문 필요 부품: {len(components)}개
+• 재고 없음 (긴급): {zero_stock_count}개
+• 재고 부족 (주의): {low_stock_count}개
+• 총 부족량: {total_shortage}개
+
+🏭 **제조사별 부족 현황:**
+"""
+    
+    for manufacturer, stats in manufacturers.items():
+        response += f"• {manufacturer}: {stats['count']}종류, {stats['shortage']}개 부족\n"
+    
+    response += f"\n🔍 **주문 필요 부품 상세 정보:**\n"
+    
+    # 부품별 상세 정보 (최대 15개)
+    for i, comp in enumerate(components[:15]):
+        part_number = comp.get('part_number', 'Unknown')
+        manufacturer = comp.get('manufacturer', 'Unknown')
+        
+        # 재고량과 최소재고량 추출 (실제 컬럼명 사용)
+        quantity = int(comp.get('quantity', 0) or 0)
+        min_stock = int(comp.get('min_stock', 0) or 0)
+        
+        # 사이즈 추출 (실제 컬럼명 사용)
+        size = comp.get('size', 'Unknown')
+        
+        # 부족량 계산
+        shortage = max(0, min_stock - quantity)
+        
+        # 재고 상태 및 주문 필요성
+        if quantity == 0:
+            stock_status = "⚫ 재고 없음"
+            urgency = "🔥 긴급 주문 필요"
+            order_priority = "최우선"
+        elif quantity < min_stock:
+            stock_status = "🔴 재고 부족"
+            urgency = "⚠️ 주문 권장"
+            order_priority = "우선"
+        else:
+            stock_status = "🟢 재고 충분"
+            urgency = "✅ 주문 불필요"
+            order_priority = "해당없음"
+        
+        response += f"\n**{i+1}. {part_number}**"
+        response += f"\n• 제조사: {manufacturer}"
+        response += f"\n• 사이즈: {size}"
+        response += f"\n• 현재재고: {quantity}개 (최소: {min_stock}개)"
+        response += f"\n• 재고상태: {stock_status}"
+        response += f"\n• 부족량: {shortage}개"
+        response += f"\n• 주문우선순위: {order_priority}"
+        response += f"\n• 조치사항: {urgency}"
+    
+    if len(components) > 15:
+        response += f"\n\n... 및 {len(components) - 15}개 더"
+    
+    # 추가 권장사항
+    response += f"\n\n💡 **주문 권장사항:**"
+    if zero_stock_count > 0:
+        response += f"\n• 🔥 **긴급**: 재고가 없는 {zero_stock_count}개 부품은 즉시 주문이 필요합니다."
+    if low_stock_count > 0:
+        response += f"\n• ⚠️ **주의**: 재고가 부족한 {low_stock_count}개 부품은 주문을 고려해주세요."
+    response += f"\n• 📋 **총 주문량**: {total_shortage}개의 부품을 주문하면 재고를 정상화할 수 있습니다."
+    
+    return response
 
 @chat4_bp.route('/inventory-chat', methods=['POST'])
 def inventory_chat():
@@ -761,6 +968,59 @@ def inventory_chat():
                 print(f"⚠️ 부품 타입별 조회 오류: {e}")
                 # 오류 발생 시 RAG 검색으로 폴백
                 print(f"[🔄] {component_type} 부품 타입별 조회 오류, RAG 검색으로 폴백")
+
+        # 주문 필요 부품 조회 처리
+        if intent == "low_stock":
+            print("[🚨] 주문 필요 부품 조회 요청")
+            
+            try:
+                print("[🔍] fetch_low_stock_components() 함수 호출 시작...")
+                low_stock_components = fetch_low_stock_components()
+                print(f"[🔍] fetch_low_stock_components() 결과: {len(low_stock_components) if low_stock_components else 0}개")
+                
+                if low_stock_components:
+                    print("[📝] generate_low_stock_response() 함수 호출...")
+                    response = generate_low_stock_response(low_stock_components)
+                    print(f"[✅] 응답 생성 완료 (길이: {len(response)}자)")
+                    return jsonify({
+                        "response": response,
+                        "intent": intent,
+                        "low_stock_count": len(low_stock_components),
+                        "timestamp": datetime.now().isoformat(),
+                        "success": True
+                    })
+                else:
+                    print("[📝] 주문 필요 부품이 없음 - 기본 응답 생성...")
+                    response = generate_low_stock_response([])  # 빈 리스트로 호출하여 상세 응답 생성
+                    print(f"[✅] 기본 응답 생성 완료 (길이: {len(response)}자)")
+                    return jsonify({
+                        "response": response,
+                        "intent": intent,
+                        "low_stock_count": 0,
+                        "timestamp": datetime.now().isoformat(),
+                        "success": True
+                    })
+            except Exception as e:
+                print(f"⚠️ 주문 필요 부품 조회 오류: {e}")
+                import traceback
+                traceback.print_exc()
+                # 오류 발생 시 RAG 검색으로 폴백
+                print(f"[🔄] 주문 필요 부품 조회 오류, RAG 검색으로 폴백")
+
+        # 주문 관련 키워드가 포함된 경우 주문 관리 전용 엔드포인트 호출
+        order_keywords = ["주문", "order", "발주", "구매", "purchase", "신청", "부족", "부족한", "low stock", "shortage", "없는", "떨어진"]
+        if any(keyword in user_message.lower() for keyword in order_keywords):
+            print("[📦] 주문 관련 질문 감지, 주문 관리 전용 엔드포인트 호출")
+            try:
+                print("[🔍] quick_actions - order_management() 함수 호출...")
+                order_response = order_management()
+                if order_response.status_code == 200:
+                    print("[✅] quick_actions - order_management() 성공")
+                    return order_response
+                else:
+                    print("⚠️ 주문 관리 전용 엔드포인트 실패, 기본 처리로 폴백")
+            except Exception as e:
+                print(f"⚠️ 주문 관리 전용 엔드포인트 오류: {e}, 기본 처리로 폴백")
 
         # 흡습 관리 관련 질문 처리
         moisture_keywords = ["흡습", "moisture", "습도", "humidity", "건조", "보관", "습기", "습도관리"]
@@ -898,10 +1158,56 @@ def quick_actions():
             except Exception as e:
                 print(f"⚠️ 흡습 관리 전용 엔드포인트 오류: {e}, 기본 검색으로 폴백")
 
+        if action == "order_management":
+            # 주문 관리 전용 엔드포인트 호출
+            try:
+                order_response = order_management()
+                if order_response.status_code == 200:
+                    return order_response
+                else:
+                    # 실패시 기본 검색으로 폴백
+                    print("⚠️ 주문 관리 전용 엔드포인트 실패, 기본 검색으로 폴백")
+            except Exception as e:
+                print(f"⚠️ 주문 관리 전용 엔드포인트 오류: {e}, 기본 검색으로 폴백")
+
         # 기본 액션 처리
+        if action == "low_stock":
+            # 주문 필요 부품 전용 처리
+            try:
+                print("[🔍] quick_actions - fetch_low_stock_components() 함수 호출...")
+                low_stock_components = fetch_low_stock_components()
+                print(f"[🔍] quick_actions - 결과: {len(low_stock_components) if low_stock_components else 0}개")
+                
+                if low_stock_components:
+                    print("[📝] quick_actions - generate_low_stock_response() 함수 호출...")
+                    response = generate_low_stock_response(low_stock_components)
+                else:
+                    print("[📝] quick_actions - 주문 필요 부품이 없음 - 기본 응답 생성...")
+                    response = generate_low_stock_response([])  # 빈 리스트로 호출하여 상세 응답 생성
+                
+                print(f"[✅] quick_actions - 응답 생성 완료 (길이: {len(response)}자)")
+                return jsonify({
+                    "response": response,
+                    "action": action,
+                    "low_stock_count": len(low_stock_components) if low_stock_components else 0,
+                    "success": True,
+                    "timestamp": datetime.now().isoformat()
+                })
+            except Exception as e:
+                print(f"⚠️ quick_actions - 주문 필요 부품 조회 오류: {e}")
+                import traceback
+                traceback.print_exc()
+                response = "❌ 주문 필요 부품 정보를 가져오는 중 오류가 발생했습니다."
+                return jsonify({
+                    "response": response,
+                    "action": action,
+                    "success": False,
+                    "timestamp": datetime.now().isoformat()
+                })
+        
         action_queries = {
-            "low_stock": "부족한 재고 부품 minimum stock shortage",
             "moisture_management": "흡습 관리 필요 moisture absorption humidity sensitive",
+            "order_management": "주문 필요 부품 order needed parts low stock",
             "ordering_recommendation": "발주 추천 order recommendation low stock",
             "capacitor": "커패시터 capacitor cap",
             "inductor": "인덕터 inductor ind",
@@ -1161,6 +1467,172 @@ def moisture_management():
             "timestamp": datetime.now().isoformat()
         }), 500
 
+@chat4_bp.route('/order-management', methods=['POST', 'OPTIONS'])
+def order_management():
+    """주문 필요 부품 정보 제공 (필요/불필요 모두 지원)"""
+    # Handle CORS preflight request
+    if request.method == 'OPTIONS':
+        return '', 200
+    
+    try:
+        print("\n" + "="*60)
+        print("[📦] 주문 필요 부품 정보 요청")
+        print("="*60)
+        
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "요청 데이터가 없습니다.", "success": False}), 400
+        
+        user_message = data.get('message', '').strip()
+        if not user_message:
+            user_message = "주문 필요 부품"  # 기본값 설정
+        print(f"[📋] 사용자 메시지: {user_message}")
+        
+        # 사용자 의도 분석
+        is_requesting_unnecessary = any(keyword in user_message.lower() for keyword in [
+            '불필요', 'unnecessary', '충분', 'sufficient', '보통', 'normal', '재고충분'
+        ])
+        
+        print(f"[📦] 사용자 의도: {'주문 불필요 부품' if is_requesting_unnecessary else '주문 필요 부품'}")
+        
+        # 주문 필요 부품 조회
+        print("[🔍] fetch_low_stock_components() 함수 호출...")
+        low_stock_components = fetch_low_stock_components()
+        print(f"[🔍] 결과: {len(low_stock_components) if low_stock_components else 0}개")
+        
+        if is_requesting_unnecessary:
+            # 주문이 불필요한 부품은 전체에서 주문 필요 부품을 제외
+            try:
+                conn = get_db_connection()
+                cursor = conn.cursor(dictionary=True)
+                
+                # 먼저 실제 컬럼 구조 확인
+                cursor.execute("DESCRIBE pcb_parts")
+                columns = cursor.fetchall()
+                
+                # 컬럼명 추출을 안전하게 처리
+                column_names = []
+                for col in columns:
+                    if isinstance(col, dict):
+                        # dictionary 형태인 경우
+                        column_names.append(col['Field'])
+                    elif isinstance(col, (list, tuple)):
+                        # list/tuple 형태인 경우 (첫 번째 요소가 컬럼명)
+                        column_names.append(col[0])
+                    else:
+                        print(f"⚠️ 예상치 못한 컬럼 데이터 형태: {type(col)} - {col}")
+                        continue
+                
+                print(f"🔍 실제 데이터베이스 컬럼 구조: {column_names}")
+                
+                # 실제 존재하는 컬럼명만 사용
+                quantity_col = 'quantity' if 'quantity' in column_names else 'qty' if 'qty' in column_names else None
+                min_stock_col = 'min_stock' if 'min_stock' in column_names else 'minimum_stock' if 'minimum_stock' in column_names else None
+                
+                if not quantity_col or not min_stock_col:
+                    print(f"❌ 필요한 컬럼을 찾을 수 없습니다. quantity: {quantity_col}, min_stock: {min_stock_col}")
+                    cursor.close()
+                    conn.close()
+                    return jsonify({
+                        "error": "데이터베이스 스키마 오류: quantity 또는 min_stock 컬럼을 찾을 수 없습니다.",
+                        "success": False
+                    }), 500
+                
+                # 주문이 불필요한 부품 검색 (재고가 최소재고량 이상인 경우)
+                query = f"""
+                    SELECT * FROM pcb_parts 
+                    WHERE {quantity_col} >= {min_stock_col} AND {quantity_col} > 0
+                    ORDER BY {quantity_col} DESC
+                """
+                print("[✅] 주문 불필요한 부품 검색 중...")
+                
+                cursor.execute(query)
+                parts = cursor.fetchall()
+                cursor.close()
+                conn.close()
+                
+                print(f"[✅] 데이터베이스에서 {len(parts)}개의 주문 불필요 부품 발견")
+                
+                if not parts:
+                    response = """✅ **주문 불필요 부품 현황**
+
+📊 **검색 결과:**
+• 현재 데이터베이스에 주문이 불필요한 부품이 없습니다.
+• 모든 부품이 주문이 필요한 상태입니다.
+
+💡 **참고사항:**
+• 주문이 불필요한 부품은 `quantity >= min_stock` AND `quantity > 0`로 표시됩니다.
+• 현재 등록된 모든 부품이 최소 재고량 이하입니다."""
+                else:
+                    response = f"""✅ **주문 불필요 부품 현황**
+
+📊 **검색 결과:**
+• 총 {len(parts)}개의 부품이 주문이 불필요한 상태입니다.
+• 모든 부품이 최소 재고량 이상 보유하고 있습니다.
+
+🔍 **주문 불필요 부품 상세 정보:**\n"""
+                    
+                    # 부품별 상세 정보 (최대 10개)
+                    for i, part in enumerate(parts[:10]):
+                        part_number = part.get('part_number', 'Unknown')
+                        manufacturer = part.get('manufacturer', 'Unknown')
+                        size = part.get('size', 'Unknown')
+                        quantity = int(part.get(quantity_col, 0) or 0)
+                        min_stock = int(part.get(min_stock_col, 0) or 0)
+                        
+                        response += f"\n**{i+1}. {part_number}**"
+                        response += f"\n• 제조사: {manufacturer}"
+                        response += f"\n• 사이즈: {size}"
+                        response += f"\n• 현재재고: {quantity}개 (최소: {min_stock}개)"
+                        response += f"\n• 재고상태: 🟢 재고 충분"
+                        response += f"\n• 주문 필요성: ❌ 주문 불필요\n"
+                    
+                    if len(parts) > 10:
+                        response += f"\n... 및 {len(parts) - 10}개 더"
+                
+                return jsonify({
+                    "response": response,
+                    "intent": "order_unnecessary",
+                    "parts_count": len(parts),
+                    "success": True,
+                    "timestamp": datetime.now().isoformat()
+                })
+                
+            except Exception as e:
+                print(f"⚠️ 주문 불필요 부품 조회 오류: {e}")
+                import traceback
+                traceback.print_exc()
+                return jsonify({
+                    "error": f"주문 불필요 부품 조회 중 오류가 발생했습니다: {str(e)}",
+                    "success": False
+                }), 500
+        else:
+            # 주문 필요 부품 조회
+            if low_stock_components:
+                response = generate_low_stock_response(low_stock_components)
+                print(f"[✅] 주문 필요 부품 응답 생성 완료 (길이: {len(response)}자)")
+            else:
+                response = generate_low_stock_response([])  # 빈 리스트로 호출하여 상세 응답 생성
+                print(f"[✅] 주문 필요 부품 없음 응답 생성 완료 (길이: {len(response)}자)")
+            
+            return jsonify({
+                "response": response,
+                "intent": "order_necessary",
+                "low_stock_count": len(low_stock_components) if low_stock_components else 0,
+                "success": True,
+                "timestamp": datetime.now().isoformat()
+            })
+            
+    except Exception as e:
+        print(f"[❌] 주문 관리 오류: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            "error": f"서버 오류가 발생했습니다: {str(e)}",
+            "success": False,
+            "timestamp": datetime.now().isoformat()
+        }), 500
+
 @chat4_bp.route('/health', methods=['GET'])
 def inventory_health():
     try:
@@ -1183,12 +1655,14 @@ def inventory_health():
                 "rag_documents": f"{len(rag_processor.documents)}개 로드됨" if has_documents else "문서 없음",
                 "embeddings": "준비됨" if has_embeddings else "준비 안됨",
                 "moisture_management": "활성화됨",
+                "order_management": "활성화됨",
                 "system": "operational"
             },
             "features": {
                 "inventory_chat": "활성화됨",
                 "quick_actions": "활성화됨",
                 "moisture_management": "활성화됨",
+                "order_management": "활성화됨",
                 "part_search": "활성화됨"
             }
         })
@@ -1202,3 +1676,252 @@ def inventory_health():
 
 # 앱 시작시 초기화
 initialize_rag_system()
+
+@chat4_bp.route('/db-diagnostic', methods=['GET'])
+def db_diagnostic():
+    """데이터베이스 연결 상태 및 구조 진단"""
+    try:
+        print("\n" + "="*60)
+        print("[🔍] 데이터베이스 진단 시작")
+        print("="*60)
+        
+        # 1. 데이터베이스 연결 테스트
+        print("[🔌] 데이터베이스 연결 테스트 중...")
+        try:
+            conn = get_db_connection()
+            if not conn.is_connected():
+                return jsonify({
+                    "status": "error",
+                    "message": "데이터베이스 연결 실패",
+                    "details": "get_db_connection()에서 연결된 상태가 아닙니다.",
+                    "timestamp": datetime.now().isoformat()
+                }), 500
+            
+            print("✅ 데이터베이스 연결 성공")
+            
+        except Exception as e:
+            print(f"❌ 데이터베이스 연결 오류: {e}")
+            return jsonify({
+                "status": "error",
+                "message": "데이터베이스 연결 오류",
+                "details": str(e),
+                "timestamp": datetime.now().isoformat()
+            }), 500
+        
+        # 2. 테이블 존재 여부 확인
+        print("[📋] 테이블 존재 여부 확인 중...")
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SHOW TABLES")
+            tables = cursor.fetchall()
+            table_names = [table[0] for table in tables]
+            print(f"🔍 발견된 테이블: {table_names}")
+            
+            if 'pcb_parts' not in table_names:
+                cursor.close()
+                conn.close()
+                return jsonify({
+                    "status": "error",
+                    "message": "pcb_parts 테이블이 존재하지 않습니다",
+                    "available_tables": table_names,
+                    "timestamp": datetime.now().isoformat()
+                }), 404
+            
+            print("✅ pcb_parts 테이블 발견")
+            
+        except Exception as e:
+            print(f"❌ 테이블 확인 오류: {e}")
+            cursor.close()
+            conn.close()
+            return jsonify({
+                "status": "error",
+                "message": "테이블 확인 중 오류 발생",
+                "details": str(e),
+                "timestamp": datetime.now().isoformat()
+            }), 500
+        
+        # 3. 테이블 구조 확인
+        print("[🏗️] 테이블 구조 확인 중...")
+        try:
+            cursor.execute("DESCRIBE pcb_parts")
+            columns = cursor.fetchall()
+            column_info = []
+            
+            for col in columns:
+                if isinstance(col, dict):
+                    # dictionary 형태인 경우
+                    column_info.append({
+                        "field": col['Field'],
+                        "type": col['Type'],
+                        "null": col['Null'],
+                        "key": col['Key'],
+                        "default": col['Default'],
+                        "extra": col['Extra']
+                    })
+                elif isinstance(col, (list, tuple)):
+                    # list/tuple 형태인 경우
+                    column_info.append({
+                        "field": col[0],
+                        "type": col[1],
+                        "null": col[2],
+                        "key": col[3],
+                        "default": col[4],
+                        "extra": col[5]
+                    })
+                else:
+                    print(f"⚠️ 예상치 못한 컬럼 데이터 형태: {type(col)} - {col}")
+                    continue
+            
+            print(f"🔍 컬럼 정보: {len(column_info)}개 컬럼")
+            for col in column_info:
+                print(f"  - {col['field']}: {col['type']}")
+            
+        except Exception as e:
+            print(f"❌ 테이블 구조 확인 오류: {e}")
+            cursor.close()
+            conn.close()
+            return jsonify({
+                "status": "error",
+                "message": "테이블 구조 확인 중 오류 발생",
+                "details": str(e),
+                "timestamp": datetime.now().isoformat()
+            }), 500
+        
+        # 4. 데이터 개수 확인
+        print("[📊] 데이터 개수 확인 중...")
+        try:
+            cursor.execute("SELECT COUNT(*) as total FROM pcb_parts")
+            total_count = cursor.fetchone()[0]
+            print(f"🔍 총 레코드 수: {total_count}개")
+            
+        except Exception as e:
+            print(f"❌ 데이터 개수 확인 오류: {e}")
+            cursor.close()
+            conn.close()
+            return jsonify({
+                "status": "error",
+                "message": "데이터 개수 확인 중 오류 발생",
+                "details": str(e),
+                "timestamp": datetime.now().isoformat()
+            }), 500
+        
+        # 5. 샘플 데이터 확인
+        print("[🔍] 샘플 데이터 확인 중...")
+        try:
+            cursor.execute("SELECT * FROM pcb_parts LIMIT 3")
+            sample_data = cursor.fetchall()
+            sample_info = []
+            
+            for i, row in enumerate(sample_data):
+                row_dict = {}
+                for j, col in enumerate(column_info):
+                    row_dict[col['field']] = str(row[j]) if row[j] is not None else None
+                sample_info.append(row_dict)
+            
+            print(f"🔍 샘플 데이터 {len(sample_info)}개 로드 완료")
+            
+        except Exception as e:
+            print(f"❌ 샘플 데이터 확인 오류: {e}")
+            cursor.close()
+            conn.close()
+            return jsonify({
+                "status": "error",
+                "message": "샘플 데이터 확인 중 오류 발생",
+                "details": str(e),
+                "timestamp": datetime.now().isoformat()
+            }), 500
+        
+        # 6. 주문 필요 부품 테스트 쿼리
+        print("[🚨] 주문 필요 부품 테스트 쿼리 실행 중...")
+        try:
+            # quantity와 min_stock 컬럼 찾기
+            quantity_col = None
+            min_stock_col = None
+            
+            for col in column_info:
+                if 'quantity' in col['field'].lower():
+                    quantity_col = col['field']
+                elif 'min_stock' in col['field'].lower() or 'minimum' in col['field'].lower():
+                    min_stock_col = col['field']
+            
+            print(f"🔍 찾은 컬럼: quantity={quantity_col}, min_stock={min_stock_col}")
+            
+            if quantity_col and min_stock_col:
+                # 주문 필요 부품 쿼리 테스트
+                test_query = f"""
+                    SELECT COUNT(*) as low_stock_count 
+                    FROM pcb_parts 
+                    WHERE {quantity_col} < {min_stock_col} OR {quantity_col} = 0
+                """
+                cursor.execute(test_query)
+                low_stock_count = cursor.fetchone()[0]
+                print(f"🔍 주문 필요 부품 수: {low_stock_count}개")
+                
+                # 실제 데이터도 확인
+                cursor.execute(f"""
+                    SELECT {quantity_col}, {min_stock_col}, part_number 
+                    FROM pcb_parts 
+                    WHERE {quantity_col} < {min_stock_col} OR {quantity_col} = 0
+                    LIMIT 5
+                """)
+                low_stock_samples = cursor.fetchall()
+                print(f"🔍 주문 필요 부품 샘플: {len(low_stock_samples)}개")
+                
+            else:
+                print("⚠️ quantity 또는 min_stock 컬럼을 찾을 수 없습니다")
+                low_stock_count = 0
+                low_stock_samples = []
+            
+        except Exception as e:
+            print(f"❌ 주문 필요 부품 테스트 쿼리 오류: {e}")
+            low_stock_count = 0
+            low_stock_samples = []
+        
+        cursor.close()
+        conn.close()
+        
+        # 7. 진단 결과 반환
+        diagnostic_result = {
+            "status": "success",
+            "message": "데이터베이스 진단 완료",
+            "timestamp": datetime.now().isoformat(),
+            "database": {
+                "connection": "connected",
+                "tables": table_names,
+                "pcb_parts_exists": True
+            },
+            "table_structure": {
+                "total_columns": len(column_info),
+                "columns": column_info
+            },
+            "data": {
+                "total_records": total_count,
+                "sample_data": sample_info
+            },
+            "low_stock_test": {
+                "quantity_column": quantity_col,
+                "min_stock_column": min_stock_col,
+                "low_stock_count": low_stock_count,
+                "low_stock_samples": [
+                    {
+                        "quantity": str(sample[0]),
+                        "min_stock": str(sample[1]),
+                        "part_number": str(sample[2])
+                    } for sample in low_stock_samples
+                ]
+            }
+        }
+        
+        print("✅ 데이터베이스 진단 완료")
+        return jsonify(diagnostic_result)
+        
+    except Exception as e:
+        print(f"❌ 데이터베이스 진단 중 예외 발생: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            "status": "error",
+            "message": "데이터베이스 진단 중 예외 발생",
+            "details": str(e),
+            "timestamp": datetime.now().isoformat()
+        }), 500

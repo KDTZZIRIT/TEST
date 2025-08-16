@@ -101,7 +101,7 @@ const Menu3 = ({}: Menu3Props) => {
   React.useEffect(() => {
     const fetchPcbDefectData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/user/pcb-defect");
+        const res = await fetch("http://43.201.249.204:5000/api/user/pcb-defect");
         const data = await res.json();
         setPcbDefectData(data);
         console.log("PCB 불량 데이터:", data);
@@ -1318,7 +1318,7 @@ const Menu3 = ({}: Menu3Props) => {
                               return (
                                 <div
                                   key={defect.id}
-                                  className="absolute border-2 border-red-500 bg-red-500/20 animate-pulse cursor-pointer group"
+                                  className="absolute border-[1.5px] border-red-500 bg-red-500/20 animate-pulse cursor-pointer group"
                                   style={{
                                     left: `${Math.max(0, Math.min(95, xPercent))}%`,
                                     top: `${Math.max(0, Math.min(95, yPercent))}%`,

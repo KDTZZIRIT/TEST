@@ -388,7 +388,7 @@ const Menu2 = () => {
 
       // PCB외관 비전 검사 진행
       try {
-        const res = await fetch("http://localhost:5000/api/user/visionAI", {
+        const res = await fetch("http://43.201.249.204:5000/api/user/visionAI", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -405,7 +405,7 @@ const Menu2 = () => {
         const currentTime = Date.now()
         const inspectionTime = individualInspectionStartTimeRef.current ? Math.round((currentTime - individualInspectionStartTimeRef.current) / 1000) : 0
 
-                                  // 검사 결과 생성
+         // 검사 결과 생성
           const result = {
             id: visionData.id,
             pcb_id: visionResult.pcb_id, // PCB ID 추가
@@ -738,7 +738,7 @@ const Menu2 = () => {
                   disabled={isInspectionRunning || !visionData}
                   onClick={async () => {
                     if (visionData && selectedInspection) {
-                      // 백엔드로 검사 요청 전송
+                      // 부품 감소 로직
                       try {
                         const response = await fetch("http://43.201.249.204:5000/api/user/inspection", {
                           method: "POST",
@@ -1052,13 +1052,13 @@ const Menu2 = () => {
               <p className="text-white mb-2">선택된 PCB: {selectedPcb?.name}</p>
               <p className="text-gray-400 text-sm">ID: PCB{selectedPcb?.pcb_id}</p>
             </div>
-                         <div>
+              <div>
                <label className="text-white block mb-2">검사 날짜 및 시간</label>
-                               <Input
+                <Input
                   type="datetime-local"
                   value={inspectionDate}
                   onChange={(e) => setInspectionDate(e.target.value)}
-                  className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:brightness-0 [&::-webkit-calendar-picker-indicator]:contrast-100 [&::-webkit-calendar-picker-indicator]:bg-white [&::-webkit-calendar-picker-indicator]:rounded"
+                  className="bg-[#0D1117]/50 backdrop-blur-sm border-[#30363D] text-white [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                   required
                 />
              </div>
@@ -1106,39 +1106,50 @@ const Menu2 = () => {
 
       {/* 검사 일정 캘린더 모달 */}
       <Dialog open={showCalendarModal} onOpenChange={setShowCalendarModal}>
-        <DialogContent className="bg-[#161B22]/80 backdrop-blur-xl border-[#30363D] shadow-2xl max-w-4xl">
-          <DialogHeader>
+        <DialogContent className="bg-[#161B22]/80 backdrop-blur-xl border-[#30363D] shadow-2xl max-w-7xl max-h-[95vh] overflow-hidden">
+          <DialogHeader className="relative">
             <DialogTitle className="text-white flex items-center gap-2">
               <Calendar className="w-5 h-5 text-blue-400" />
               검사 일정 관리
             </DialogTitle>
+            <Button
+              onClick={() => setShowCalendarModal(false)}
+              variant="ghost"
+              size="sm"
+              className="absolute top-0 right-0 text-gray-400 hover:text-white hover:bg-gray-700/50 p-2"
+            >
+              ✕
+            </Button>
           </DialogHeader>
-          <div className="space-y-6">
-            {/* 캘린더 헤더 */}
-            <div className="flex items-center justify-between">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={goToPreviousMonth}
-                className="border-blue-500/30 text-blue-400 hover:bg-blue-600/10 bg-transparent"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <h2 className="text-xl font-semibold text-white">
-                {formatDate(currentDate)}
-              </h2>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={goToNextMonth}
-                className="border-blue-500/30 text-blue-400 hover:bg-blue-600/10 bg-transparent"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+          
+          <div className="grid gap-6 h-full overflow-hidden" style={{gridTemplateColumns: '65% 35%'}}>
+            {/* 왼쪽: 캘린더 */}
+            <div className="space-y-4">
+              {/* 캘린더 헤더 */}
+              <div className="flex items-center justify-between">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goToPreviousMonth}
+                  className="border-blue-500/30 text-blue-400 hover:bg-blue-600/10 bg-transparent"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <h2 className="text-xl font-semibold text-white">
+                  {formatDate(currentDate)}
+                </h2>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goToNextMonth}
+                  className="border-blue-500/30 text-blue-400 hover:bg-blue-600/10 bg-transparent"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
 
-            {/* 캘린더 그리드 */}
-            <div className="bg-[#0D1117]/50 rounded-lg p-4 border border-[#30363D]">
+              {/* 캘린더 그리드 */}
+              <div className="bg-[#0D1117]/50 rounded-lg p-4 border border-[#30363D]">
               {/* 요일 헤더 */}
               <div className="grid grid-cols-7 gap-1 mb-2">
                 {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
@@ -1207,76 +1218,73 @@ const Menu2 = () => {
                   return days
                 })()}
               </div>
+              </div>
             </div>
 
-            {/* 예약된 검사 일정 목록 */}
-            <div className="bg-[#0D1117]/50 rounded-lg p-4 border border-[#30363D]">
-              <h3 className="text-white font-medium mb-3">이번 달 예약된 검사 일정</h3>
-              {Array.isArray(scheduledInspections) && scheduledInspections.length > 0 ? (
-                <div className="space-y-2 max-h-96 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#161B22] [&::-webkit-scrollbar-thumb]:bg-blue-500/60 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:hover:bg-blue-400/80 [&::-webkit-scrollbar-thumb]:transition-all [&::-webkit-scrollbar-thumb]:duration-300">
-                  {scheduledInspections.map((inspection, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-[#161B22]/30 rounded-lg border border-[#30363D]">
-                      <div className="flex-1">
-                        <div className="text-white font-medium">{inspection.pcbName}</div>
-                        <div className="text-gray-400 text-sm">
-                          {inspection.date} • {inspection.type} • {inspection.method}
-                        </div>
-                        <div className="text-gray-500 text-xs mt-1">
-                          수량: {inspection.count}개 • 이미지: {inspection.urls.length}개
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex flex-col items-end gap-1">
-                          <Badge variant="outline" className="border-blue-500/30 text-blue-400 text-xs">
-                            {inspection.type}
-                          </Badge>
-                          <Badge variant="outline" className="border-green-500/30 text-green-400 text-xs">
+            {/* 오른쪽: 예약된 검사 일정 목록 */}
+            <div className="flex flex-col h-full">
+              <div className="bg-[#0D1117]/50 rounded-lg p-4 border border-[#30363D] flex-1 flex flex-col">
+                <h3 className="text-white font-medium mb-3">이번 달 예약된 검사 일정</h3>
+                {Array.isArray(scheduledInspections) && scheduledInspections.length > 0 ? (
+                  <div className="flex-1 overflow-y-auto space-y-2 pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#161B22] [&::-webkit-scrollbar-thumb]:bg-blue-500/60 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:hover:bg-blue-400/80 [&::-webkit-scrollbar-thumb]:transition-all [&::-webkit-scrollbar-thumb]:duration-300">
+                    {scheduledInspections.map((inspection, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-[#161B22]/30 rounded-lg border border-[#30363D]">
+                        <div className="flex-1 min-w-0">
+                          <div className="text-white font-medium truncate">{inspection.pcbName}</div>
+                          <div className="text-gray-400 text-sm">
+                            {inspection.date} • {inspection.type}
+                          </div>
+                          <div className="text-gray-400 text-sm">
                             {inspection.method}
-                          </Badge>
+                          </div>
+                          <div className="text-gray-500 text-xs mt-1">
+                            수량: {inspection.count}개 • 이미지: {inspection.urls.length}개
+                          </div>
                         </div>
-                        <div className="flex flex-col gap-1">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleSelectInspection(inspection)}
-                            className={`border-blue-500/30 text-blue-400 hover:bg-blue-600/10 bg-transparent px-2 py-1 h-8 ${
-                              selectedInspection?.id === inspection.id ? 'bg-blue-600/20 border-blue-400' : ''
-                            }`}
-                            title="검사 대상 선택"
-                          >
-                            <Check className="w-3 h-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleDeleteInspection(inspection.id)}
-                            className="border-red-500/30 text-red-400 hover:bg-red-600/10 bg-transparent px-2 py-1 h-8"
-                            title="검사 일정 삭제"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                          </Button>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <div className="flex flex-col items-end gap-1">
+                            <Badge variant="outline" className="border-blue-500/30 text-blue-400 text-xs">
+                              {inspection.type}
+                            </Badge>
+                            <Badge variant="outline" className="border-green-500/30 text-green-400 text-xs">
+                              {inspection.method}
+                            </Badge>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleSelectInspection(inspection)}
+                              className={`border-blue-500/30 text-blue-400 hover:bg-blue-600/10 bg-transparent px-2 py-1 h-8 ${
+                                selectedInspection?.id === inspection.id ? 'bg-blue-600/20 border-blue-400' : ''
+                              }`}
+                              title="검사 대상 선택"
+                            >
+                              <Check className="w-3 h-3" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleDeleteInspection(inspection.id)}
+                              className="border-red-500/30 text-red-400 hover:bg-red-600/10 bg-transparent px-2 py-1 h-8"
+                              title="검사 일정 삭제"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
+                          </div>
                         </div>
                       </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center text-gray-400">
+                      <Calendar className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                      <p>예약된 검사 일정이 없습니다.</p>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center text-gray-400 py-8">
-                  <Calendar className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>예약된 검사 일정이 없습니다.</p>
-                </div>
-              )}
-            </div>
-
-            {/* 닫기 버튼 */}
-            <div className="flex justify-end">
-              <Button
-                onClick={() => setShowCalendarModal(false)}
-                variant="outline"
-                className="border-blue-500/30 text-blue-400 hover:bg-blue-600/10 bg-transparent"
-              >
-                닫기
-              </Button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </DialogContent>

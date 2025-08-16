@@ -30,22 +30,15 @@ interface FactoryDataWrapper {
 let socket: Socket;
 
 
-
-// --- Data Mocks ---
-const environmentData = {
-  temperature: { current: 23.5, status: "normal", trend: [22.1, 22.8, 23.2, 23.5, 23.1, 22.9, 23.5] },
-  humidity: { current: 65.2, status: "warning", trend: [62.1, 64.2, 66.8, 68.1, 67.5, 65.8, 65.2] },
-  pm25: { current: 12.3, status: "normal", trend: [10.2, 11.5, 12.1, 12.3, 11.8, 12.0, 12.3] },
-  pm10: { current: 18.7, status: "normal", trend: [16.2, 17.1, 18.2, 18.7, 17.9, 18.1, 18.7] },
-  co2: { current: 420, status: "normal", trend: [410, 415, 418, 420, 422, 419, 420] }
+// API에서 가져올 데이터 타입 정의
+interface ApiPcbPart {
+  id: string;
+  product: string;
+  type: string;
+  moisture_status: boolean;
+  moistureAbsorption: boolean;
+  quantity: number;
 }
-
-const moistureSensitiveMaterials = [
-  { name: "MLCC", optimalRange: "30-50%", currentHumidity: 45.2, status: "normal", warehouse: "A동" },
-  { name: "BGA", optimalRange: "20-40%", currentHumidity: 52.1, status: "warning", warehouse: "B동" },
-  { name: "FPC", optimalRange: "35-55%", currentHumidity: 38.7, status: "normal", warehouse: "C동" },
-  { name: "QFN", optimalRange: "25-45%", currentHumidity: 48.3, status: "normal", warehouse: "A동" }
-]
 
 
 
@@ -201,30 +194,61 @@ const EnvironmentCard: FC<{ title: string; value: number; unit: string; status: 
 );
 }
 
-const MaterialCard: FC<{ material: typeof moistureSensitiveMaterials[0] }> = ({ material }) => (
-  <div className={`p-3 rounded-lg border transition-all duration-300 ${
+interface MaterialCardProps {
+  material: {
+    name: string;
+    type: string;
+    optimalRange: string;
+    currentHumidity: number;
+    status: string;
+    warehouse: string;
+    moistureAbsorption: boolean;
+    inventory: number;
+  };
+}
+
+const MaterialCard: FC<MaterialCardProps> = ({ material }) => (
+  <div className={`p-3 rounded-lg border transition-all duration-300 h-44 flex flex-col ${
     material.status === "warning" 
       ? "bg-yellow-500/10 border-yellow-500/30" 
       : "bg-[#161B22]/50 border-[#30363D]"
   }`}>
     <div className="flex items-center justify-between mb-2">
       <div className="flex items-center gap-2">
-        <h4 className="text-white font-medium text-base">{material.name}</h4>
+        <h4 className="text-white font-medium text-lg">{material.name}</h4>
         {material.status === "warning" && (
-          <AlertCircle className="w-4 h-4 text-yellow-400 animate-pulse" />
+          <AlertCircle className="w-5 h-5 text-yellow-400 animate-pulse" />
         )}
       </div>
       <Badge className="text-xs bg-gray-700/50 text-gray-300">
         {material.warehouse}
       </Badge>
     </div>
-    <div className="space-y-2">
-      <div className="flex justify-between text-sm">
-        <span className="text-gray-400">적정 범위: {material.optimalRange}</span>
-        <span className={`font-bold ${material.status === "warning" ? "text-yellow-400" : "text-white"}`}>
+    
+    <div className="flex-1 flex flex-col justify-center">
+      <div className="text-center space-y-1">
+        <div className="text-gray-400 text-sm">적정 범위: {material.optimalRange}</div>
+        <div className={`font-bold text-xl ${material.status === "warning" ? "text-yellow-400" : "text-white"}`}>
           {material.currentHumidity}%
+        </div>
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center gap-1">
+            <span className="text-gray-400 text-sm">흡습:</span>
+            <span className={`font-bold text-lg ${material.moistureAbsorption ? "text-green-400" : "text-red-400"}`}>
+              {material.moistureAbsorption ? "○" : "✗"}
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-gray-400 text-sm">재고:</span>
+            <span className="text-white font-bold text-sm">
+              {material.inventory.toLocaleString()}개
         </span>
+          </div>
+        </div>
       </div>
+    </div>
+    
+    <div className="mt-2">
       <div className="w-full bg-[#30363D] rounded-full h-2">
         <div
           className={`h-2 rounded-full transition-all duration-700 ${
@@ -247,11 +271,159 @@ export default function DashboardPage() {
   const [isConnected, setIsConnected] = useState(false);
   const [dataHistory, setDataHistory] = useState<FactoryEnvData[]>([]); // 히스토리 저장
   const [lastRecordTime, setLastRecordTime] = useState<number>(0); // 마지막 기록 시간
+  const [moistureSensitiveMaterials, setMoistureSensitiveMaterials] = useState<any[]>([]);
   
+  // 창고별 습도 오프셋 정의
+  const warehouseHumidityOffset: { [key: string]: number } = {
+    "A-1": -20,
+    "A-2": -30,
+    "A-3": -15
+  };
+  
+  // 창고별 동적 습도 계산 함수
+  const calculateDynamicHumidity = (warehouse: string, baseHumidity: number) => {
+    const offset = warehouseHumidityOffset[warehouse] || 0;
+    const adjustedHumidity = baseHumidity + offset;
+    
+    // ±0.2% 범위에서 0.1% 단위로 랜덤 변동
+    const randomVariation = (Math.random() * 2 - 1) * 0.2; // -0.2 ~ +0.2
+    const roundedVariation = Math.round(randomVariation * 10) / 10; // 0.1% 단위로 반올림
+    
+    const finalHumidity = adjustedHumidity + roundedVariation;
+    
+    // 습도가 0% 미만이나 100% 초과가 되지 않도록 제한
+    return Math.max(0, Math.min(100, finalHumidity));
+  };
+  
+  // 실시간 습도 업데이트 함수
+  const updateMaterialsHumidity = (currentFactoryHumidity: number) => {
+    setMoistureSensitiveMaterials(prevMaterials => 
+      prevMaterials.map(material => {
+        let newHumidity = calculateDynamicHumidity(material.warehouse, currentFactoryHumidity);
+        
+        // 흡습상태가 false(X)인 경우 습도값에 +10 추가
+        if (!material.moistureAbsorption) {
+          newHumidity += 10;
+        }
+        
+        // 습도가 100% 초과하지 않도록 제한
+        newHumidity = Math.min(100, newHumidity);
+        
+        const newStatus = newHumidity > 70 ? "warning" : "normal";
+        
+        return {
+          ...material,
+          currentHumidity: Math.round(newHumidity * 10) / 10, // 소수점 첫째자리까지
+          status: newStatus
+        };
+      })
+    );
+  };
+  
+  // API에서 PCB 부품 데이터 가져오기
+  const fetchPcbPartsData = async () => {
+    try {
+      const apiUrl = "http://43.201.249.204:5000/api/user";
+      const response = await fetch(`${apiUrl}/pcb-parts`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // 데이터가 배열인지 확인
+      if (!Array.isArray(data)) {
+        throw new Error("API 응답이 배열 형태가 아닙니다");
+      }
+      
+      // 지정된 카테고리만 필터링
+      const targetCategories = [
+        "Misc IC / Unknown",
+        "PMIC / Power IC", 
+        "RF Filter / Duplexer",
+        "RF Filter / Module",
+        "RF Front-End / PA"
+      ];
+      
+      const filteredData = data.filter(item => {
+        return targetCategories.includes(item.type);
+      });
+      
+      // 필터링이 안 되면 임시로 처음 4개만 사용
+      const finalData = filteredData.length > 0 ? filteredData : data.slice(0, 4);
+      
+      // 타입별 창고 할당 맵핑
+      const typeToWarehouse: { [key: string]: string } = {
+        "Misc IC / Unknown": "A-1",
+        "PMIC / Power IC": "A-2", 
+        "RF Filter / Duplexer": "A-3",
+        "RF Filter / Module": "A-1",
+        "RF Front-End / PA": "A-2"
+      };
+      
+      // 습도 민감 자재 형식으로 변환
+      const transformedData = finalData.map((item, index) => ({
+        name: item.product || `부품-${index + 1}`,
+        type: item.type,
+        optimalRange: "20-60%", // 기본 범위
+        currentHumidity: 50, // 초기값, 나중에 동적으로 계산됨
+        status: item.moisture_status ? "warning" : "normal",
+        warehouse: typeToWarehouse[item.type] || "A-1", // 타입별 창고 할당
+        moistureAbsorption: item.moistureAbsorption || false,
+        inventory: item.quantity || 0
+      }));
+      
+      setMoistureSensitiveMaterials(transformedData);
+      
+      // 초기 습도 설정 (기본값 65%로 가정)
+      setTimeout(() => {
+        updateMaterialsHumidity(65);
+      }, 100);
+      
+    } catch (error) {
+      // 에러 시 기본 데이터 사용
+      const fallbackData = [
+        { name: "MLCC", type: "Misc IC / Unknown", optimalRange: "30-50%", currentHumidity: 50, status: "normal", warehouse: "A-1", moistureAbsorption: false, inventory: 1250 },
+        { name: "BGA", type: "PMIC / Power IC", optimalRange: "20-40%", currentHumidity: 50, status: "warning", warehouse: "A-2", moistureAbsorption: true, inventory: 340 },
+        { name: "FPC", type: "RF Filter / Duplexer", optimalRange: "35-55%", currentHumidity: 50, status: "normal", warehouse: "A-3", moistureAbsorption: false, inventory: 890 },
+        { name: "QFN", type: "RF Filter / Module", optimalRange: "25-45%", currentHumidity: 50, status: "normal", warehouse: "A-1", moistureAbsorption: false, inventory: 2150 }
+      ];
+      setMoistureSensitiveMaterials(fallbackData);
+      
+      // 폴백 데이터에도 초기 습도 적용
+      setTimeout(() => {
+        updateMaterialsHumidity(65);
+      }, 100);
+    }
+  };
+
+  // 컴포넌트 마운트 시 데이터 가져오기
+  useEffect(() => {
+    fetchPcbPartsData();
+  }, []);
+
+  // 실시간 습도 데이터로 자재 습도 업데이트
+  useEffect(() => {
+    if (factoryEnvData.length > 0 && moistureSensitiveMaterials.length > 0) {
+      const firstElement = factoryEnvData[0];
+      let latestData: FactoryEnvData | null = null;
+      
+      if (firstElement?.data?.data && Array.isArray(firstElement.data.data) && firstElement.data.data.length > 0) {
+        latestData = firstElement.data.data[0];
+      } else if (firstElement?.data && Array.isArray(firstElement.data) && firstElement.data.length > 0) {
+        latestData = firstElement.data[0];
+      }
+      
+      if (latestData?.humidity_percent) {
+        updateMaterialsHumidity(latestData.humidity_percent);
+      }
+    }
+  }, [factoryEnvData]);
 
   // 소켓 통신 연결 (공장 환경 데이터 실시간 수신)
   useEffect(() => {
-    socket = io("http://localhost:3100");
+    socket = io("http://43.201.249.204:3100");
 
     socket.on("connect", () => {
       setIsConnected(true);
@@ -269,10 +441,8 @@ export default function DashboardPage() {
           
           // 1초(1000ms) 간격으로 기록
           if (currentTime - lastRecordTime >= 1000) {
-            console.log("📊 센서 데이터 추가:", sensorData);
             setDataHistory(prev => {
               const newHistory = [...prev, sensorData].slice(-7); // 최근 7개만 유지
-              console.log("📈 히스토리 업데이트:", newHistory.length, "개 항목");
               return newHistory;
             });
             setLastRecordTime(currentTime);
@@ -332,12 +502,14 @@ export default function DashboardPage() {
                 }
               }
               
+
+              
               // 실제 히스토리 데이터를 기반으로 트렌드 생성
               const getTrendData = (property: keyof FactoryEnvData) => {
-                console.log(`🔍 ${property} 트렌드 생성 - 히스토리 길이:`, dataHistory.length);
+                //console.log(`🔍 ${property} 트렌드 생성 - 히스토리 길이:`, dataHistory.length);
                 if (dataHistory.length > 0) {
                   const trendData = dataHistory.slice(-5).map(data => data[property] as number);
-                  console.log(`📊 ${property} 실제 트렌드:`, trendData);
+                  //console.log(`📊 ${property} 실제 트렌드:`, trendData);
                   return trendData;
                 }
                 // 히스토리가 없으면 현재 값을 기반으로 임시 트렌드 생성
@@ -347,10 +519,10 @@ export default function DashboardPage() {
                     const variation = (Math.random() - 0.5) * 0.1 * (i + 1);
                     return Math.max(0, currentValue * (1 + variation));
                   });
-                  console.log(`🔧 ${property} 임시 트렌드:`, tempTrend);
+                  //console.log(`🔧 ${property} 임시 트렌드:`, tempTrend);
                   return tempTrend;
                 }
-                console.log(`❌ ${property} 트렌드 없음`);
+                //console.log(`❌ ${property} 트렌드 없음`);
                 return [];
               };
               
@@ -410,7 +582,7 @@ export default function DashboardPage() {
                   />
                 </>
               );
-            }, [factoryEnvData, dataHistory])}
+            }, [factoryEnvData, dataHistory, moistureSensitiveMaterials])}
           </div>
         </div>
 
@@ -424,10 +596,12 @@ export default function DashboardPage() {
                 습도 민감 자재 모니터링
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="h-96 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#161B22] [&::-webkit-scrollbar-thumb]:bg-blue-500/60 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:hover:bg-blue-400/80 [&::-webkit-scrollbar-thumb]:transition-all [&::-webkit-scrollbar-thumb]:duration-300">
+              <div className="grid grid-cols-2 gap-3">
               {moistureSensitiveMaterials.map((material) => (
                 <MaterialCard key={material.name} material={material} />
               ))}
+              </div>
             </CardContent>
           </Card>
 

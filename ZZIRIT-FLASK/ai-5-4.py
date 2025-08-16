@@ -351,10 +351,18 @@ def _pick_model(models_by_group:dict, cat:str, size:str, man:str):
         if c==cat and s==size: return mdl
     return next(iter(models_by_group.values()))
 
-def _load_bundle()->dict:
-    p=os.path.join(MODEL_DIR,"model_bundle.pkl")
-    if not os.path.exists(p): raise FileNotFoundError("model_bundle.pkl 없음. 먼저 --retrain 실행.")
-    return joblib.load(p)
+# ai-5-4.py
+_MODEL_CACHE = None
+
+def _load_bundle() -> dict:
+    global _MODEL_CACHE
+    p = os.path.join(MODEL_DIR, "model_bundle.pkl")
+    if _MODEL_CACHE is None:
+        if not os.path.exists(p):
+            raise FileNotFoundError("model_bundle.pkl 없음. 먼저 --retrain 실행.")
+        _MODEL_CACHE = joblib.load(p)
+    return _MODEL_CACHE
+
 
 def _predict_rows(rows:pd.DataFrame, args)->pd.DataFrame:
     """

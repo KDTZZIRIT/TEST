@@ -16,7 +16,10 @@ import {
   TriangleAlert,
 } from "lucide-react"
 
-const API = "http://localhost:5100"
+const API =
+  typeof window !== "undefined"
+    ? `${window.location.protocol}//${window.location.hostname}:5100`
+    : "http://localhost:5100";
 
 type PredictItem = {
   part_id: number
@@ -98,6 +101,7 @@ export default function Main() {
     setModelWarming(true)
     try {
       const r = await fetch(`${API}/api/model/meta`)
+      if (!r.ok) throw new Error(`META ${r.status}`)
       const j = await r.json()
       setModelMeta(j)
       if (j?.available) {
@@ -161,7 +165,10 @@ export default function Main() {
         }),
         signal: ac.signal,
       })
-      if (!r.ok) throw new Error(`predict ${r.status}`)
+      if (!r.ok) {
+        const txt = await r.text().catch(()=> "")
+        throw new Error(`PREDICT ${r.status} ${txt}`)
+      }
       const j: PredictResponse = await r.json()
       setData(j)
       fetchDoneRef.current = true
@@ -251,10 +258,29 @@ export default function Main() {
     return items.slice().sort((a, b) => score(b) - score(a)).slice(0, 5)
   }, [data])
 
-  const catData = data?.summary?.categories || []
-  const count3 = catData.filter((c) => (c.days_possible ?? 999) <= 3).length
-  const count7 = catData.filter((c) => (c.days_possible ?? 999) <= 7).length
+  const allItems = data?.items || []
+  const imminentAll = allItems.filter(
+    (r) => (r.predicted_days_to_depletion ?? 999) <= 3
+  )
+  const watchAll = allItems.filter(
+    (r) => (r.predicted_days_to_depletion ?? 999) > 3 &&
+           (r.predicted_days_to_depletion ?? 999) <= 7
+  )
 
+  // 카드에 보여줄 Top 리스트 (최대 8개)
+  const imminentTop = imminentAll
+    .slice()
+    .sort((a,b) => a.predicted_days_to_depletion - b.predicted_days_to_depletion)
+    .slice(0, 8)
+
+  const watchTop = watchAll
+    .slice()
+    .sort((a,b) => a.predicted_days_to_depletion - b.predicted_days_to_depletion)
+    .slice(0, 8)
+
+  // 카드의 숫자(이제 '카테고리'가 아니라 '부품' 기준)
+  const count3 = imminentAll.length
+  const count7 = watchAll.length
   const idLabel = (r?: Partial<PredictItem> | null) => {
     if (!r) return ""
     const id: any = (r as any)?.part_id ?? (r as any)?.partId ?? (r as any)?.id
@@ -576,88 +602,7 @@ export default function Main() {
         </CardContent>
       </Card>
 
-      {/* 리스트(필터/검색/정렬) */}
-      <Card>
-        <CardHeader>
-          <CardTitle>리스트(필터/검색/정렬)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2 mb-3 text-sm">
-            <label className="flex items-center gap-1">
-              <input
-                type="checkbox"
-                checked={onlyWarning}
-                onChange={(e) => setOnlyWarning(e.target.checked)}
-              />{" "}
-              경고/주문필요만
-            </label>
-            <input
-              className="border rounded px-2 py-1 bg-transparent"
-              placeholder="검색(part/category/size/mfr)"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <select
-              className="border rounded px-2 py-1 bg-transparent"
-              value={sortKey}
-              onChange={(e) => setSortKey(e.target.value as any)}
-            >
-              <option value="cost">총비용</option>
-              <option value="days">소진일</option>
-              <option value="qty">주문량</option>
-            </select>
-            <select
-              className="border rounded px-2 py-1 bg-transparent"
-              value={sortDir}
-              onChange={(e) => setSortDir(e.target.value as any)}
-            >
-              <option value="asc">오름차순</option>
-              <option value="desc">내림차순</option>
-            </select>
-          </div>
-          <div className="max-h-[500px] overflow-y-auto border rounded">
-            <table className="w-full text-xs">
-              <thead className="bg-[#0D1117] sticky top-0 z-10 text-gray-300">
-                <tr>
-                  <th className="p-2 text-left">part_id</th>
-                  <th className="p-2 text-left">카테고리/사이즈</th>
-                  <th className="p-2 text-left">오늘사용/오프닝</th>
-                  <th className="p-2 text-left">주문량예측</th>
-                  <th className="p-2 text-left">소진일예측</th>
-                  <th className="p-2 text-left">권장일(Top-3)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((r) => (
-                  <tr key={idLabel(r)} className="border-t border-[#30363D]">
-                    <td className="p-2 text-white">{idLabel(r)}</td>
-                    <td className="p-2">{r.category} / {r.size}</td>
-                    <td className="p-2">{r.today_usage} / {r.opening_stock}</td>
-                    <td className="p-2">{Math.round(r.predicted_order_qty)}</td>
-                    <td className="p-2">{r.predicted_days_to_depletion.toFixed(1)}</td>
-                    <td className="p-2">
-                      {(r.best_day_top3 || []).map((x, idx) => (
-                        <span
-                          key={idx}
-                          className={`inline-block mr-2 mb-1 px-2 py-1 rounded border ${
-                            x.day_offset <= 1 && x.prob >= 0.7
-                              ? "border-red-500 text-red-300"
-                              : x.prob >= 0.5
-                              ? "border-yellow-400 text-yellow-300"
-                              : "border-green-500 text-green-300"
-                          }`}
-                        >
-                          D+{x.day_offset} → {Math.round(x.prob * 100)}%
-                        </span>
-                      ))}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+       
 
       {/* 발주요청 입력 모달 */}
       <Dialog open={orderOpen} onOpenChange={setOrderOpen}>
@@ -934,12 +879,14 @@ function SummaryCard({
   tone,
   icon,
   desc,
+  children,  // ← 추가
 }: {
   title: string
   value: string
   tone: "danger" | "warn" | "ok" | "info"
   icon: React.ReactNode
   desc?: string
+  children?: React.ReactNode // ← 추가
 }) {
   const toneClass =
     tone === "danger"
@@ -958,10 +905,12 @@ function SummaryCard({
         </div>
         <div className="text-2xl font-bold mt-1">{value}</div>
         {desc ? <div className="text-xs text-gray-400 mt-1">{desc}</div> : null}
+        {children ? <div className="mt-2">{children}</div> : null}
       </CardContent>
     </Card>
   )
 }
+
 
 function InitialOverlay({ step }: { step: number }) {
   // 1: DB → 2: 로봇(…) → 3: 체크리스트

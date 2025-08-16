@@ -1,0 +1,66 @@
+# Git 관련
+.git
+.gitignore
+
+# Python 관련
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE 관련
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS 관련
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+logs/
+
+# 임시 파일
+*.tmp
+*.temp
+
+# 환경 변수 파일 (보안상 제외)
+.env
+.env.local
+.env.production
+
+# Docker 관련
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# 압축 파일
+*.zip
+*.tar.gz
+*.rar
+
+# 백업 파일
+*.bak
+*.backup
+
+# 문서 파일
+README.md
+*.md
+docs/
+
+# 테스트 파일
+test_*
+*_test.py
+tests/
