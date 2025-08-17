@@ -12,14 +12,13 @@ import {
   Cpu,
   Database,
   Loader2,
-  ScanText,
   TriangleAlert,
 } from "lucide-react"
 
 const API =
   typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:5100`
-    : "http://localhost:5100";
+    ? `${window.location.protocol}//${window.location.hostname}:5200`  // 포트 5200으로 수정
+    : "http://localhost:5200";
 
 type PredictItem = {
   part_id: number
@@ -55,7 +54,6 @@ export default function Main() {
   const modelPollRef = useRef<NodeJS.Timeout | null>(null)
 
   const [data, setData] = useState<PredictResponse | null>(null)
-  const [err, setErr] = useState<string>("")
   const [predicting, setPredicting] = useState(false) // 버튼 비활성/상태 가드
 
   // 새 예측 오버레이(큰 로딩 + 체크-오프 페이드)
@@ -65,12 +63,6 @@ export default function Main() {
   const [initStep, setInitStep] = useState<number>(1)
   const initTimerRef = useRef<NodeJS.Timeout | null>(null)
 
-  // 필터/검색/정렬 (기존 리스트 섹션 유지)
-  const [onlyWarning, setOnlyWarning] = useState(false)
-  const [query, setQuery] = useState("")
-  const [sortKey, setSortKey] = useState<"cost" | "days" | "qty">("cost")
-  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc")
-
   // 발주 모달 및 진행 시각화
   const [orderOpen, setOrderOpen] = useState(false)
   const [orderTarget, setOrderTarget] = useState<PredictItem | null>(null)
@@ -79,14 +71,12 @@ export default function Main() {
   const [orderProgressOpen, setOrderProgressOpen] = useState(false)
   const [orderProgressStep, setOrderProgressStep] = useState(0)
 
-  // 요약봇
-  const [summaryOpen, setSummaryOpen] = useState(false)
-  const [summaryText, setSummaryText] = useState("")
-  const [summaryRunning, setSummaryRunning] = useState(false)
-
-  // LED(녹색) 활성 조건
-  const ledActive =
-    initStep < 4 || modelState === "loading" || modelWarming || predictOverlayOpen || orderProgressOpen || summaryRunning
+  // LED 색상 결정 (초록색/주황색/빨간색)
+  const getLedColor = () => {
+    if (modelState === "error") return "red"
+    if (modelState === "loading" || modelWarming || predictOverlayOpen || orderProgressOpen) return "orange"
+    return "green"
+  }
 
   // 예측 요청 취소/동기화 가드
   const predictAbortRef = useRef<AbortController | null>(null)
@@ -136,7 +126,6 @@ export default function Main() {
 
   async function runPredict(showOverlay = true) {
     if (predicting) return // 더블클릭 가드
-    setErr("")
     setPredicting(true)
     fetchDoneRef.current = false
 
@@ -175,7 +164,8 @@ export default function Main() {
       document.dispatchEvent(new CustomEvent("predict-overlay-fetch-done", { detail: { overlayId } }))
     } catch (e: any) {
       if (e?.name === "AbortError") return
-      setErr(e?.message || "예측 실패")
+      // 에러 메시지를 콘솔에만 출력하고 UI에는 표시하지 않음
+      console.error("예측 실패:", e?.message || "예측 실패")
       fetchDoneRef.current = true
       document.dispatchEvent(new CustomEvent("predict-overlay-fetch-done", { detail: { overlayId, error: true } }))
     } finally {
@@ -220,32 +210,6 @@ export default function Main() {
     return recos.some((x) => (x?.quantity || 0) > 0 && (x?.expected_total_cost || 0) > 0)
   }
 
-  const safeNum = (v: number | null | undefined, fallback = Number.POSITIVE_INFINITY) =>
-    Number.isFinite(v as number) ? (v as number) : fallback
-
-  const filtered = useMemo(() => {
-    let rows = (data?.items || []).filter(
-      (r) => !onlyWarning || r.warning || safeNum(r.predicted_order_qty, 0) > 0,
-    )
-    if (query) {
-      const q = query.toLowerCase()
-      rows = rows.filter(
-        (r) =>
-          String(r.part_id).includes(q) ||
-          r.category.toLowerCase().includes(q) ||
-          r.size.toLowerCase().includes(q) ||
-          r.manufacturer.toLowerCase().includes(q),
-      )
-    }
-    const cost = (r: PredictItem) => safeNum(r.recommendations_top3?.[0]?.expected_total_cost, 9e15)
-    const days = (r: PredictItem) => safeNum(r.predicted_days_to_depletion, 9e15)
-    const qty  = (r: PredictItem) => safeNum(r.predicted_order_qty, 9e15)
-    const keyFn = sortKey === "cost" ? cost : sortKey === "days" ? days : qty
-    rows = rows.slice().sort((a, b) => keyFn(a) - keyFn(b))
-    if (sortDir === "desc") rows.reverse()
-    return rows
-  }, [data, onlyWarning, query, sortKey, sortDir])
-
   const top5 = useMemo(() => {
     const items = (data?.items || []).filter(hasPositiveReco)
     const score = (r: PredictItem) => {
@@ -258,13 +222,15 @@ export default function Main() {
     return items.slice().sort((a, b) => score(b) - score(a)).slice(0, 5)
   }, [data])
 
+  // === 부품 기준 임박/주의 집계 ===
   const allItems = data?.items || []
+
   const imminentAll = allItems.filter(
     (r) => (r.predicted_days_to_depletion ?? 999) <= 3
   )
   const watchAll = allItems.filter(
     (r) => (r.predicted_days_to_depletion ?? 999) > 3 &&
-           (r.predicted_days_to_depletion ?? 999) <= 7
+          (r.predicted_days_to_depletion ?? 999) <= 7
   )
 
   // 카드에 보여줄 Top 리스트 (최대 8개)
@@ -281,6 +247,9 @@ export default function Main() {
   // 카드의 숫자(이제 '카테고리'가 아니라 '부품' 기준)
   const count3 = imminentAll.length
   const count7 = watchAll.length
+
+
+  
   const idLabel = (r?: Partial<PredictItem> | null) => {
     if (!r) return ""
     const id: any = (r as any)?.part_id ?? (r as any)?.partId ?? (r as any)?.id
@@ -323,38 +292,6 @@ export default function Main() {
         setTimeout(() => setOrderProgressOpen(false), 600)
       }
     }, 700)
-  }
-
-  const runSummary = async () => {
-    setSummaryRunning(true)
-    setSummaryText("")
-    await new Promise((res) => setTimeout(res, 1600))
-    const items = data?.items || []
-    const warn = items.filter((r) => r.warning).length
-    const need = items.filter(hasPositiveReco).length
-    const worst = items
-      .slice()
-      .sort((a, b) => a.predicted_days_to_depletion - b.predicted_days_to_depletion)
-      .slice(0, 3)
-    const lowCats = (data?.summary?.categories || [])
-      .filter((c) => (c.days_possible ?? 999) < 7)
-      .map((c) => c.category)
-    const lines: string[] = []
-    lines.push(`총 부품: ${items.length}개, 경고: ${warn}개, 유효 발주대상: ${need}개`)
-    if (lowCats.length) lines.push(`커버 7일 미만 카테고리: ${lowCats.join(", ")}`)
-    if (worst.length)
-      lines.push(
-        "소진일 임박 Top-3: " +
-          worst
-            .map(
-              (w) =>
-                `#${w.part_id}(${w.category}/${w.size} ${w.predicted_days_to_depletion.toFixed(1)}일)`,
-            )
-            .join(", "),
-      )
-    setSummaryText(lines.join("\n"))
-    setSummaryRunning(false)
-    setSummaryOpen(true)
   }
 
   const exportCSV = () => {
@@ -430,8 +367,8 @@ export default function Main() {
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-semibold">AI 인벤토리 예측/발주</h1>
-          <LedDot active={ledActive} />
+          <h1 className="text-xl font-semibold text-white">AI 인벤토리 예측/발주</h1>
+          <LedDot color={getLedColor()} />
           <Button
             size="sm"
             className="bg-green-600 hover:bg-green-700 text-white"
@@ -458,22 +395,11 @@ export default function Main() {
               "예측 실행"
             )}
           </Button>
-          <Button onClick={runSummary} disabled={!data || summaryRunning || modelWarming}>
-            {summaryRunning ? (
-              <span className="inline-flex items-center gap-2">
-                <ScanText size={16} className="animate-scan" /> 요약 중...
-              </span>
-            ) : (
-              "AI 요약하기"
-            )}
-          </Button>
           <Button onClick={exportCSV} disabled={!data || modelWarming}>
             CSV 내보내기
           </Button>
         </div>
       </div>
-
-      {err ? <div className="text-red-600">오류: {err}</div> : null}
 
       {/* 모델 상태 카드 */}
       <Card>
@@ -493,61 +419,57 @@ export default function Main() {
         </CardContent>
       </Card>
 
-      {/* 3장 카드: 3일 / 7일 / AI 요약 */}
+      {/* 2장 카드: 3일 / 7일 (AI 요약봇 제거) */}
       <Card>
         <CardHeader>
           <CardTitle>재고 커버 요약</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {/* 3일 이하 */}
             <SummaryCard
               title="3일 이하 임박"
-              value={`${count3}개 카테고리`}
+              value={`${count3}개 부품`}
               tone="danger"
               icon={<TriangleAlert size={22} />}
               desc="즉시 발주 검토가 필요합니다."
-            />
+            >
+              <ul className="text-xs text-gray-300 space-y-1">
+                {imminentTop.length ? (
+                  imminentTop.map((p) => (
+                    <li key={idLabel(p)} className="flex justify-between">
+                      <span className="font-mono">#{idLabel(p)} {p.category}/{p.size}</span>
+                      <span className="tabular-nums">{p.predicted_days_to_depletion.toFixed(1)}일</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500">임박 부품 없음</li>
+                )}
+              </ul>
+            </SummaryCard>
+
             {/* 7일 이하 */}
             <SummaryCard
               title="7일 이하 주의"
-              value={`${count7}개 카테고리`}
+              value={`${count7}개 부품`}
               tone="warn"
               icon={<TriangleAlert size={22} />}
               desc="단기 모니터링 및 발주 준비 권장."
-            />
-            {/* AI 요약봇 */}
-            <Card className="border border-[#30363D]">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Bot size={18} />
-                  <div className="font-semibold">AI 요약봇</div>
-                </div>
-                <div className="relative h-[72px] overflow-hidden rounded bg-[#0D1117] border border-[#30363D] mb-3">
-                  {summaryRunning ? (
-                    <div className="absolute inset-0 scan-surface">
-                      <div className="scan-line" />
-                    </div>
-                  ) : summaryText ? (
-                    <div className="p-3 whitespace-pre-wrap text-sm">{summaryText}</div>
-                  ) : (
-                    <div className="p-3 text-xs text-gray-400">
-                      ‘AI 요약하기’를 눌러 최근 예측 포인트를 요약합니다.
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button size="sm" onClick={runSummary} disabled={!data || summaryRunning || modelWarming}>
-                    {summaryRunning ? "요약 중..." : "AI 요약하기"}
-                  </Button>
-                  <div className="text-[11px] text-gray-400">
-                    요약에 만족하셨나요? (스텁)
-                    <span className="ml-2 cursor-not-allowed opacity-60">👍</span>
-                    <span className="ml-1 cursor-not-allowed opacity-60">👎</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            >
+              <ul className="text-xs text-gray-300 space-y-1">
+                {watchTop.length ? (
+                  watchTop.map((p) => (
+                    <li key={idLabel(p)} className="flex justify-between">
+                      <span className="font-mono">#{idLabel(p)} {p.category}/{p.size}</span>
+                      <span className="tabular-nums">{p.predicted_days_to_depletion.toFixed(1)}일</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500">주의 부품 없음</li>
+                )}
+              </ul>
+            </SummaryCard>
+
           </div>
         </CardContent>
       </Card>
@@ -601,8 +523,6 @@ export default function Main() {
           )}
         </CardContent>
       </Card>
-
-       
 
       {/* 발주요청 입력 모달 */}
       <Dialog open={orderOpen} onOpenChange={setOrderOpen}>
@@ -668,8 +588,30 @@ export default function Main() {
         @keyframes scanMove { 0% { transform: translateY(-100%); opacity: 0.0; } 15% { opacity: 0.9; } 100% { transform: translateY(100%); opacity: 0.0; } }
         @keyframes scanPulse { 0% { opacity: .5 } 50% { opacity: 1 } 100% { opacity: .5 } }
         .animate-scan { animation: scanPulse 1.2s ease-in-out infinite; }
-        .led-dot { width: 10px; height: 10px; border-radius: 9999px; background: radial-gradient(closest-side, #22c55e, #065f46 70%, #000 100%); box-shadow: 0 0 10px rgba(34, 197, 94, 0.8); }
-        .led-dot.active { animation: ledBlink 1.2s infinite; }
+        
+        /* LED 색상별 스타일 */
+        .led-dot { 
+          width: 10px; 
+          height: 10px; 
+          border-radius: 9999px; 
+          transition: all 0.3s ease;
+        }
+        .led-dot.green { 
+          background: radial-gradient(closest-side, #22c55e, #065f46 70%, #000 100%); 
+          box-shadow: 0 0 10px rgba(34, 197, 94, 0.8); 
+        }
+        .led-dot.orange { 
+          background: radial-gradient(closest-side, #f59e0b, #92400e 70%, #000 100%); 
+          box-shadow: 0 0 10px rgba(245, 158, 11, 0.8); 
+        }
+        .led-dot.red { 
+          background: radial-gradient(closest-side, #ef4444, #991b1b 70%, #000 100%); 
+          box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); 
+        }
+        .led-dot.blinking { 
+          animation: ledBlink 1.2s infinite; 
+        }
+        
         .scan-surface::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, rgba(96,165,250,0.08) 0px, rgba(96,165,250,0.08) 2px, transparent 3px, transparent 6px ); }
         .scan-line { position: absolute; left: 0; right: 0; height: 28px; top: 0; background: linear-gradient(90deg, transparent, rgba(34,197,94,0.25), transparent); border-top: 1px solid rgba(34,197,94,0.5); border-bottom: 1px solid rgba(34,197,94,0.5); animation: scanMove 1.6s linear infinite; }
 
@@ -859,8 +801,18 @@ function ModelAvailabilityOverlay({ meta }: { meta: any }) {
 // ────────────────────────────────────────────────────────────────────────────────
 // 보조 컴포넌트들
 // ────────────────────────────────────────────────────────────────────────────────
-function LedDot({ active }: { active: boolean }) {
-  return <div className={`led-dot ${active ? "active" : ""}`} title={active ? "로딩중" : "대기"} />
+function LedDot({ color }: { color: "green" | "orange" | "red" }) {
+  const shouldBlink = color === "orange" || color === "red"
+  return (
+    <div 
+      className={`led-dot ${color} ${shouldBlink ? "blinking" : ""}`} 
+      title={
+        color === "green" ? "연결됨" : 
+        color === "orange" ? "연결 중" : 
+        "연결 실패"
+      } 
+    />
+  )
 }
 
 function StepRow({ step, cur, label }: { step: number; cur: number; label: string }) {
